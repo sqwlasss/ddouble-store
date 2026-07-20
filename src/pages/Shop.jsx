@@ -25,9 +25,14 @@ const PRICE_RANGES = [
   { id: "over-50", label: "Over 50 lei", min: 50, max: Infinity },
 ];
 
-function ProductGrid({ products, loading, sort, priceRange, clearFilters }) {
+function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFilters }) {
   const filtered = useMemo(() => {
     let result = [...(products || [])];
+
+    if (searchQuery && searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter((p) => p.title.toLowerCase().includes(q) || p.handle.toLowerCase().includes(q));
+    }
 
     if (priceRange !== "all") {
       const range = PRICE_RANGES.find((r) => r.id === priceRange);
@@ -49,7 +54,7 @@ function ProductGrid({ products, loading, sort, priceRange, clearFilters }) {
     }
 
     return result;
-  }, [products, priceRange, sort]);
+  }, [products, priceRange, sort, searchQuery]);
 
   if (loading) {
     return (
@@ -90,7 +95,7 @@ function ProductGrid({ products, loading, sort, priceRange, clearFilters }) {
   );
 }
 
-function CollectionProducts({ collectionHandle, priceRange, sort, clearFilters }) {
+function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters }) {
   const { data, isLoading } = useCollectionProducts(collectionHandle);
   const products = data?.products || [];
 
@@ -100,6 +105,7 @@ function CollectionProducts({ collectionHandle, priceRange, sort, clearFilters }
       loading={isLoading}
       sort={sort}
       priceRange={priceRange}
+      searchQuery={searchQuery}
       clearFilters={clearFilters}
     />
   );
@@ -108,12 +114,14 @@ function CollectionProducts({ collectionHandle, priceRange, sort, clearFilters }
 export default function Shop() {
   const urlParams = new URLSearchParams(window.location.search);
   const initialCategory = urlParams.get("category") || "all";
+  const initialQuery = urlParams.get("q") || "";
 
   const [category, setCategory] = useState(initialCategory);
   const [priceRange, setPriceRange] = useState("all");
   const [sort, setSort] = useState("best");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
 
   const { data: allProducts, isLoading: allLoading } = useAllProducts();
   const { data: collections } = useCollections();
@@ -128,6 +136,7 @@ export default function Shop() {
   const clearFilters = () => {
     setCategory("all");
     setPriceRange("all");
+    setSearchQuery("");
   };
 
   const activeCollection = categoryCollections.find((c) => c.handle === category);
@@ -143,7 +152,7 @@ export default function Shop() {
         <FadeIn>
           <div className="mb-12 md:mb-16">
             <h1 className="text-3xl md:text-4xl font-light text-[#1A1A1A]">
-              {activeCollection ? activeCollection.title : "Shop"}
+              {searchQuery ? `Results for "${searchQuery}"` : activeCollection ? activeCollection.title : "Shop"}
             </h1>
             <p className="mt-2 text-sm text-[#757571]">
               {category === "all"
@@ -234,6 +243,7 @@ export default function Shop() {
             loading={allLoading}
             sort={sort}
             priceRange={priceRange}
+            searchQuery={searchQuery}
             clearFilters={clearFilters}
           />
         ) : (
@@ -241,6 +251,7 @@ export default function Shop() {
             collectionHandle={category}
             priceRange={priceRange}
             sort={sort}
+            searchQuery={searchQuery}
             clearFilters={clearFilters}
           />
         )}

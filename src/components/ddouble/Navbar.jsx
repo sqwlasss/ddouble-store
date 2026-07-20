@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, ShoppingBag, Heart, Menu, X } from "lucide-react";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
+import { useAllProducts } from "@/hooks/useProducts";
 import CartDrawer from "@/components/ddouble/CartDrawer";
 
 const NAV_LINKS = [
@@ -31,8 +32,19 @@ export default function Navbar() {
   const [megaOpen, setMegaOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { totalItems } = useShopifyCart();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { data: allProducts } = useAllProducts();
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim() || !allProducts) return [];
+    const q = searchQuery.toLowerCase();
+    return allProducts
+      .filter((p) => p.title.toLowerCase().includes(q) || p.handle.toLowerCase().includes(q))
+      .slice(0, 6);
+  }, [searchQuery, allProducts]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -148,13 +160,51 @@ export default function Navbar() {
 
           {/* Search bar */}
           {searchOpen && (
-            <div className="border-t border-[#E5E5E1] py-4">
-              <input
-                type="text"
-                placeholder="Search for posters, collections..."
-                className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#757571] outline-none"
-                autoFocus
-              />
+            <div className="border-t border-[#E5E5E1] py-4 relative">
+              <div className="flex items-center gap-3">
+                <Search size={16} className="text-[#757571] shrink-0" />
+                <input
+                  type="text"
+                  placeholder="Search for posters..."
+                  className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#757571] outline-none"
+                  autoFocus
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && searchQuery.trim()) {
+                      navigate(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+                      setSearchOpen(false);
+                      setSearchQuery("");
+                    }
+                  }}
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery("")} className="text-[#757571] hover:text-[#1A1A1A]">
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+              {searchResults.length > 0 && (
+                <div className="mt-3 border-t border-[#E5E5E1] pt-3 space-y-2">
+                  {searchResults.map((product) => (
+                    <Link
+                      key={product.handle}
+                      to={`/product/${product.handle}`}
+                      onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+                      className="flex items-center gap-3 py-2 hover:bg-[#F1F0EC] -mx-2 px-2 rounded transition-colors"
+                    >
+                      <img src={product.image} alt={product.title} className="w-10 h-10 object-cover rounded-sm" />
+                      <div>
+                        <p className="text-sm text-[#1A1A1A]">{product.title}</p>
+                        <p className="text-xs text-[#757571]">{product.price} lei</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+              {searchQuery.trim() && searchResults.length === 0 && (
+                <p className="mt-3 text-xs text-[#757571]">No results found.</p>
+              )}
             </div>
           )}
         </nav>
