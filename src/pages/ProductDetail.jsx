@@ -1,0 +1,306 @@
+import { useState, useMemo } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Minus, Plus, Truck, RotateCcw, ArrowLeft } from "lucide-react";
+import Navbar from "@/components/ddouble/Navbar";
+import Footer from "@/components/ddouble/Footer";
+import ProductCard from "@/components/ddouble/ProductCard";
+import FadeIn from "@/components/ddouble/FadeIn";
+import { useProduct, useAllProducts } from "@/hooks/useProducts";
+import { useShopifyCart } from "@/hooks/useShopifyCart";
+import { useToast } from "@/components/ui/use-toast";
+
+const LIFESTYLE_IMAGES = {
+  galleryWall: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/8140dfca5_generated_d1feca24.png",
+};
+
+export default function ProductDetail() {
+  const { handle } = useParams();
+  const { data: product, isLoading } = useProduct(handle);
+  const { data: allProducts } = useAllProducts();
+  const { addItem, loading: cartLoading } = useShopifyCart();
+  const { toast } = useToast();
+
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedPaper, setSelectedPaper] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [showRoom, setShowRoom] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
+
+  const related = useMemo(() => {
+    if (!allProducts || !product) return [];
+    return allProducts
+      .filter((p) => p.handle !== product.handle)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+  }, [allProducts, product]);
+
+  const selectedVariant = useMemo(() => {
+    if (!product || !selectedSize || !selectedPaper) return null;
+    return product.variants.find((v) =>
+      v.selectedOptions.some((o) => o.name === "Size" && o.value === selectedSize) &&
+      v.selectedOptions.some((o) => o.name === "Paper" && o.value === selectedPaper)
+    );
+  }, [product, selectedSize, selectedPaper]);
+
+  if (isLoading) {
+    return (
+      <div className="bg-[#F9F9F7] min-h-screen">
+        <Navbar />
+        <div className="pt-40 text-center px-6">
+          <div className="w-8 h-8 border-4 border-[#E5E5E1] border-t-[#1A1A1A] rounded-full animate-spin mx-auto" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="bg-[#F9F9F7] min-h-screen">
+        <Navbar />
+        <div className="pt-40 text-center px-6">
+          <h1 className="text-2xl font-light text-[#1A1A1A]">Product not found</h1>
+          <Link
+            to="/shop"
+            className="mt-4 inline-block text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#757571]"
+          >
+            Back to Shop
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const sizes = product.sizes.length > 0 ? product.sizes : [{ label: "Default", value: "Default" }];
+  const papers = product.papers.length > 0 ? product.papers : [{ label: "Default", value: "Default" }];
+
+  if (!selectedSize && sizes.length > 0) {
+    setSelectedSize(sizes[0].value);
+  }
+  if (!selectedPaper && papers.length > 0) {
+    setSelectedPaper(papers[0].value);
+  }
+
+  const displayPrice = selectedVariant
+    ? selectedVariant.price
+    : product.price;
+
+  const handleAddToCart = async () => {
+    if (!selectedVariant) {
+      toast({
+        title: "Select options",
+        description: "Please select a size and paper type",
+        variant: "destructive",
+      });
+      return;
+    }
+    try {
+      await addItem(selectedVariant.id, quantity);
+      toast({
+        title: "Added to cart",
+        description: `${product.title} — ${selectedSize}, ${selectedPaper}`,
+      });
+    } catch {
+      toast({
+        title: "Error",
+        description: "Could not add to cart. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  return (
+    <div className="bg-[#F9F9F7] min-h-screen">
+      <Navbar />
+
+      <div className="pt-24 md:pt-28 max-w-[1440px] mx-auto">
+        {/* Breadcrumb */}
+        <div className="px-6 md:px-10 lg:px-16 py-4">
+          <Link
+            to="/shop"
+            className="inline-flex items-center gap-2 text-xs text-[#757571] hover:text-[#1A1A1A] transition-colors"
+          >
+            <ArrowLeft size={12} /> Back to Shop
+          </Link>
+        </div>
+
+        {/* Main */}
+        <div className="flex flex-col lg:flex-row">
+          {/* Gallery */}
+          <div className="lg:w-[58%] px-6 md:px-10 lg:pl-16 lg:pr-0">
+            <FadeIn>
+              <div
+                className={`relative overflow-hidden bg-[#F1F0EC] cursor-zoom-in ${zoomed ? "cursor-zoom-out" : ""}`}
+                onClick={() => setZoomed(!zoomed)}
+              >
+                <img
+                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : (product.images[0]?.url || product.image)}
+                  alt={product.title}
+                  className={`w-full transition-transform duration-700 ${zoomed ? "scale-150" : "scale-100"}`}
+                />
+              </div>
+            </FadeIn>
+            {/* Toggle view */}
+            {product.images.length > 1 && (
+              <div className="flex gap-3 mt-4">
+                {product.images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setShowRoom(false)}
+                    className={`w-20 h-20 border transition-colors overflow-hidden ${
+                      !showRoom ? "border-[#1A1A1A]" : "border-[#E5E5E1]"
+                    }`}
+                  >
+                    <img
+                      src={img.url}
+                      alt={img.altText}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="flex gap-3 mt-4">
+              <button
+                onClick={() => setShowRoom(false)}
+                className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
+                  !showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#757571]"
+                }`}
+              >
+                Product
+              </button>
+              <button
+                onClick={() => setShowRoom(true)}
+                className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
+                  showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#757571]"
+                }`}
+              >
+                View in Room
+              </button>
+            </div>
+          </div>
+
+          {/* Details */}
+          <div className="lg:w-[42%] px-6 md:px-10 lg:px-16 py-8 lg:py-0 lg:sticky lg:top-28 lg:self-start">
+            <FadeIn delay={0.1}>
+              <h1 className="mt-2 text-3xl md:text-4xl font-light text-[#1A1A1A]">{product.title}</h1>
+              <p className="mt-4 text-xl text-[#1A1A1A]">{displayPrice} lei</p>
+
+              {/* Size */}
+              {sizes.length > 1 && (
+                <div className="mt-8">
+                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">Size</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {sizes.map((size) => (
+                      <button
+                        key={size.value}
+                        onClick={() => setSelectedSize(size.value)}
+                        className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
+                          selectedSize === size.value
+                            ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                            : "border-[#E5E5E1] text-[#757571] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
+                        }`}
+                      >
+                        {size.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Paper */}
+              {papers.length > 1 && (
+                <div className="mt-6">
+                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">Paper</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {papers.map((paper) => (
+                      <button
+                        key={paper.value}
+                        onClick={() => setSelectedPaper(paper.value)}
+                        className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
+                          selectedPaper === paper.value
+                            ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                            : "border-[#E5E5E1] text-[#757571] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
+                        }`}
+                      >
+                        {paper.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Quantity */}
+              <div className="mt-6">
+                <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">Quantity</h3>
+                <div className="inline-flex items-center border border-[#E5E5E1]">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="px-4 py-3 text-[#757571] hover:text-[#1A1A1A] transition-colors"
+                  >
+                    <Minus size={14} />
+                  </button>
+                  <span className="w-10 text-center text-sm">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="px-4 py-3 text-[#757571] hover:text-[#1A1A1A] transition-colors"
+                  >
+                    <Plus size={14} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Add to cart */}
+              <button
+                onClick={handleAddToCart}
+                disabled={cartLoading || !selectedVariant}
+                className="mt-8 w-full bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] py-4 hover:bg-[#D9D2C5] hover:text-[#1A1A1A] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {cartLoading ? "Adding..." : `Add to Cart — ${displayPrice} lei`}
+              </button>
+
+              {/* Shipping info */}
+              <div className="mt-8 pt-8 border-t border-[#E5E5E1] space-y-4">
+                <div className="flex items-center gap-3">
+                  <Truck size={16} className="text-[#757571]" />
+                  <span className="text-sm text-[#757571]">Free shipping on orders over 100 lei</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <RotateCcw size={16} className="text-[#757571]" />
+                  <span className="text-sm text-[#757571]">30-day hassle-free returns</span>
+                </div>
+              </div>
+
+              {/* Description */}
+              {product.description && (
+                <div className="mt-8 pt-8 border-t border-[#E5E5E1]">
+                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">About this print</h3>
+                  <p className="text-sm text-[#1A1A1A] leading-relaxed">{product.description}</p>
+                </div>
+              )}
+            </FadeIn>
+          </div>
+        </div>
+
+        {/* Related products */}
+        {related.length > 0 && (
+          <section className="px-6 md:px-10 lg:px-16 py-24 md:py-32 border-t border-[#E5E5E1] mt-16">
+            <FadeIn>
+              <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A] mb-12">You may also like</h2>
+            </FadeIn>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+              {related.map((p, i) => (
+                <FadeIn key={p.handle} delay={i * 0.08}>
+                  <ProductCard product={p} index={i} />
+                </FadeIn>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+      <Footer />
+    </div>
+  );
+}
