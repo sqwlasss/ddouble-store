@@ -25,6 +25,31 @@ const CATEGORY_COLLECTIONS = [
   "minimal", "typograph", "travel", "vintage",
 ];
 
+function CollectionCard({ collection }) {
+  const { data } = useCollectionProducts(collection.handle);
+  const firstProduct = data?.products?.[0];
+
+  return (
+    <Link to={`/shop?category=${collection.handle}`} className="group block">
+      <div className="aspect-square overflow-hidden bg-[#F1F0EC] relative">
+        {firstProduct?.image ? (
+          <img
+            src={firstProduct.image}
+            alt={collection.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full h-full animate-pulse" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 p-5 md:p-6">
+          <h3 className="text-sm font-medium text-white tracking-wide">{collection.title}</h3>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 function FeaturedProducts() {
   const { data: collections } = useCollections();
 
@@ -168,12 +193,7 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {categoryCollections.slice(0, 8).map((col, i) => (
             <FadeIn key={col.handle} delay={i * 0.05}>
-              <Link to={`/shop?category=${col.handle}`} className="group block">
-                <div className="bg-[#F1F0EC] p-6 md:p-8 aspect-square flex flex-col justify-end hover:bg-[#E5E5E1] transition-colors duration-500">
-                  <h3 className="text-sm font-medium text-[#1A1A1A] tracking-wide">{col.title}</h3>
-                  <p className="text-[11px] text-[#757571] mt-1">{col.description}</p>
-                </div>
-              </Link>
+              <CollectionCard collection={col} />
             </FadeIn>
           ))}
         </div>
