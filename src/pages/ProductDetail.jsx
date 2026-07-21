@@ -27,6 +27,18 @@ export default function ProductDetail() {
   const [showRoom, setShowRoom] = useState(false);
   const [zoomed, setZoomed] = useState(false);
 
+  const sizes = product ? (product.sizes.length > 0 ? product.sizes : [{ label: "Default", value: "Default" }]) : [];
+  const papers = product ? (product.papers.length > 0 ? product.papers : [{ label: "Default", value: "Default" }]) : [];
+
+  useEffect(() => {
+    if (product && !selectedSize && sizes.length > 0) {
+      setSelectedSize(sizes[0].value);
+    }
+    if (product && !selectedPaper && papers.length > 0) {
+      setSelectedPaper(papers[0].value);
+    }
+  }, [product, selectedSize, selectedPaper]);
+
   const related = useMemo(() => {
     if (!allProducts || !product) return [];
     return allProducts
@@ -72,18 +84,6 @@ export default function ProductDetail() {
       </div>
     );
   }
-
-  const sizes = product.sizes.length > 0 ? product.sizes : [{ label: "Default", value: "Default" }];
-  const papers = product.papers.length > 0 ? product.papers : [{ label: "Default", value: "Default" }];
-
-  useEffect(() => {
-    if (!selectedSize && sizes.length > 0) {
-      setSelectedSize(sizes[0].value);
-    }
-    if (!selectedPaper && papers.length > 0) {
-      setSelectedPaper(papers[0].value);
-    }
-  }, [selectedSize, selectedPaper, sizes, papers]);
 
   const displayPrice = selectedVariant
     ? selectedVariant.price
