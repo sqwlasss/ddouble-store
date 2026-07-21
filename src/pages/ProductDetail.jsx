@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Minus, Plus, Truck, RotateCcw, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/ddouble/Navbar";
@@ -22,6 +22,7 @@ export default function ProductDetail() {
 
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedPaper, setSelectedPaper] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [showRoom, setShowRoom] = useState(false);
   const [zoomed, setZoomed] = useState(false);
@@ -75,12 +76,14 @@ export default function ProductDetail() {
   const sizes = product.sizes.length > 0 ? product.sizes : [{ label: "Default", value: "Default" }];
   const papers = product.papers.length > 0 ? product.papers : [{ label: "Default", value: "Default" }];
 
-  if (!selectedSize && sizes.length > 0) {
-    setSelectedSize(sizes[0].value);
-  }
-  if (!selectedPaper && papers.length > 0) {
-    setSelectedPaper(papers[0].value);
-  }
+  useEffect(() => {
+    if (!selectedSize && sizes.length > 0) {
+      setSelectedSize(sizes[0].value);
+    }
+    if (!selectedPaper && papers.length > 0) {
+      setSelectedPaper(papers[0].value);
+    }
+  }, [selectedSize, selectedPaper, sizes, papers]);
 
   const displayPrice = selectedVariant
     ? selectedVariant.price
@@ -135,7 +138,7 @@ export default function ProductDetail() {
                 onClick={() => setZoomed(!zoomed)}
               >
                 <img
-                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : (product.images[0]?.url || product.image)}
+                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : (product.images[selectedImage]?.url || product.image)}
                   alt={product.title}
                   className={`w-full transition-transform duration-700 ${zoomed ? "scale-150" : "scale-100"}`}
                 />
@@ -147,9 +150,9 @@ export default function ProductDetail() {
                 {product.images.map((img, i) => (
                   <button
                     key={i}
-                    onClick={() => setShowRoom(false)}
+                    onClick={() => { setSelectedImage(i); setShowRoom(false); }}
                     className={`w-20 h-20 border transition-colors overflow-hidden ${
-                      !showRoom ? "border-[#1A1A1A]" : "border-[#E5E5E1]"
+                      selectedImage === i && !showRoom ? "border-[#1A1A1A]" : "border-[#E5E5E1]"
                     }`}
                   >
                     <img
@@ -271,17 +274,22 @@ export default function ProductDetail() {
                   <span className="text-sm text-[#757571]">30-day hassle-free returns</span>
                 </div>
               </div>
-
-              {/* Description */}
-              {product.description && (
-                <div className="mt-8 pt-8 border-t border-[#E5E5E1]">
-                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">About this print</h3>
-                  <p className="text-sm text-[#1A1A1A] leading-relaxed">{product.description}</p>
-                </div>
-              )}
             </FadeIn>
           </div>
         </div>
+
+        {/* Description */}
+        {product.descriptionHtml && (
+          <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
+            <FadeIn>
+              <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A] mb-8">About this print</h2>
+              <div
+                className="prose prose-sm max-w-3xl text-[#1A1A1A] leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1"
+                dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+              />
+            </FadeIn>
+          </section>
+        )}
 
         {/* Related products */}
         {related.length > 0 && (

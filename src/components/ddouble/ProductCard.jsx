@@ -27,11 +27,6 @@ export default function ProductCard({ product, index = 0 }) {
             className={isWished ? "fill-[#1A1A1A] text-[#1A1A1A]" : "text-[#1A1A1A]"}
           />
         </button>
-        {product.isNew && (
-          <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.15em] font-medium bg-white/90 backdrop-blur-sm px-3 py-1.5">
-            New
-          </span>
-        )}
       </div>
       <div className="mt-4 space-y-1">
         <h3 className="text-sm font-medium text-[#1A1A1A] tracking-wide">{product.title}</h3>

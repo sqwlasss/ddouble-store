@@ -10,6 +10,8 @@ function normalizeProduct(node) {
     id: node.id,
     handle: node.handle,
     title: node.title,
+    description: node.description || "",
+    descriptionHtml: node.descriptionHtml || "",
     tags: node.tags || [],
     productType: node.productType,
     price: parseFloat(node.priceRange.minVariantPrice.amount),

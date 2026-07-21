@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
@@ -112,16 +113,14 @@ function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, c
 }
 
 export default function Shop() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const initialCategory = urlParams.get("category") || "all";
-  const initialQuery = urlParams.get("q") || "";
+  const [searchParams] = useSearchParams();
 
-  const [category, setCategory] = useState(initialCategory);
+  const [category, setCategory] = useState(searchParams.get("category") || "all");
   const [priceRange, setPriceRange] = useState("all");
   const [sort, setSort] = useState("best");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
   const { data: allProducts, isLoading: allLoading } = useAllProducts();
   const { data: collections } = useCollections();
