@@ -30,7 +30,7 @@ export default function ProductCard({ product, index = 0 }) {
       </div>
       <div className="mt-4 space-y-1">
         <h3 className="text-sm font-medium text-[#1A1A1A] tracking-wide">{product.title}</h3>
-        <p className="text-sm text-[#757571]">From {product.price} lei</p>
+        <p className="text-sm text-[#6B6B67]">From {product.price} lei</p>
       </div>
     </Link>
   );

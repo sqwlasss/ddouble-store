@@ -74,7 +74,7 @@ function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFi
   if (filtered.length === 0) {
     return (
       <div className="py-24 text-center">
-        <p className="text-sm text-[#757571]">No prints match your filters.</p>
+        <p className="text-sm text-[#6B6B67]">No prints match your filters.</p>
         <button
           onClick={clearFilters}
           className="mt-4 text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#1A1A1A]"
@@ -147,13 +147,14 @@ export default function Shop() {
     <div className="bg-[#F9F9F7] min-h-screen">
       <Navbar />
 
+      <main>
       <div className="pt-28 md:pt-36 pb-24 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         <FadeIn>
           <div className="mb-12 md:mb-16">
             <h1 className="text-3xl md:text-4xl font-light text-[#1A1A1A]">
               {searchQuery ? `Results for "${searchQuery}"` : activeCollection ? activeCollection.title : "Shop"}
             </h1>
-            <p className="mt-2 text-sm text-[#757571]">
+            <p className="mt-2 text-sm text-[#6B6B67]">
               {category === "all"
                 ? allLoading
                   ? "Loading..."
@@ -168,7 +169,7 @@ export default function Shop() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setFiltersOpen(!filtersOpen)}
-              className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#1A1A1A] hover:text-[#757571] transition-colors"
+              className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
             >
               <SlidersHorizontal size={14} />
               Filter
@@ -181,7 +182,7 @@ export default function Shop() {
             {activeFilters > 0 && (
               <button
                 onClick={clearFilters}
-                className="text-[11px] text-[#757571] hover:text-[#1A1A1A] transition-colors flex items-center gap-1"
+                className="text-[11px] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors flex items-center gap-1"
               >
                 <X size={10} /> Clear all
               </button>
@@ -191,7 +192,7 @@ export default function Shop() {
           <div className="relative">
             <button
               onClick={() => setSortOpen(!sortOpen)}
-              className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#757571] hover:text-[#1A1A1A] transition-colors"
+              className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
             >
               {SORT_OPTIONS.find((s) => s.id === sort)?.label}
               <ChevronDown size={12} />
@@ -206,7 +207,7 @@ export default function Shop() {
                       setSortOpen(false);
                     }}
                     className={`block w-full text-left px-4 py-2 text-xs ${
-                      sort === opt.id ? "text-[#1A1A1A] font-medium" : "text-[#757571]"
+                      sort === opt.id ? "text-[#1A1A1A] font-medium" : "text-[#6B6B67]"
                     } hover:text-[#1A1A1A] transition-colors`}
                   >
                     {opt.label}
@@ -255,6 +256,7 @@ export default function Shop() {
           />
         )}
       </div>
+      </main>
 
       <Footer />
     </div>
@@ -264,7 +266,7 @@ export default function Shop() {
 function FilterGroup({ label, options, value, onChange }) {
   return (
     <div>
-      <h4 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">{label}</h4>
+      <span className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3 block">{label}</span>
       <div className="space-y-2">
         {options.map((opt) => (
           <button
@@ -273,7 +275,7 @@ function FilterGroup({ label, options, value, onChange }) {
             className={`block text-sm transition-colors ${
               value === opt.handle
                 ? "text-[#1A1A1A] font-medium"
-                : "text-[#757571] hover:text-[#1A1A1A]"
+                : "text-[#6B6B67] hover:text-[#1A1A1A]"
             }`}
           >
             {opt.title}

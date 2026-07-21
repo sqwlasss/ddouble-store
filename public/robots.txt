@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+
+Sitemap: https://ddouble-store.vercel.app/sitemap.xml

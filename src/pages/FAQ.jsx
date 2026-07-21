@@ -70,14 +70,34 @@ export default function FAQ() {
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
       <Navbar />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: FAQ_SECTIONS.flatMap((section) =>
+                section.items.map((item) => ({
+                  "@type": "Question",
+                  name: item.q,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: item.a,
+                  },
+                }))
+              ),
+            }),
+          }}
+        />
 
+      <main>
       <div className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-3xl mx-auto">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Help</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Help</span>
           <h1 className="mt-4 text-4xl md:text-5xl font-light text-[#1A1A1A]">
             Frequently Asked Questions
           </h1>
-          <p className="mt-4 text-sm text-[#757571]">
+          <p className="mt-4 text-sm text-[#6B6B67]">
             Everything you need to know about ordering, shipping, and our prints.
           </p>
         </FadeIn>
@@ -86,14 +106,14 @@ export default function FAQ() {
           {FAQ_SECTIONS.map((section, si) => (
             <FadeIn key={si} delay={si * 0.08}>
               <div>
-                <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#757571] mb-4">{section.title}</h2>
+                <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67] mb-4">{section.title}</h2>
                 <Accordion type="single" collapsible>
                   {section.items.map((item, i) => (
                     <AccordionItem key={i} value={`${si}-${i}`} className="border-b border-[#E5E5E1]">
                       <AccordionTrigger className="text-sm text-[#1A1A1A] font-normal hover:no-underline py-5 text-left">
                         {item.q}
                       </AccordionTrigger>
-                      <AccordionContent className="text-sm text-[#757571] leading-relaxed pb-5">
+                      <AccordionContent className="text-sm text-[#6B6B67] leading-relaxed pb-5">
                         {item.a}
                       </AccordionContent>
                     </AccordionItem>
@@ -104,6 +124,7 @@ export default function FAQ() {
           ))}
         </div>
       </div>
+      </main>
 
       <Footer />
     </div>

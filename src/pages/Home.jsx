@@ -37,6 +37,7 @@ function CollectionCard({ collection }) {
             src={firstProduct.image}
             alt={collection.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full animate-pulse" />
@@ -75,7 +76,7 @@ function CollectionSection({ collection }) {
       <section className="py-24 md:py-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
         <div className="flex items-end justify-between mb-12 md:mb-16">
           <div>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Featured</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Featured</span>
             <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A]">{collection.title}</h2>
           </div>
         </div>
@@ -95,10 +96,10 @@ function CollectionSection({ collection }) {
       <FadeIn>
         <div className="flex items-end justify-between mb-12 md:mb-16">
           <div>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Featured</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Featured</span>
             <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A]">{collection.title}</h2>
           </div>
-          <Link to={`/shop?category=${collection.handle}`} className="text-xs uppercase tracking-[0.1em] text-[#757571] hover:text-[#1A1A1A] transition-colors">
+          <Link to={`/shop?category=${collection.handle}`} className="text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors">
             Shop All
           </Link>
         </div>
@@ -145,6 +146,7 @@ export default function Home() {
     <div className="bg-[#F9F9F7] min-h-screen">
       <Navbar />
 
+      <main>
       {/* Hero */}
       <section className="min-h-screen flex flex-col lg:flex-row">
         <div className="flex-1 flex items-center justify-center px-6 md:px-16 py-32 lg:py-0">
@@ -155,7 +157,7 @@ export default function Home() {
                 <br />
                 your space.
               </h1>
-              <p className="mt-6 text-[#757571] text-base leading-relaxed">
+              <p className="mt-6 text-[#6B6B67] text-base leading-relaxed">
                 Premium wall art designed to elevate every room.
               </p>
               <Link
@@ -182,10 +184,10 @@ export default function Home() {
         <FadeIn>
           <div className="flex items-end justify-between mb-12 md:mb-16">
             <div>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Explore</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Explore</span>
               <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A]">Collections</h2>
             </div>
-            <Link to="/shop" className="text-xs uppercase tracking-[0.1em] text-[#757571] hover:text-[#1A1A1A] transition-colors hidden md:block">
+            <Link to="/shop" className="text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors hidden md:block">
               View All
             </Link>
           </div>
@@ -208,6 +210,7 @@ export default function Home() {
           src={LIFESTYLE_IMAGES.bedroom}
           alt="Minimalist bedroom with curated wall art"
           className="w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-black/10" />
         <div className="absolute inset-0 flex items-center justify-center text-center px-6">
@@ -233,19 +236,19 @@ export default function Home() {
       <section className="py-24 md:py-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
         <FadeIn>
           <div className="mb-12 md:mb-16">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Inspiration</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Inspiration</span>
             <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A]">Live with art</h2>
           </div>
         </FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           <FadeIn className="md:col-span-2">
-            <img src={LIFESTYLE_IMAGES.dining} alt="Dining room with art" className="w-full h-[400px] md:h-[500px] object-cover" />
+            <img src={LIFESTYLE_IMAGES.dining} alt="Dining room with art" className="w-full h-[400px] md:h-[500px] object-cover" loading="lazy" />
           </FadeIn>
           <FadeIn delay={0.1}>
-            <img src={LIFESTYLE_IMAGES.galleryWall} alt="Gallery wall arrangement" className="w-full h-[400px] md:h-[500px] object-cover" />
+            <img src={LIFESTYLE_IMAGES.galleryWall} alt="Gallery wall arrangement" className="w-full h-[400px] md:h-[500px] object-cover" loading="lazy" />
           </FadeIn>
           <FadeIn delay={0.15}>
-            <img src={LIFESTYLE_IMAGES.office} alt="Home office with art" className="w-full h-[400px] md:h-[500px] object-cover" />
+            <img src={LIFESTYLE_IMAGES.office} alt="Home office with art" className="w-full h-[400px] md:h-[500px] object-cover" loading="lazy" />
           </FadeIn>
           <FadeIn delay={0.2} className="md:col-span-2">
             <div className="h-[400px] md:h-[500px] bg-[#F1F0EC] flex items-center justify-center p-12">
@@ -253,7 +256,7 @@ export default function Home() {
                 <h3 className="text-2xl md:text-3xl font-light text-[#1A1A1A] leading-tight">
                   Every wall tells a story
                 </h3>
-                <p className="mt-4 text-sm text-[#757571] leading-relaxed">
+                <p className="mt-4 text-sm text-[#6B6B67] leading-relaxed">
                   Discover how our prints transform spaces from the ordinary to the extraordinary.
                 </p>
                 <Link
@@ -271,7 +274,7 @@ export default function Home() {
       {/* Testimonials */}
       <section className="py-24 md:py-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Voices</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Voices</span>
           <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A] mb-12 md:mb-16">What our customers say</h2>
         </FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -281,7 +284,7 @@ export default function Home() {
                 <p className="text-base text-[#1A1A1A] leading-relaxed font-light italic">
                   &ldquo;{t.text}&rdquo;
                 </p>
-                <footer className="text-xs text-[#757571]">
+                <footer className="text-xs text-[#6B6B67]">
                   {t.name} — {t.location}
                 </footer>
               </blockquote>
@@ -294,7 +297,7 @@ export default function Home() {
       <section className="py-24 md:py-32 border-t border-[#E5E5E1]">
         <FadeIn>
           <div className="text-center mb-12">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">@ddouble</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">@ddouble</span>
             <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A]">Follow our journey</h2>
           </div>
         </FadeIn>
@@ -307,6 +310,7 @@ export default function Home() {
                     src={p.image}
                     alt={p.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
                   />
                 </div>
               </a>
@@ -314,6 +318,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

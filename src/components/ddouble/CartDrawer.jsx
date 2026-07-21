@@ -8,7 +8,7 @@ export default function CartDrawer({ open, onClose }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[60]">
+    <div className="fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label="Shopping cart">
       <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={onClose} />
       <div className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-[#F9F9F7] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
         {/* Header */}
@@ -16,7 +16,7 @@ export default function CartDrawer({ open, onClose }) {
           <h2 className="text-xs uppercase tracking-[0.15em] font-medium">
             Cart ({totalItems})
           </h2>
-          <button onClick={onClose} className="p-1 hover:text-[#757571] transition-colors">
+          <button onClick={onClose} className="p-1 hover:text-[#6B6B67] transition-colors" aria-label="Close cart">
             <X size={18} />
           </button>
         </div>
@@ -26,7 +26,7 @@ export default function CartDrawer({ open, onClose }) {
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center gap-4">
               <ShoppingBag size={32} className="text-[#D9D2C5]" />
-              <p className="text-sm text-[#757571]">Your cart is empty</p>
+              <p className="text-sm text-[#6B6B67]">Your cart is empty</p>
               <Link
                 to="/shop"
                 onClick={onClose}
@@ -54,32 +54,35 @@ export default function CartDrawer({ open, onClose }) {
                         <Link
                           to={`/product/${item.handle}`}
                           onClick={onClose}
-                          className="text-sm font-medium text-[#1A1A1A] truncate pr-2 hover:text-[#757571] transition-colors"
+                          className="text-sm font-medium text-[#1A1A1A] truncate pr-2 hover:text-[#6B6B67] transition-colors"
                         >
                           {item.title}
                         </Link>
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="text-[#757571] hover:text-[#1A1A1A] transition-colors flex-shrink-0"
+                          className="text-[#6B6B67] hover:text-[#1A1A1A] transition-colors flex-shrink-0"
+                          aria-label="Remove from cart"
                         >
                           <X size={14} />
                         </button>
                       </div>
                       {options && (
-                        <p className="text-xs text-[#757571] mt-1">{options}</p>
+                        <p className="text-xs text-[#6B6B67] mt-1">{options}</p>
                       )}
                       <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-3 border border-[#E5E5E1]">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="px-2 py-1 text-[#757571] hover:text-[#1A1A1A]"
+                            className="px-2 py-1 text-[#6B6B67] hover:text-[#1A1A1A]"
+                            aria-label="Decrease quantity"
                           >
                             <Minus size={12} />
                           </button>
                           <span className="text-xs w-4 text-center">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="px-2 py-1 text-[#757571] hover:text-[#1A1A1A]"
+                            className="px-2 py-1 text-[#6B6B67] hover:text-[#1A1A1A]"
+                            aria-label="Increase quantity"
                           >
                             <Plus size={12} />
                           </button>
@@ -98,10 +101,10 @@ export default function CartDrawer({ open, onClose }) {
         {items.length > 0 && (
           <div className="border-t border-[#E5E5E1] px-6 py-5 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase tracking-[0.1em] text-[#757571]">Subtotal</span>
+              <span className="text-xs uppercase tracking-[0.1em] text-[#6B6B67]">Subtotal</span>
               <span className="text-lg font-medium">{totalPrice} lei</span>
             </div>
-            <p className="text-[11px] text-[#757571]">
+            <p className="text-[11px] text-[#6B6B67]">
               Shipping and taxes calculated at checkout
             </p>
             <button
@@ -113,7 +116,7 @@ export default function CartDrawer({ open, onClose }) {
             </button>
             <button
               onClick={onClose}
-              className="w-full text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#757571] py-2"
+              className="w-full text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#6B6B67] py-2"
             >
               Continue Shopping
             </button>

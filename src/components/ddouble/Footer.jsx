@@ -23,14 +23,16 @@ export default function Footer() {
             <h3 className="text-2xl md:text-3xl font-light text-[#1A1A1A] leading-tight">
               Stay inspired
             </h3>
-            <p className="mt-3 text-sm text-[#757571] leading-relaxed">
+            <p className="mt-3 text-sm text-[#6B6B67] leading-relaxed">
               Join our community for early access to new collections, styling tips, and exclusive offers.
             </p>
             {subscribed ? (
               <p className="mt-6 text-sm text-[#1A1A1A]">Thank you for subscribing.</p>
             ) : (
               <form onSubmit={handleSubscribe} className="mt-6 flex items-center border-b border-[#1A1A1A]">
+                <label htmlFor="newsletter-email" className="sr-only">Email address</label>
                 <input
+                  id="newsletter-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -38,7 +40,7 @@ export default function Footer() {
                   className="flex-1 bg-transparent py-3 text-sm text-[#1A1A1A] placeholder:text-[#D9D2C5] outline-none"
                   required
                 />
-                <button type="submit" className="p-2 text-[#1A1A1A] hover:text-[#757571] transition-colors">
+                <button type="submit" aria-label="Subscribe" className="p-2 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
                   <ArrowRight size={18} />
                 </button>
               </form>
@@ -49,38 +51,38 @@ export default function Footer() {
         {/* Links */}
         <div className="py-12 md:py-16 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <h4 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-4">Shop</h4>
+            <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Shop</h3>
             <div className="space-y-3">
-              <Link to="/shop" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">All Posters</Link>
-              <Link to="/shop?category=abstract" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Abstract</Link>
-              <Link to="/shop?category=nature" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Nature</Link>
-              <Link to="/shop?category=architecture" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Architecture</Link>
-              <Link to="/shop?category=minimal" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Minimal</Link>
+              <Link to="/shop" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">All Posters</Link>
+              <Link to="/shop?category=abstract" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Abstract</Link>
+              <Link to="/shop?category=nature" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Nature</Link>
+              <Link to="/shop?category=architecture" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Architecture</Link>
+              <Link to="/shop?category=minimal" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Minimal</Link>
             </div>
           </div>
           <div>
-            <h4 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-4">Info</h4>
+            <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Info</h3>
             <div className="space-y-3">
-              <Link to="/about" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">About Us</Link>
-              <Link to="/contact" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Contact</Link>
-              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">FAQ</Link>
+              <Link to="/about" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">About Us</Link>
+              <Link to="/contact" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Contact</Link>
+              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">FAQ</Link>
             </div>
           </div>
           <div>
-            <h4 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-4">Help</h4>
+            <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Help</h3>
             <div className="space-y-3">
-              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Shipping</Link>
-              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Returns</Link>
-              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">Size Guide</Link>
+              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Shipping</Link>
+              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Returns</Link>
+              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Size Guide</Link>
             </div>
           </div>
           <div>
-            <h4 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-4">Follow</h4>
+            <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Follow</h3>
             <div className="flex gap-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#757571] transition-colors">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
                 <Instagram size={18} />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#757571] transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
                 <Facebook size={18} />
               </a>
             </div>
@@ -89,10 +91,10 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="py-6 border-t border-[#E5E5E1] flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-[11px] text-[#757571]">© 2026 DDouble. All rights reserved.</span>
+          <span className="text-[11px] text-[#6B6B67]">© 2026 DDouble. All rights reserved.</span>
           <div className="flex gap-6">
-            <Link to="/faq" className="text-[11px] text-[#757571] hover:text-[#1A1A1A] transition-colors">Privacy Policy</Link>
-            <Link to="/faq" className="text-[11px] text-[#757571] hover:text-[#1A1A1A] transition-colors">Terms of Service</Link>
+            <Link to="/about" className="text-[11px] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors">Privacy Policy</Link>
+            <Link to="/about" className="text-[11px] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

@@ -17,9 +17,10 @@ export default function Contact() {
     <div className="bg-[#F9F9F7] min-h-screen">
       <Navbar />
 
+      <main>
       <div className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Get in touch</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Get in touch</span>
           <h1 className="mt-4 text-4xl md:text-5xl font-light text-[#1A1A1A]">Contact</h1>
         </FadeIn>
 
@@ -29,13 +30,14 @@ export default function Contact() {
             {submitted ? (
               <div className="py-16">
                 <h2 className="text-2xl font-light text-[#1A1A1A]">Thank you</h2>
-                <p className="mt-4 text-sm text-[#757571]">We'll get back to you shortly.</p>
+                <p className="mt-4 text-sm text-[#6B6B67]">We'll get back to you shortly.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="text-[10px] uppercase tracking-[0.15em] text-[#757571]">Name</label>
+                  <label htmlFor="contact-name" className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67]">Name</label>
                   <input
+                    id="contact-name"
                     type="text"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -44,8 +46,9 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] uppercase tracking-[0.15em] text-[#757571]">Email</label>
+                  <label htmlFor="contact-email" className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67]">Email</label>
                   <input
+                    id="contact-email"
                     type="email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -54,8 +57,9 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] uppercase tracking-[0.15em] text-[#757571]">Message</label>
+                  <label htmlFor="contact-message" className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67]">Message</label>
                   <textarea
+                    id="contact-message"
                     rows={5}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -78,17 +82,17 @@ export default function Contact() {
             <div className="space-y-8">
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <Mail size={14} className="text-[#757571]" />
-                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571]">Email</h3>
+                  <Mail size={14} className="text-[#6B6B67]" />
+                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67]">Email</h3>
                 </div>
-                <a href="mailto:hello@ddouble.com" className="text-sm text-[#1A1A1A] hover:text-[#757571] transition-colors">
+                <a href="mailto:hello@ddouble.com" className="text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
                   hello@ddouble.com
                 </a>
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <MapPin size={14} className="text-[#757571]" />
-                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571]">Studio</h3>
+                  <MapPin size={14} className="text-[#6B6B67]" />
+                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67]">Studio</h3>
                 </div>
                 <p className="text-sm text-[#1A1A1A]">
                   Nørrebrogade 45<br />
@@ -97,7 +101,7 @@ export default function Contact() {
                 </p>
               </div>
               <div>
-                <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">Business Hours</h3>
+                <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Business Hours</h3>
                 <p className="text-sm text-[#1A1A1A]">
                   Monday – Friday: 9:00 – 17:00 CET<br />
                   We typically respond within 24 hours.
@@ -107,6 +111,7 @@ export default function Contact() {
           </FadeIn>
         </div>
       </div>
+      </main>
 
       <Footer />
     </div>

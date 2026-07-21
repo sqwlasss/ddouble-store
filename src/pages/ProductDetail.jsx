@@ -75,7 +75,7 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-light text-[#1A1A1A]">Product not found</h1>
           <Link
             to="/shop"
-            className="mt-4 inline-block text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#757571]"
+            className="mt-4 inline-block text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#6B6B67]"
           >
             Back to Shop
           </Link>
@@ -116,13 +116,35 @@ export default function ProductDetail() {
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
       <Navbar />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: product.title,
+              description: product.description || product.title,
+              image: product.image,
+              url: `https://ddouble-store.vercel.app/product/${product.handle}`,
+              brand: { "@type": "Brand", name: "DDouble" },
+              offers: {
+                "@type": "Offer",
+                price: product.price,
+                priceCurrency: "MDL",
+                availability: "https://schema.org/InStock",
+                url: `https://ddouble-store.vercel.app/product/${product.handle}`,
+              },
+            }),
+          }}
+        />
 
+      <main>
       <div className="pt-24 md:pt-28 max-w-[1440px] mx-auto">
         {/* Breadcrumb */}
         <div className="px-6 md:px-10 lg:px-16 py-4">
           <Link
             to="/shop"
-            className="inline-flex items-center gap-2 text-xs text-[#757571] hover:text-[#1A1A1A] transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
           >
             <ArrowLeft size={12} /> Back to Shop
           </Link>
@@ -159,6 +181,7 @@ export default function ProductDetail() {
                       src={img.url}
                       alt={img.altText}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </button>
                 ))}
@@ -168,7 +191,7 @@ export default function ProductDetail() {
               <button
                 onClick={() => setShowRoom(false)}
                 className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
-                  !showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#757571]"
+                  !showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
                 }`}
               >
                 Product
@@ -176,7 +199,7 @@ export default function ProductDetail() {
               <button
                 onClick={() => setShowRoom(true)}
                 className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
-                  showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#757571]"
+                  showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
                 }`}
               >
                 View in Room
@@ -193,7 +216,7 @@ export default function ProductDetail() {
               {/* Size */}
               {sizes.length > 1 && (
                 <div className="mt-8">
-                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">Size</h3>
+                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Size</h3>
                   <div className="flex flex-wrap gap-2">
                     {sizes.map((size) => (
                       <button
@@ -202,7 +225,7 @@ export default function ProductDetail() {
                         className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
                           selectedSize === size.value
                             ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
-                            : "border-[#E5E5E1] text-[#757571] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
+                            : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
                         }`}
                       >
                         {size.label}
@@ -215,7 +238,7 @@ export default function ProductDetail() {
               {/* Paper */}
               {papers.length > 1 && (
                 <div className="mt-6">
-                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">Paper</h3>
+                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Paper</h3>
                   <div className="flex flex-wrap gap-2">
                     {papers.map((paper) => (
                       <button
@@ -224,7 +247,7 @@ export default function ProductDetail() {
                         className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
                           selectedPaper === paper.value
                             ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
-                            : "border-[#E5E5E1] text-[#757571] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
+                            : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
                         }`}
                       >
                         {paper.label}
@@ -236,18 +259,18 @@ export default function ProductDetail() {
 
               {/* Quantity */}
               <div className="mt-6">
-                <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#757571] mb-3">Quantity</h3>
+                <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Quantity</h3>
                 <div className="inline-flex items-center border border-[#E5E5E1]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-4 py-3 text-[#757571] hover:text-[#1A1A1A] transition-colors"
+                    className="px-4 py-3 text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
                   >
                     <Minus size={14} />
                   </button>
                   <span className="w-10 text-center text-sm">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-4 py-3 text-[#757571] hover:text-[#1A1A1A] transition-colors"
+                    className="px-4 py-3 text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
                   >
                     <Plus size={14} />
                   </button>
@@ -266,12 +289,12 @@ export default function ProductDetail() {
               {/* Shipping info */}
               <div className="mt-8 pt-8 border-t border-[#E5E5E1] space-y-4">
                 <div className="flex items-center gap-3">
-                  <Truck size={16} className="text-[#757571]" />
-                  <span className="text-sm text-[#757571]">Free shipping on orders over 100 lei</span>
+                  <Truck size={16} className="text-[#6B6B67]" />
+                  <span className="text-sm text-[#6B6B67]">Free shipping on orders over 100 lei</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <RotateCcw size={16} className="text-[#757571]" />
-                  <span className="text-sm text-[#757571]">30-day hassle-free returns</span>
+                  <RotateCcw size={16} className="text-[#6B6B67]" />
+                  <span className="text-sm text-[#6B6B67]">30-day hassle-free returns</span>
                 </div>
               </div>
             </FadeIn>
@@ -307,6 +330,7 @@ export default function ProductDetail() {
           </section>
         )}
       </div>
+      </main>
 
       <Footer />
     </div>

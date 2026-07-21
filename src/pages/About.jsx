@@ -12,10 +12,11 @@ export default function About() {
     <div className="bg-[#F9F9F7] min-h-screen">
       <Navbar />
 
+      <main>
       {/* Hero */}
       <section className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Our Story</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Our Story</span>
           <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-light text-[#1A1A1A] leading-[1.1] max-w-3xl">
             Art should be lived with,<br />not just looked at.
           </h1>
@@ -28,6 +29,7 @@ export default function About() {
           src={LIFESTYLE_IMAGES.bedroom}
           alt="DDouble studio"
           className="w-full h-full object-cover"
+          loading="lazy"
         />
       </section>
 
@@ -42,7 +44,7 @@ export default function About() {
             </div>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <div className="space-y-6 text-[#757571] text-base leading-relaxed">
+            <div className="space-y-6 text-[#6B6B67] text-base leading-relaxed">
               <p>
                 DDouble was born from a simple observation: the walls we live within shape how we feel. 
                 Yet for too long, quality art was either inaccessible or impersonal. We set out to change that.
@@ -65,7 +67,7 @@ export default function About() {
       {/* Values */}
       <section className="py-24 md:py-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#757571]">Values</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Values</span>
           <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A] mb-16">What we stand for</h2>
         </FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
@@ -77,7 +79,7 @@ export default function About() {
             <FadeIn key={i} delay={i * 0.1}>
               <div>
                 <h3 className="text-sm font-medium text-[#1A1A1A] tracking-wide">{v.title}</h3>
-                <p className="mt-3 text-sm text-[#757571] leading-relaxed">{v.text}</p>
+                <p className="mt-3 text-sm text-[#6B6B67] leading-relaxed">{v.text}</p>
               </div>
             </FadeIn>
           ))}
@@ -89,7 +91,7 @@ export default function About() {
         <FadeIn>
           <div className="text-center max-w-md mx-auto">
             <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A]">Discover the collection</h2>
-            <p className="mt-4 text-sm text-[#757571]">
+            <p className="mt-4 text-sm text-[#6B6B67]">
               Find the perfect piece for your space.
             </p>
             <Link
@@ -101,6 +103,7 @@ export default function About() {
           </div>
         </FadeIn>
       </section>
+      </main>
 
       <Footer />
     </div>

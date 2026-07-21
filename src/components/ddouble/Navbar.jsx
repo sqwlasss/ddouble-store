@@ -87,8 +87,10 @@ export default function Navbar() {
                     className="relative"
                     onMouseEnter={() => setMegaOpen(true)}
                     onMouseLeave={() => setMegaOpen(false)}
+                    onFocus={() => setMegaOpen(true)}
+                    onBlur={() => setMegaOpen(false)}
                   >
-                    <button className="text-[11px] uppercase tracking-[0.12em] text-[#1A1A1A] hover:text-[#757571] transition-colors">
+                    <button className="text-[11px] uppercase tracking-[0.12em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
                       {link.label}
                     </button>
                     {megaOpen && (
@@ -98,7 +100,7 @@ export default function Navbar() {
                             <Link
                               key={child.label}
                               to={child.path}
-                              className="block py-2 text-[12px] tracking-[0.05em] text-[#757571] hover:text-[#1A1A1A] transition-colors"
+                              className="block py-2 text-[12px] tracking-[0.05em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
                             >
                               {child.label}
                             </Link>
@@ -111,7 +113,7 @@ export default function Navbar() {
                   <Link
                     key={link.label}
                     to={link.path}
-                    className="text-[11px] uppercase tracking-[0.12em] text-[#1A1A1A] hover:text-[#757571] transition-colors"
+                    className="text-[11px] uppercase tracking-[0.12em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -131,21 +133,21 @@ export default function Navbar() {
             <div className="flex items-center gap-4 md:gap-5">
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-1 text-[#1A1A1A] hover:text-[#757571] transition-colors"
+                className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Search"
               >
                 <Search size={18} />
               </button>
               <Link
                 to="/shop"
-                className="hidden md:block p-1 text-[#1A1A1A] hover:text-[#757571] transition-colors"
+                className="hidden md:block p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Wishlist"
               >
                 <Heart size={18} />
               </Link>
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative p-1 text-[#1A1A1A] hover:text-[#757571] transition-colors"
+                className="relative p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Cart"
               >
                 <ShoppingBag size={18} />
@@ -162,14 +164,15 @@ export default function Navbar() {
           {searchOpen && (
             <div className="border-t border-[#E5E5E1] py-4 relative">
               <div className="flex items-center gap-3">
-                <Search size={16} className="text-[#757571] shrink-0" />
+                <Search size={16} className="text-[#6B6B67] shrink-0" />
                 <input
                   type="text"
                   placeholder="Search for posters..."
-                  className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#757571] outline-none"
+                  className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#6B6B67] outline-none"
                   autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label="Search"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && searchQuery.trim()) {
                       navigate(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
@@ -179,7 +182,7 @@ export default function Navbar() {
                   }}
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery("")} className="text-[#757571] hover:text-[#1A1A1A]">
+                  <button onClick={() => setSearchQuery("")} className="text-[#6B6B67] hover:text-[#1A1A1A]" aria-label="Clear search">
                     <X size={14} />
                   </button>
                 )}
@@ -196,14 +199,14 @@ export default function Navbar() {
                       <img src={product.image} alt={product.title} className="w-10 h-10 object-cover rounded-sm" />
                       <div>
                         <p className="text-sm text-[#1A1A1A]">{product.title}</p>
-                        <p className="text-xs text-[#757571]">{product.price} lei</p>
+                        <p className="text-xs text-[#6B6B67]">{product.price} lei</p>
                       </div>
                     </Link>
                   ))}
                 </div>
               )}
               {searchQuery.trim() && searchResults.length === 0 && (
-                <p className="mt-3 text-xs text-[#757571]">No results found.</p>
+                <p className="mt-3 text-xs text-[#6B6B67]">No results found.</p>
               )}
             </div>
           )}
@@ -216,7 +219,7 @@ export default function Navbar() {
               {NAV_LINKS.map((link) =>
                 link.children ? (
                   <div key={link.label} className="space-y-2">
-                    <span className="text-xs uppercase tracking-[0.12em] text-[#757571]">
+                    <span className="text-xs uppercase tracking-[0.12em] text-[#6B6B67]">
                       {link.label}
                     </span>
                     <div className="pl-4 space-y-2">
