@@ -5,6 +5,7 @@ import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
+import { AccountProvider } from '@/lib/AccountContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -18,6 +19,14 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+
+// Account pages
+const AccountLayout = lazy(() => import('./components/AccountLayout'));
+const AccountProfile = lazy(() => import('./pages/account/Profile'));
+const AccountOrders = lazy(() => import('./pages/account/Orders'));
+const AccountAddresses = lazy(() => import('./pages/account/Addresses'));
+const AccountWishlist = lazy(() => import('./pages/account/Wishlist'));
+const AccountSettings = lazy(() => import('./pages/account/Settings'));
 
 function LoadingSpinner() {
   return (
@@ -85,6 +94,13 @@ const AuthenticatedApp = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/account" element={<AccountLayout />}>
+          <Route index element={<AccountProfile />} />
+          <Route path="orders" element={<AccountOrders />} />
+          <Route path="addresses" element={<AccountAddresses />} />
+          <Route path="wishlist" element={<AccountWishlist />} />
+          <Route path="settings" element={<AccountSettings />} />
+        </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Suspense>
@@ -96,11 +112,13 @@ function App() {
     <ErrorBoundary>
       <AuthProvider>
         <QueryClientProvider client={queryClientInstance}>
-          <Router>
-            <ScrollToTop />
-            <AuthenticatedApp />
-          </Router>
-          <Toaster />
+          <AccountProvider>
+            <Router>
+              <ScrollToTop />
+              <AuthenticatedApp />
+            </Router>
+            <Toaster />
+          </AccountProvider>
         </QueryClientProvider>
       </AuthProvider>
     </ErrorBoundary>

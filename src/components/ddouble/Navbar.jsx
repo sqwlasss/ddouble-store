@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, ShoppingBag, Heart, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, Heart, User, Menu, X } from "lucide-react";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
+import { useAuth } from "@/lib/AuthContext";
 import { useAllProducts } from "@/hooks/useProducts";
 import CartDrawer from "@/components/ddouble/CartDrawer";
 
@@ -34,6 +35,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { totalItems } = useShopifyCart();
+  const { isAuthenticated } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const { data: allProducts } = useAllProducts();
@@ -138,13 +140,40 @@ export default function Navbar() {
               >
                 <Search size={18} />
               </button>
-              <Link
-                to="/shop"
-                className="hidden md:block p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
-                aria-label="Wishlist"
-              >
-                <Heart size={18} />
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  to="/account/wishlist"
+                  className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                  aria-label="Wishlist"
+                >
+                  <Heart size={18} />
+                </Link>
+              ) : (
+                <Link
+                  to="/shop"
+                  className="hidden md:block p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                  aria-label="Wishlist"
+                >
+                  <Heart size={18} />
+                </Link>
+              )}
+              {isAuthenticated ? (
+                <Link
+                  to="/account"
+                  className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                  aria-label="Account"
+                >
+                  <User size={18} />
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                  aria-label="Log in"
+                >
+                  <User size={18} />
+                </Link>
+              )}
               <button
                 onClick={() => setCartOpen(true)}
                 className="relative p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
@@ -244,6 +273,22 @@ export default function Navbar() {
                   </Link>
                 )
               )}
+              <div className="border-t border-[#E5E5E1] pt-4 mt-4">
+                {isAuthenticated ? (
+                  <>
+                    <Link to="/account" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
+                      My Account
+                    </Link>
+                    <Link to="/account/wishlist" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A] mt-3">
+                      Wishlist
+                    </Link>
+                  </>
+                ) : (
+                  <Link to="/login" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
+                    Log in
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         )}
