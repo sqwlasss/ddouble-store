@@ -3,9 +3,7 @@ import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import FadeIn from "@/components/ddouble/FadeIn";
-const LIFESTYLE_IMAGES = {
-  bedroom: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/7efe5efef_generated_d41c0030.png",
-};
+import aboutImg from "../../assets/about-us.jpg";
 
 export default function About() {
   return (
@@ -26,7 +24,7 @@ export default function About() {
       {/* Full-width image */}
       <section className="h-[50vh] md:h-[70vh]">
         <img
-          src={LIFESTYLE_IMAGES.bedroom}
+          src={aboutImg}
           alt="DDouble studio"
           className="w-full h-full object-cover"
           loading="lazy"
