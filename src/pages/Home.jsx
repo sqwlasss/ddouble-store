@@ -5,9 +5,9 @@ import ProductCard from "@/components/ddouble/ProductCard";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import { useCollections, useCollectionProducts } from "@/hooks/useProducts";
+import homeHero from "../../assets/home.jpg";
 
 const LIFESTYLE_IMAGES = {
-  hero: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/f1403e810_generated_ba8eb28a.png",
   bedroom: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/7efe5efef_generated_d41c0030.png",
   dining: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/e26fb1318_generated_cabe50da.png",
   galleryWall: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/8140dfca5_generated_d1feca24.png",
@@ -172,7 +172,7 @@ export default function Home() {
         </div>
         <div className="flex-1 lg:h-screen">
           <img
-            src={LIFESTYLE_IMAGES.hero}
+            src={homeHero}
             alt="Scandinavian living room with premium wall art"
             className="w-full h-[60vh] lg:h-full object-cover"
           />
