@@ -158,7 +158,8 @@ export default function Home() {
                 your space.
               </h1>
               <p className="mt-6 text-[#6B6B67] text-base leading-relaxed">
-                Premium wall art designed to elevate every room.
+                Your dream home starts here.<br />
+                <em>Discover decor inspired by the world's most beautiful interiors.</em>
               </p>
               <Link
                 to="/shop"
