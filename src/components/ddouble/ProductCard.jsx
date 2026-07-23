@@ -1,21 +1,19 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
-import {
-  toggleWishlist,
-} from "@/lib/shopify/wishlist";
-import { useAccount } from "@/lib/AccountContext";
+import { useFavorites } from "@/lib/FavoritesContext";
 
-export default function ProductCard({ product, index = 0 }) {
-  const { wishlist } = useAccount();
-  const hasVariantIds = product.variants?.map((v) => v.id) || [];
-  const isWished = hasVariantIds.length > 0 && hasVariantIds.some((id) => wishlist.includes(id));
+export default function ProductCard({ product, index = 0, showHeart = false }) {
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const [animating, setAnimating] = useState(false);
+  const isFav = isFavorite(product.id);
 
-  const handleWishlist = (e) => {
+  const handleFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (hasVariantIds.length > 0) {
-      toggleWishlist(hasVariantIds[0]);
-    }
+    toggleFavorite(product);
+    setAnimating(true);
+    setTimeout(() => setAnimating(false), 350);
   };
 
   return (
@@ -28,13 +26,17 @@ export default function ProductCard({ product, index = 0 }) {
           loading={index < 4 ? "eager" : "lazy"}
         />
         <button
-          onClick={handleWishlist}
-          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
+          onClick={handleFavorite}
+          className={`absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm ${
+            showHeart ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          } transition-opacity duration-300`}
+          aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
         >
           <Heart
             size={16}
-            className={isWished ? "fill-[#1A1A1A] text-[#1A1A1A]" : "text-[#1A1A1A]"}
+            className={`${animating ? "animate-heart-pop" : ""} ${
+              isFav ? "fill-[#1A1A1A] text-[#1A1A1A]" : "text-[#1A1A1A]"
+            }`}
           />
         </button>
       </div>
