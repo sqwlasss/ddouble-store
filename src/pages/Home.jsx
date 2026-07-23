@@ -153,12 +153,9 @@ export default function Home() {
           <FadeIn>
             <div className="max-w-md">
               <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-light text-[#1A1A1A] leading-[1.1] tracking-[-0.02em]">
-                Art that transforms
-                <br />
-                your space.
+                Your dream home starts here.
               </h1>
               <p className="mt-6 text-[#6B6B67] text-base leading-relaxed">
-                Your dream home starts here.<br />
                 <em>Discover decor inspired by the world's most beautiful interiors.</em>
               </p>
               <Link
