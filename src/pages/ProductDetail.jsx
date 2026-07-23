@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Minus, Plus, Truck, RotateCcw, ArrowLeft } from "lucide-react";
+import { Minus, Plus, Truck, RotateCcw, ArrowLeft, Heart } from "lucide-react";
+import { useFavorites } from "@/lib/FavoritesContext";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
@@ -26,6 +27,16 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [showRoom, setShowRoom] = useState(false);
   const [zoomed, setZoomed] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const [heartAnimating, setHeartAnimating] = useState(false);
+  const isFav = isFavorite(product?.id);
+
+  const handleFavorite = (e) => {
+    e.preventDefault();
+    toggleFavorite(product);
+    setHeartAnimating(true);
+    setTimeout(() => setHeartAnimating(false), 350);
+  };
 
   const sizes = product ? (product.sizes.length > 0 ? product.sizes : [{ label: "Default", value: "Default" }]) : [];
   const papers = product ? (product.papers.length > 0 ? product.papers : [{ label: "Default", value: "Default" }]) : [];
@@ -210,7 +221,21 @@ export default function ProductDetail() {
           {/* Details */}
           <div className="lg:w-[42%] px-6 md:px-10 lg:px-16 py-8 lg:py-0 lg:sticky lg:top-28 lg:self-start">
             <FadeIn delay={0.1}>
-              <h1 className="mt-2 text-3xl md:text-4xl font-light text-[#1A1A1A]">{product.title}</h1>
+              <div className="flex items-start justify-between gap-4">
+                <h1 className="text-3xl md:text-4xl font-light text-[#1A1A1A]">{product.title}</h1>
+                <button
+                  onClick={handleFavorite}
+                  className="mt-1 shrink-0 w-10 h-10 flex items-center justify-center rounded-full border border-[#E5E5E1] hover:border-[#1A1A1A] transition-colors"
+                  aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <Heart
+                    size={18}
+                    className={`${heartAnimating ? "animate-heart-pop" : ""} ${
+                      isFav ? "fill-[#1A1A1A] text-[#1A1A1A]" : "text-[#1A1A1A]"
+                    }`}
+                  />
+                </button>
+              </div>
               <p className="mt-4 text-xl text-[#1A1A1A]">{displayPrice} lei</p>
 
               {/* Size */}

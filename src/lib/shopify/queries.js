@@ -34,6 +34,10 @@ export const ALL_PRODUCTS = `
                   amount
                   currencyCode
                 }
+                compareAtPrice {
+                  amount
+                  currencyCode
+                }
                 availableForSale
                 selectedOptions {
                   name
@@ -89,6 +93,10 @@ export const PRODUCT_BY_HANDLE = `
             id
             title
             price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
               amount
               currencyCode
             }
@@ -172,6 +180,10 @@ export const COLLECTION_BY_HANDLE = `
                   id
                   title
                   price {
+                    amount
+                    currencyCode
+                  }
+                  compareAtPrice {
                     amount
                     currencyCode
                   }

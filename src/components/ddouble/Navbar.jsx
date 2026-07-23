@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, ShoppingBag, Heart, User, Menu, X } from "lucide-react";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useAuth } from "@/lib/AuthContext";
+import { useFavorites } from "@/lib/FavoritesContext";
 import { useAllProducts } from "@/hooks/useProducts";
 import CartDrawer from "@/components/ddouble/CartDrawer";
 
@@ -35,6 +36,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { totalItems } = useShopifyCart();
+  const { favoritesCount } = useFavorites();
   const { isAuthenticated } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -140,23 +142,18 @@ export default function Navbar() {
               >
                 <Search size={18} />
               </button>
-              {isAuthenticated ? (
-                <Link
-                  to="/account/wishlist"
-                  className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
-                  aria-label="Wishlist"
-                >
-                  <Heart size={18} />
-                </Link>
-              ) : (
-                <Link
-                  to="/shop"
-                  className="hidden md:block p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
-                  aria-label="Wishlist"
-                >
-                  <Heart size={18} />
-                </Link>
-              )}
+              <Link
+                to="/favorites"
+                className="relative p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                aria-label="Favorites"
+              >
+                <Heart size={18} />
+                {favoritesCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#1A1A1A] text-white text-[9px] rounded-full flex items-center justify-center">
+                    {favoritesCount}
+                  </span>
+                )}
+              </Link>
               {isAuthenticated ? (
                 <Link
                   to="/account"
@@ -273,16 +270,17 @@ export default function Navbar() {
                   </Link>
                 )
               )}
+              <Link
+                to="/favorites"
+                className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]"
+              >
+                Favorites
+              </Link>
               <div className="border-t border-[#E5E5E1] pt-4 mt-4">
                 {isAuthenticated ? (
-                  <>
-                    <Link to="/account" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
-                      My Account
-                    </Link>
-                    <Link to="/account/wishlist" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A] mt-3">
-                      Wishlist
-                    </Link>
-                  </>
+                  <Link to="/account" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
+                    My Account
+                  </Link>
                 ) : (
                   <Link to="/login" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
                     Log in

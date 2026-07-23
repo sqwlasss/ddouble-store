@@ -30,11 +30,17 @@ function normalizeProduct(node) {
     papers: paperOption
       ? paperOption.values.map((v) => ({ label: v, value: v }))
       : [],
+    compareAtPrice: node.variants.edges[0]?.node.compareAtPrice?.amount
+      ? parseFloat(node.variants.edges[0].node.compareAtPrice.amount)
+      : null,
     variants: node.variants.edges.map(({ node: v }) => ({
       id: v.id,
       title: v.title,
       price: parseFloat(v.price.amount),
       currency: v.price.currencyCode,
+      compareAtPrice: v.compareAtPrice?.amount
+        ? parseFloat(v.compareAtPrice.amount)
+        : null,
       availableForSale: v.availableForSale,
       selectedOptions: v.selectedOptions,
     })),
