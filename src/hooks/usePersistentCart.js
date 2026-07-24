@@ -143,7 +143,7 @@ export function usePersistentCart(customerToken, country) {
     items: cart?.lines || [],
     totalItems: cart?.totalItems || 0,
     totalPrice: cart ? parseFloat(cart.totalAmount) : 0,
-    currency: cart?.currency || "MDL",
+    currency: cart?.currency || "USD",
     loading,
     syncing,
     addItem,
