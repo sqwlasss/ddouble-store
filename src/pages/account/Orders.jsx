@@ -2,6 +2,7 @@ import { Package, ExternalLink, Loader2 } from "lucide-react";
 import { useAccount } from "@/lib/AccountContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Price from "@/components/ddouble/Price";
 
 const STATUS_COLORS = {
   PAID: "text-green-700 bg-green-50",
@@ -86,7 +87,7 @@ export default function Orders() {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm font-medium">{order.totalPrice} {order.currency}</p>
+                <p className="text-sm font-medium"><Price amount={order.totalPrice} /></p>
                 <div className="mt-1">{statusBadge(order.financialStatus)}</div>
               </div>
             </div>
@@ -112,7 +113,7 @@ export default function Orders() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm text-[#1A1A1A]">x{item.quantity}</p>
-                      <p className="text-xs text-[#6B6B67]">{item.price} lei</p>
+                      <p className="text-xs text-[#6B6B67]"><Price amount={item.price} /></p>
                     </div>
                   </div>
                 ))}

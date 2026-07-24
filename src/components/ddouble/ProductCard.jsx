@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/lib/FavoritesContext";
+import Price from "@/components/ddouble/Price";
 
 export default function ProductCard({ product, index = 0, showHeart = false }) {
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -42,7 +43,7 @@ export default function ProductCard({ product, index = 0, showHeart = false }) {
       </div>
       <div className="mt-4 space-y-1">
         <h3 className="text-sm font-medium text-[#1A1A1A] tracking-wide">{product.title}</h3>
-        <p className="text-sm text-[#6B6B67]">From {product.price} lei</p>
+        <p className="text-sm text-[#6B6B67]">From <Price amount={product.price} /></p>
       </div>
     </Link>
   );

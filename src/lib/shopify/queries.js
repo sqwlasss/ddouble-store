@@ -1,4 +1,11 @@
-export const ALL_PRODUCTS = `
+function withCountry(query, country) {
+  return query.replace(
+    /(query\s+\w+(?:\s*\([^)]*\))?)/,
+    `$1 @inContext(country: ${country})`
+  );
+}
+
+const ALL_PRODUCTS_RAW = `
   query AllProducts($first: Int!, $after: String, $query: String) {
     products(first: $first, after: $after, query: $query) {
       edges {
@@ -56,7 +63,7 @@ export const ALL_PRODUCTS = `
   }
 `;
 
-export const PRODUCT_BY_HANDLE = `
+const PRODUCT_BY_HANDLE_RAW = `
   query ProductByHandle($handle: String!) {
     productByHandle(handle: $handle) {
       id
@@ -117,27 +124,7 @@ export const PRODUCT_BY_HANDLE = `
   }
 `;
 
-export const ALL_COLLECTIONS = `
-  query AllCollections($first: Int!) {
-    collections(first: $first) {
-      edges {
-        node {
-          id
-          title
-          handle
-          description
-          image {
-            id
-            url
-            altText
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const COLLECTION_BY_HANDLE = `
+const COLLECTION_BY_HANDLE_RAW = `
   query CollectionByHandle($handle: String!, $first: Int!, $after: String) {
     collection(handle: $handle) {
       id
@@ -200,6 +187,38 @@ export const COLLECTION_BY_HANDLE = `
         pageInfo {
           hasNextPage
           endCursor
+        }
+      }
+    }
+  }
+`;
+
+export function ALL_PRODUCTS(country) {
+  return withCountry(ALL_PRODUCTS_RAW, country);
+}
+
+export function PRODUCT_BY_HANDLE(country) {
+  return withCountry(PRODUCT_BY_HANDLE_RAW, country);
+}
+
+export function COLLECTION_BY_HANDLE(country) {
+  return withCountry(COLLECTION_BY_HANDLE_RAW, country);
+}
+
+export const ALL_COLLECTIONS = `
+  query AllCollections($first: Int!) {
+    collections(first: $first) {
+      edges {
+        node {
+          id
+          title
+          handle
+          description
+          image {
+            id
+            url
+            altText
+          }
         }
       }
     }

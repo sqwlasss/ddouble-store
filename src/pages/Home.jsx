@@ -4,6 +4,7 @@ import FadeIn from "@/components/ddouble/FadeIn";
 import ProductCard from "@/components/ddouble/ProductCard";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
+import { useCurrency } from "@/lib/CurrencyContext";
 import { useCollections, useCollectionProducts } from "@/hooks/useProducts";
 import homeHero from "../../assets/home.jpg";
 
@@ -26,7 +27,8 @@ const CATEGORY_COLLECTIONS = [
 ];
 
 function CollectionCard({ collection }) {
-  const { data } = useCollectionProducts(collection.handle);
+  const { country } = useCurrency();
+  const { data } = useCollectionProducts(collection.handle, country);
   const firstProduct = data?.products?.[0];
 
   return (
@@ -52,6 +54,7 @@ function CollectionCard({ collection }) {
 }
 
 function FeaturedProducts() {
+  const { country } = useCurrency();
   const { data: collections } = useCollections();
 
   const categoryCollections = (collections || []).filter((c) =>
@@ -61,14 +64,14 @@ function FeaturedProducts() {
   return (
     <>
       {categoryCollections.slice(0, 2).map((col) => (
-        <CollectionSection key={col.handle} collection={col} />
+        <CollectionSection key={col.handle} collection={col} country={country} />
       ))}
     </>
   );
 }
 
-function CollectionSection({ collection }) {
-  const { data, isLoading } = useCollectionProducts(collection.handle);
+function CollectionSection({ collection, country }) {
+  const { data, isLoading } = useCollectionProducts(collection.handle, country);
   const products = (data?.products || []).slice(0, 4);
 
   if (isLoading) {
@@ -116,6 +119,7 @@ function CollectionSection({ collection }) {
 }
 
 function LatestProducts() {
+  const { country } = useCurrency();
   const { data: collections } = useCollections();
 
   const categoryCollections = (collections || []).filter((c) =>
@@ -127,15 +131,16 @@ function LatestProducts() {
   return (
     <>
       {lastTwo.map((col) => (
-        <CollectionSection key={col.handle} collection={col} />
+        <CollectionSection key={col.handle} collection={col} country={country} />
       ))}
     </>
   );
 }
 
 export default function Home() {
+  const { country } = useCurrency();
   const { data: collections } = useCollections();
-  const { data: abstractData } = useCollectionProducts("abstract");
+  const { data: abstractData } = useCollectionProducts("abstract", country);
   const allProducts = abstractData?.products || [];
 
   const categoryCollections = (collections || []).filter((c) =>

@@ -313,12 +313,14 @@ function parseCart(cart) {
   };
 }
 
-export async function createCart(variantId, quantity = 1) {
-  const data = await shopifyFetch(CART_CREATE, {
-    input: {
-      lines: [{ merchandiseId: variantId, quantity }],
-    },
-  });
+export async function createCart(variantId, quantity = 1, country = null) {
+  const input = {
+    lines: [{ merchandiseId: variantId, quantity }],
+  };
+  if (country) {
+    input.buyerIdentity = { countryCode: country };
+  }
+  const data = await shopifyFetch(CART_CREATE, { input });
   if (data.cartCreate.userErrors.length > 0) {
     throw new Error(data.cartCreate.userErrors.map((e) => e.message).join("\n"));
   }

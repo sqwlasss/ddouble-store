@@ -58,16 +58,16 @@ function normalizeCollection(node) {
   };
 }
 
-export function useAllProducts() {
+export function useAllProducts(country) {
   return useQuery({
-    queryKey: ["products", "all-posters"],
+    queryKey: ["products", "all-posters", country],
     queryFn: async () => {
       const allProducts = [];
       let cursor = null;
       let hasNext = true;
 
       while (hasNext) {
-        const data = await shopifyFetch(ALL_PRODUCTS, {
+        const data = await shopifyFetch(ALL_PRODUCTS(country), {
           first: 50,
           after: cursor,
         });
@@ -83,11 +83,11 @@ export function useAllProducts() {
   });
 }
 
-export function useProduct(handle) {
+export function useProduct(handle, country) {
   return useQuery({
-    queryKey: ["product", handle],
+    queryKey: ["product", handle, country],
     queryFn: async () => {
-      const data = await shopifyFetch(PRODUCT_BY_HANDLE, { handle });
+      const data = await shopifyFetch(PRODUCT_BY_HANDLE(country), { handle });
       if (!data.productByHandle) return null;
       return normalizeProduct(data.productByHandle);
     },
@@ -107,11 +107,11 @@ export function useCollections() {
   });
 }
 
-export function useCollectionProducts(handle) {
+export function useCollectionProducts(handle, country) {
   return useQuery({
-    queryKey: ["collection", handle],
+    queryKey: ["collection", handle, country],
     queryFn: async () => {
-      const data = await shopifyFetch(COLLECTION_BY_HANDLE, {
+      const data = await shopifyFetch(COLLECTION_BY_HANDLE(country), {
         handle,
         first: 50,
       });

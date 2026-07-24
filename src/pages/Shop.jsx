@@ -5,6 +5,8 @@ import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
 import FadeIn from "@/components/ddouble/FadeIn";
+import Price from "@/components/ddouble/Price";
+import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 
 const CATEGORY_COLLECTIONS = [
@@ -17,13 +19,6 @@ const SORT_OPTIONS = [
   { id: "price-asc", label: "Price: Low–High" },
   { id: "price-desc", label: "Price: High–Low" },
   { id: "alpha", label: "A–Z" },
-];
-
-const PRICE_RANGES = [
-  { id: "all", label: "All Prices", min: 0, max: Infinity },
-  { id: "under-30", label: "Under 30 lei", min: 0, max: 30 },
-  { id: "30-50", label: "30 – 50 lei", min: 30, max: 50 },
-  { id: "over-50", label: "Over 50 lei", min: 50, max: Infinity },
 ];
 
 function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFilters }) {
@@ -96,8 +91,8 @@ function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFi
   );
 }
 
-function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters }) {
-  const { data, isLoading } = useCollectionProducts(collectionHandle);
+function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters, country }) {
+  const { data, isLoading } = useCollectionProducts(collectionHandle, country);
   const products = data?.products || [];
 
   return (
@@ -112,8 +107,16 @@ function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, c
   );
 }
 
+const PRICE_RANGES = [
+  { id: "all", label: "All Prices", min: 0, max: Infinity },
+  { id: "under-30", label: "Under 30", min: 0, max: 30 },
+  { id: "30-50", label: "30 – 50", min: 30, max: 50 },
+  { id: "over-50", label: "Over 50", min: 50, max: Infinity },
+];
+
 export default function Shop() {
   const [searchParams] = useSearchParams();
+  const { country } = useCurrency();
 
   const [category, setCategory] = useState(searchParams.get("category") || "all");
   const [priceRange, setPriceRange] = useState("all");
@@ -122,7 +125,7 @@ export default function Shop() {
   const [sortOpen, setSortOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
-  const { data: allProducts, isLoading: allLoading } = useAllProducts();
+  const { data: allProducts, isLoading: allLoading } = useAllProducts(country);
   const { data: collections } = useCollections();
 
   const categoryCollections = useMemo(
@@ -253,6 +256,7 @@ export default function Shop() {
             sort={sort}
             searchQuery={searchQuery}
             clearFilters={clearFilters}
+            country={country}
           />
         )}
       </div>

@@ -2,15 +2,18 @@ import { useState } from "react";
 import { Heart, ShoppingBag, X, Loader2 } from "lucide-react";
 import { useAccount } from "@/lib/AccountContext";
 import { removeFromWishlist } from "@/lib/shopify/wishlist";
+import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts } from "@/hooks/useProducts";
 import { usePersistentCart } from "@/hooks/usePersistentCart";
+import Price from "@/components/ddouble/Price";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 
 export default function Wishlist() {
   const { wishlist } = useAccount();
-  const { data: allProducts, isLoading } = useAllProducts();
-  const { addItem } = usePersistentCart();
+  const { country } = useCurrency();
+  const { data: allProducts, isLoading } = useAllProducts(country);
+  const { addItem } = usePersistentCart(null, country);
   const navigate = useNavigate();
   const [adding, setAdding] = useState(null);
 
@@ -97,7 +100,7 @@ export default function Wishlist() {
             </div>
             <div className="mt-3 space-y-1">
               <h3 className="text-sm font-medium text-[#1A1A1A] tracking-wide">{product.title}</h3>
-              <p className="text-sm text-[#6B6B67]">From {product.price} lei</p>
+              <p className="text-sm text-[#6B6B67]">From <Price amount={product.price} /></p>
               <button
                 onClick={(e) => handleAddToCart(product, e)}
                 disabled={adding === product.variants[0]?.id}
