@@ -573,7 +573,7 @@ function parseOrder(node) {
     financialStatus: node.financialStatus,
     fulfillmentStatus: node.fulfillmentStatus,
     totalPrice: parseFloat(node.totalPrice?.amount || node.currentTotalPrice?.amount || 0),
-    currency: node.totalPrice?.currencyCode || node.currentTotalPrice?.currencyCode || "MDL",
+    currency: node.totalPrice?.currencyCode || node.currentTotalPrice?.currencyCode || "USD",
     statusUrl: node.statusUrl,
     lineItems: (node.lineItems?.edges || []).map(({ node: item }) => ({
       title: item.title,

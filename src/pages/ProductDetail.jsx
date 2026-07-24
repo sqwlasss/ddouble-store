@@ -144,7 +144,7 @@ export default function ProductDetail() {
               offers: {
                 "@type": "Offer",
                 price: product.price,
-                priceCurrency: product.currency || "MDL",
+                priceCurrency: product.currency || "USD",
                 availability: "https://schema.org/InStock",
                 url: `https://ddouble-store.vercel.app/product/${product.handle}`,
               },

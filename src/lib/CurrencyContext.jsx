@@ -3,35 +3,34 @@ import { createContext, useContext, useState, useCallback, useEffect, useMemo } 
 const CURRENCY_KEY = 'shopify_currency';
 
 const SUPPORTED_CURRENCIES = [
-  { code: 'GBP', symbol: '£', locale: 'en-GB', label: 'GBP', country: 'GB' },
   { code: 'USD', symbol: '$', locale: 'en-US', label: 'USD', country: 'US' },
+  { code: 'GBP', symbol: '£', locale: 'en-GB', label: 'GBP', country: 'GB' },
   { code: 'EUR', symbol: '€', locale: 'de-DE', label: 'EUR', country: 'DE' },
   { code: 'CAD', symbol: 'C$', locale: 'en-CA', label: 'CAD', country: 'CA' },
   { code: 'AUD', symbol: 'A$', locale: 'en-AU', label: 'AUD', country: 'AU' },
-  { code: 'MDL', symbol: 'L', locale: 'ro-MD', label: 'MDL', country: 'MD' },
   { code: 'RON', symbol: 'lei', locale: 'ro-RO', label: 'RON', country: 'RO' },
   { code: 'DKK', symbol: 'kr', locale: 'da-DK', label: 'DKK', country: 'DK' },
 ];
 
 const COUNTRY_TO_CURRENCY = {
-  GB: 'GBP', US: 'USD', DE: 'EUR', FR: 'EUR', ES: 'EUR', IT: 'EUR',
+  US: 'USD', GB: 'GBP', DE: 'EUR', FR: 'EUR', ES: 'EUR', IT: 'EUR',
   NL: 'EUR', BE: 'EUR', AT: 'EUR', PT: 'EUR', IE: 'EUR', FI: 'EUR',
-  CA: 'CAD', AU: 'AUD', MD: 'MDL', RO: 'RON', DK: 'DKK',
+  CA: 'CAD', AU: 'AUD', RO: 'RON', DK: 'DKK',
 };
 
 function detectCountry() {
   try {
-    const locale = navigator.language || navigator.languages?.[0] || 'en-GB';
+    const locale = navigator.language || navigator.languages?.[0] || 'en-US';
     const parts = locale.split('-');
-    return parts.length > 1 ? parts[1].toUpperCase() : 'GB';
+    return parts.length > 1 ? parts[1].toUpperCase() : 'US';
   } catch {
-    return 'GB';
+    return 'US';
   }
 }
 
 function detectCurrency() {
   const country = detectCountry();
-  return COUNTRY_TO_CURRENCY[country] || 'GBP';
+  return COUNTRY_TO_CURRENCY[country] || 'USD';
 }
 
 function loadCurrency() {
