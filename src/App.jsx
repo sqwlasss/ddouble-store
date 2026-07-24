@@ -7,7 +7,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import { AccountProvider } from '@/lib/AccountContext';
 import { FavoritesProvider } from '@/lib/FavoritesContext';
-import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import { CurrencyProvider } from '@/lib/CurrencyContext';
 import ScrollToTop from './components/ScrollToTop';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -115,15 +115,17 @@ function App() {
     <ErrorBoundary>
       <AuthProvider>
         <QueryClientProvider client={queryClientInstance}>
-          <AccountProvider>
-            <FavoritesProvider>
-              <Router>
-                <ScrollToTop />
-                <AuthenticatedApp />
-              </Router>
-              <Toaster />
-            </FavoritesProvider>
-          </AccountProvider>
+          <CurrencyProvider>
+            <AccountProvider>
+              <FavoritesProvider>
+                <Router>
+                  <ScrollToTop />
+                  <AuthenticatedApp />
+                </Router>
+                <Toaster />
+              </FavoritesProvider>
+            </AccountProvider>
+          </CurrencyProvider>
         </QueryClientProvider>
       </AuthProvider>
     </ErrorBoundary>

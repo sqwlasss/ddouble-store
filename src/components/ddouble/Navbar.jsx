@@ -5,6 +5,9 @@ import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useAuth } from "@/lib/AuthContext";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useAllProducts } from "@/hooks/useProducts";
+import { useCurrency } from "@/lib/CurrencyContext";
+import CurrencySelector, { MobileCurrencySelector } from "@/components/ddouble/CurrencySelector";
+import Price from "@/components/ddouble/Price";
 import CartDrawer from "@/components/ddouble/CartDrawer";
 
 const NAV_LINKS = [
@@ -35,12 +38,13 @@ export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { totalItems } = useShopifyCart();
+  const { country } = useCurrency();
+  const { totalItems } = useShopifyCart(country);
   const { favoritesCount } = useFavorites();
   const { isAuthenticated } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: allProducts } = useAllProducts();
+  const { data: allProducts } = useAllProducts(country);
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim() || !allProducts) return [];
@@ -135,6 +139,9 @@ export default function Navbar() {
 
             {/* Right icons */}
             <div className="flex items-center gap-4 md:gap-5">
+              <div className="hidden md:block">
+                <CurrencySelector />
+              </div>
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
@@ -225,7 +232,7 @@ export default function Navbar() {
                       <img src={product.image} alt={product.title} className="w-10 h-10 object-cover rounded-sm" />
                       <div>
                         <p className="text-sm text-[#1A1A1A]">{product.title}</p>
-                        <p className="text-xs text-[#6B6B67]">{product.price} lei</p>
+                        <p className="text-xs text-[#6B6B67]"><Price amount={product.price} /></p>
                       </div>
                     </Link>
                   ))}
@@ -276,6 +283,7 @@ export default function Navbar() {
               >
                 Favorites
               </Link>
+              <MobileCurrencySelector />
               <div className="border-t border-[#E5E5E1] pt-4 mt-4">
                 {isAuthenticated ? (
                   <Link to="/account" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">

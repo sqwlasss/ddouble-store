@@ -28,13 +28,12 @@ function notify() {
   listeners.forEach((fn) => fn());
 }
 
-export function usePersistentCart(customerToken) {
+export function usePersistentCart(customerToken, country) {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const prevTokenRef = useRef(customerToken);
 
-  // Track which customer the cart was created under
   const getCartCustomer = () => localStorage.getItem(CART_CUSTOMER_KEY);
 
   const syncCart = useCallback(async () => {
@@ -64,16 +63,9 @@ export function usePersistentCart(customerToken) {
     return () => { listeners.delete(handler); };
   }, [syncCart]);
 
-  // When customer logs in/out, handle cart transfer
   useEffect(() => {
     const prevToken = prevTokenRef.current;
     prevTokenRef.current = customerToken;
-
-    if (customerToken && !prevToken) {
-      // User just logged in - cart is already in localStorage, noop
-    } else if (!customerToken && prevToken) {
-      // User logged out - cart stays in localStorage as anonymous cart
-    }
   }, [customerToken]);
 
   const addItem = useCallback(
@@ -85,7 +77,7 @@ export function usePersistentCart(customerToken) {
         if (cartId) {
           updated = await addLines(cartId, [{ merchandiseId: variantId, quantity }]);
         } else {
-          updated = await createCart(variantId, quantity);
+          updated = await createCart(variantId, quantity, country);
           if (customerToken) {
             localStorage.setItem(CART_CUSTOMER_KEY, customerToken);
           }
@@ -98,7 +90,7 @@ export function usePersistentCart(customerToken) {
         setLoading(false);
       }
     },
-    [customerToken]
+    [customerToken, country]
   );
 
   const updateQuantity = useCallback(async (lineId, quantity) => {

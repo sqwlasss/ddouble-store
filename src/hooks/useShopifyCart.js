@@ -26,7 +26,7 @@ function notify() {
   listeners.forEach((fn) => fn());
 }
 
-export function useShopifyCart() {
+export function useShopifyCart(country) {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -66,7 +66,7 @@ export function useShopifyCart() {
         if (cartId) {
           updated = await addLines(cartId, [{ merchandiseId: variantId, quantity }]);
         } else {
-          updated = await createCart(variantId, quantity);
+          updated = await createCart(variantId, quantity, country);
         }
         storeCartId(updated.id);
         setCart(updated);
@@ -76,7 +76,7 @@ export function useShopifyCart() {
         setLoading(false);
       }
     },
-    []
+    [country]
   );
 
   const updateQuantity = useCallback(async (lineId, quantity) => {

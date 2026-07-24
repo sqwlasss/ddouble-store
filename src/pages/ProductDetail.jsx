@@ -2,10 +2,12 @@ import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Minus, Plus, Truck, RotateCcw, ArrowLeft, Heart } from "lucide-react";
 import { useFavorites } from "@/lib/FavoritesContext";
+import { useCurrency } from "@/lib/CurrencyContext";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
 import FadeIn from "@/components/ddouble/FadeIn";
+import Price from "@/components/ddouble/Price";
 import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useToast } from "@/components/ui/use-toast";
@@ -16,9 +18,10 @@ const LIFESTYLE_IMAGES = {
 
 export default function ProductDetail() {
   const { handle } = useParams();
-  const { data: product, isLoading } = useProduct(handle);
-  const { data: allProducts } = useAllProducts();
-  const { addItem, loading: cartLoading } = useShopifyCart();
+  const { country } = useCurrency();
+  const { data: product, isLoading } = useProduct(handle, country);
+  const { data: allProducts } = useAllProducts(country);
+  const { addItem, loading: cartLoading } = useShopifyCart(country);
   const { toast } = useToast();
 
   const [selectedSize, setSelectedSize] = useState(null);
@@ -141,7 +144,7 @@ export default function ProductDetail() {
               offers: {
                 "@type": "Offer",
                 price: product.price,
-                priceCurrency: "MDL",
+                priceCurrency: product.currency || "MDL",
                 availability: "https://schema.org/InStock",
                 url: `https://ddouble-store.vercel.app/product/${product.handle}`,
               },
@@ -177,7 +180,6 @@ export default function ProductDetail() {
                 />
               </div>
             </FadeIn>
-            {/* Toggle view */}
             {product.images.length > 1 && (
               <div className="flex gap-3 mt-4">
                 {product.images.map((img, i) => (
@@ -236,7 +238,7 @@ export default function ProductDetail() {
                   />
                 </button>
               </div>
-              <p className="mt-4 text-xl text-[#1A1A1A]">{displayPrice} lei</p>
+              <p className="mt-4 text-xl text-[#1A1A1A]"><Price amount={displayPrice} /></p>
 
               {/* Size */}
               {sizes.length > 1 && (
@@ -308,14 +310,15 @@ export default function ProductDetail() {
                 disabled={cartLoading || !selectedVariant}
                 className="mt-8 w-full bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] py-4 hover:bg-[#D9D2C5] hover:text-[#1A1A1A] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {cartLoading ? "Adding..." : `Add to Cart — ${displayPrice} lei`}
+                {cartLoading ? "Adding..." : `Add to Cart — `}
+                {!cartLoading && <Price amount={displayPrice} />}
               </button>
 
               {/* Shipping info */}
               <div className="mt-8 pt-8 border-t border-[#E5E5E1] space-y-4">
                 <div className="flex items-center gap-3">
                   <Truck size={16} className="text-[#6B6B67]" />
-                  <span className="text-sm text-[#6B6B67]">Free shipping on orders over 100 lei</span>
+                  <span className="text-sm text-[#6B6B67]">Free shipping on orders over <Price amount={100} /></span>
                 </div>
                 <div className="flex items-center gap-3">
                   <RotateCcw size={16} className="text-[#6B6B67]" />
