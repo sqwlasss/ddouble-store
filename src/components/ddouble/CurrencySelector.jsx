@@ -2,12 +2,18 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { useCurrency } from "@/lib/CurrencyContext";
 
-function countryFlag(countryCode) {
-  if (!countryCode || countryCode.length !== 2) return "";
-  const base = 0x1F1E6;
-  const a = countryCode.charCodeAt(0) - 65;
-  const b = countryCode.charCodeAt(1) - 65;
-  return String.fromCodePoint(base + a, base + b);
+const COUNTRY_FLAGS = {
+  US: "\uD83C\uDDFA\uD83C\uDDF8",
+  GB: "\uD83C\uDDEC\uD83C\uDDE7",
+  DE: "\uD83C\uDDE9\uD83C\uDDEA",
+  DK: "\uD83C\uDDE9\uD83C\uDDF0",
+  RO: "\uD83C\uDDF7\uD83C\uDDF4",
+  CA: "\uD83C\uDDE8\uD83C\uDDE6",
+  AU: "\uD83C\uDDE6\uD83C\uDDFA",
+};
+
+function flag(country) {
+  return COUNTRY_FLAGS[country] || "";
 }
 
 export default function CurrencySelector() {
@@ -27,10 +33,10 @@ export default function CurrencySelector() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.12em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+        className="flex items-center gap-1 text-[11px] uppercase tracking-[0.12em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
         aria-label="Select currency"
       >
-        <span className="text-base leading-none">{countryFlag(currencyInfo.country)}</span>
+        <span className="text-sm">{flag(currencyInfo.country)}</span>
         <span className="hidden md:inline">{currencyCode}</span>
         <ChevronDown size={10} />
       </button>
@@ -44,7 +50,7 @@ export default function CurrencySelector() {
                 currencyCode === c.code ? "text-[#1A1A1A] font-medium" : "text-[#6B6B67]"
               } hover:text-[#1A1A1A] transition-colors`}
             >
-              <span className="text-base leading-none">{countryFlag(c.country)}</span>
+              <span className="text-sm">{flag(c.country)}</span>
               <span>{c.symbol} {c.label}</span>
             </button>
           ))}
@@ -73,7 +79,7 @@ export function MobileCurrencySelector() {
                 : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A]"
             }`}
           >
-            <span className="text-sm leading-none">{countryFlag(c.country)}</span>
+            <span className="text-sm">{flag(c.country)}</span>
             <span>{c.symbol} {c.label}</span>
           </button>
         ))}
