@@ -2,18 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { useCurrency } from "@/lib/CurrencyContext";
 
-const COUNTRY_FLAGS = {
-  US: "\uD83C\uDDFA\uD83C\uDDF8",
-  GB: "\uD83C\uDDEC\uD83C\uDDE7",
-  DE: "\uD83C\uDDE9\uD83C\uDDEA",
-  DK: "\uD83C\uDDE9\uD83C\uDDF0",
-  RO: "\uD83C\uDDF7\uD83C\uDDF4",
-  CA: "\uD83C\uDDE8\uD83C\uDDE6",
-  AU: "\uD83C\uDDE6\uD83C\uDDFA",
-};
-
-function flag(country) {
-  return COUNTRY_FLAGS[country] || "";
+function Flag({ country, className = "" }) {
+  return (
+    <img
+      src={`https://flagcdn.com/24x18/${country.toLowerCase()}.png`}
+      alt=""
+      className={`inline-block w-4 h-3 object-cover ${className}`}
+    />
+  );
 }
 
 export default function CurrencySelector() {
@@ -36,7 +32,7 @@ export default function CurrencySelector() {
         className="flex items-center gap-1 text-[11px] uppercase tracking-[0.12em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
         aria-label="Select currency"
       >
-        <span className="text-sm">{flag(currencyInfo.country)}</span>
+        <Flag country={currencyInfo.country} />
         <span className="hidden md:inline">{currencyCode}</span>
         <ChevronDown size={10} />
       </button>
@@ -50,7 +46,7 @@ export default function CurrencySelector() {
                 currencyCode === c.code ? "text-[#1A1A1A] font-medium" : "text-[#6B6B67]"
               } hover:text-[#1A1A1A] transition-colors`}
             >
-              <span className="text-sm">{flag(c.country)}</span>
+              <Flag country={c.country} />
               <span>{c.symbol} {c.label}</span>
             </button>
           ))}
@@ -79,7 +75,7 @@ export function MobileCurrencySelector() {
                 : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A]"
             }`}
           >
-            <span className="text-sm">{flag(c.country)}</span>
+            <Flag country={c.country} />
             <span>{c.symbol} {c.label}</span>
           </button>
         ))}
