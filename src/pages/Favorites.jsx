@@ -1,12 +1,23 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/lib/FavoritesContext";
+import { useCurrency } from "@/lib/CurrencyContext";
+import { useAllProducts } from "@/hooks/useProducts";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
 
 export default function Favorites() {
   const { favorites, favoritesCount } = useFavorites();
+  const { country } = useCurrency();
+  const { data: allProducts } = useAllProducts(country);
+
+  const liveProducts = useMemo(() => {
+    if (!allProducts) return favorites;
+    const productMap = new Map(allProducts.map((p) => [p.id, p]));
+    return favorites.map((fav) => productMap.get(fav.id) || fav);
+  }, [allProducts, favorites]);
 
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
@@ -43,7 +54,7 @@ export default function Favorites() {
                 </p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-                {favorites.map((product) => (
+                {liveProducts.map((product) => (
                   <ProductCard key={product.id} product={product} showHeart />
                 ))}
               </div>
