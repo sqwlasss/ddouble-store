@@ -6,10 +6,10 @@ const SUPPORTED_CURRENCIES = [
   { code: 'USD', symbol: '$', locale: 'en-US', label: 'USD', country: 'US' },
   { code: 'GBP', symbol: '£', locale: 'en-GB', label: 'GBP', country: 'GB' },
   { code: 'EUR', symbol: '€', locale: 'de-DE', label: 'EUR', country: 'DE' },
+  { code: 'DKK', symbol: 'kr', locale: 'da-DK', label: 'DKK', country: 'DK' },
+  { code: 'RON', symbol: 'lei', locale: 'ro-RO', label: 'RON', country: 'RO' },
   { code: 'CAD', symbol: 'C$', locale: 'en-CA', label: 'CAD', country: 'CA' },
   { code: 'AUD', symbol: 'A$', locale: 'en-AU', label: 'AUD', country: 'AU' },
-  { code: 'RON', symbol: 'lei', locale: 'ro-RO', label: 'RON', country: 'RO' },
-  { code: 'DKK', symbol: 'kr', locale: 'da-DK', label: 'DKK', country: 'DK' },
 ];
 
 const COUNTRY_TO_CURRENCY = {
