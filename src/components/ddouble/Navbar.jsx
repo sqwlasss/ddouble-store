@@ -128,7 +128,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="absolute left-[45%] -translate-x-1/2 text-xl md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
+              className="absolute left-[42%] md:left-[45%] -translate-x-1/2 text-xl md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
             >
               DDOUBLE
             </Link>
