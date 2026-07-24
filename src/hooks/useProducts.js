@@ -70,7 +70,6 @@ export function useAllProducts() {
         const data = await shopifyFetch(ALL_PRODUCTS, {
           first: 50,
           after: cursor,
-          query: "product_type:Poster",
         });
         const edges = data.products.edges;
         allProducts.push(...edges.map(({ node }) => normalizeProduct(node)));
