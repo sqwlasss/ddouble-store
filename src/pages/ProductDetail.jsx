@@ -331,6 +331,9 @@ export default function ProductDetail() {
                   <span className="text-sm text-[#6B6B67]">30-day hassle-free returns</span>
                 </div>
               </div>
+
+              {/* Estimated Delivery */}
+              <EstimatedDelivery />
             </FadeIn>
           </div>
         </div>
@@ -378,6 +381,41 @@ export default function ProductDetail() {
       />
 
       <Footer />
+    </div>
+  );
+}
+
+function getDeliveryRange(minDays, maxDays) {
+  const today = new Date();
+  const locales = "en-GB";
+  const opts = { day: "numeric", month: "short" };
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + minDays);
+  const maxDate = new Date(today);
+  maxDate.setDate(today.getDate() + maxDays);
+  return `${minDate.toLocaleDateString(locales, opts)} – ${maxDate.toLocaleDateString(locales, opts)}`;
+}
+
+function EstimatedDelivery() {
+  const regions = [
+    { name: "United Kingdom", range: getDeliveryRange(2, 5) },
+    { name: "Europe", range: getDeliveryRange(4, 7) },
+  ];
+
+  return (
+    <div className="mt-8 pt-8 border-t border-[#E5E5E1]">
+      <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Estimated Delivery</h3>
+      <div className="space-y-2">
+        {regions.map((region) => (
+          <div key={region.name} className="flex items-center gap-3">
+            <Truck size={16} className="text-[#6B6B67] shrink-0" />
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <span className="text-sm text-[#1A1A1A]">{region.name}</span>
+              <span className="text-xs text-[#6B6B67]">{region.range}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
