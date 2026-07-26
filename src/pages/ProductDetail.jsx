@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Minus, Plus, Truck, RotateCcw, ArrowLeft, Heart } from "lucide-react";
 import { useFavorites } from "@/lib/FavoritesContext";
@@ -8,6 +8,7 @@ import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
 import FadeIn from "@/components/ddouble/FadeIn";
 import Price from "@/components/ddouble/Price";
+import StickyAddToCart from "@/components/ddouble/StickyAddToCart";
 import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useToast } from "@/components/ui/use-toast";
@@ -33,6 +34,7 @@ export default function ProductDetail() {
   const { isFavorite, toggleFavorite } = useFavorites();
   const [heartAnimating, setHeartAnimating] = useState(false);
   const isFav = isFavorite(product?.id);
+  const sentinelRef = useRef(null);
 
   const handleFavorite = (e) => {
     e.preventDefault();
@@ -313,6 +315,7 @@ export default function ProductDetail() {
                 {cartLoading ? "Adding..." : `Add to Cart — `}
                 {!cartLoading && <Price amount={displayPrice} />}
               </button>
+              <div ref={sentinelRef} className="h-px md:hidden" />
 
               {/* Shipping info */}
               <div className="mt-8 pt-8 border-t border-[#E5E5E1] space-y-4">
@@ -359,6 +362,17 @@ export default function ProductDetail() {
         )}
       </div>
       </main>
+
+      <StickyAddToCart
+        product={product}
+        selectedVariant={selectedVariant}
+        selectedSize={selectedSize}
+        selectedPaper={selectedPaper}
+        displayPrice={displayPrice}
+        handleAddToCart={handleAddToCart}
+        cartLoading={cartLoading}
+        sentinelRef={sentinelRef}
+      />
 
       <Footer />
     </div>
