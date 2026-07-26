@@ -8,6 +8,7 @@ import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
 import FadeIn from "@/components/ddouble/FadeIn";
 import Price from "@/components/ddouble/Price";
+import StockIndicator from "@/components/ddouble/StockIndicator";
 import StickyAddToCart from "@/components/ddouble/StickyAddToCart";
 import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
@@ -241,6 +242,8 @@ export default function ProductDetail() {
                 </button>
               </div>
               <p className="mt-4 text-xl text-[#1A1A1A]"><Price amount={displayPrice} /></p>
+
+              <StockIndicator variant={selectedVariant} />
 
               {/* Size */}
               {sizes.length > 1 && (

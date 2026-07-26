@@ -46,6 +46,7 @@ const ALL_PRODUCTS_RAW = `
                   currencyCode
                 }
                 availableForSale
+                quantityAvailable
                 selectedOptions {
                   name
                   value
@@ -108,6 +109,7 @@ const PRODUCT_BY_HANDLE_RAW = `
               currencyCode
             }
             availableForSale
+            quantityAvailable
             selectedOptions {
               name
               value
