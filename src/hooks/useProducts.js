@@ -42,7 +42,6 @@ function normalizeProduct(node) {
         ? parseFloat(v.compareAtPrice.amount)
         : null,
       availableForSale: v.availableForSale,
-      quantityAvailable: v.quantityAvailable,
       selectedOptions: v.selectedOptions,
     })),
     options: node.options || [],
