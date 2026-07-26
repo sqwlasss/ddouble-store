@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Minus, Plus, Truck, RotateCcw, ArrowLeft, Heart } from "lucide-react";
+import { Minus, Plus, Truck, RotateCcw, ArrowLeft, Heart, ChevronDown } from "lucide-react";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import Navbar from "@/components/ddouble/Navbar";
@@ -342,11 +342,7 @@ export default function ProductDetail() {
         {product.descriptionHtml && (
           <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
             <FadeIn>
-              <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A] mb-8">About this print</h2>
-              <div
-                className="prose prose-sm max-w-3xl text-[#1A1A1A] leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1"
-                dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-              />
+              <DescriptionAccordion html={product.descriptionHtml} />
             </FadeIn>
           </section>
         )}
@@ -381,6 +377,47 @@ export default function ProductDetail() {
       />
 
       <Footer />
+    </div>
+  );
+}
+
+function DescriptionAccordion({ html }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef(null);
+  const [maxHeight, setMaxHeight] = useState("0px");
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setMaxHeight(isOpen ? `${contentRef.current.scrollHeight}px` : "0px");
+    }
+  }, [isOpen, html]);
+
+  const handleToggle = () => setIsOpen((prev) => !prev);
+
+  return (
+    <div>
+      <button
+        onClick={handleToggle}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggle(); } }}
+        aria-expanded={isOpen}
+        className="flex items-center justify-between w-full text-left cursor-pointer group"
+      >
+        <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A]">About this print</h2>
+        <ChevronDown
+          size={20}
+          className={`text-[#6B6B67] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      <div
+        ref={contentRef}
+        style={{ maxHeight }}
+        className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+      >
+        <div
+          className="prose prose-sm max-w-3xl text-[#1A1A1A] leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 mt-6"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </div>
     </div>
   );
 }
