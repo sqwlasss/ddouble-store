@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import Navbar from "@/components/ddouble/Navbar";
@@ -124,6 +124,14 @@ export default function Shop() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+
+  useEffect(() => {
+    const cat = searchParams.get("category");
+    if (cat) setCategory(cat);
+    else setCategory("all");
+    const q = searchParams.get("q");
+    if (q) setSearchQuery(q);
+  }, [searchParams]);
 
   const { data: allProducts, isLoading: allLoading } = useAllProducts(country);
   const { data: collections } = useCollections();
