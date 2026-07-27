@@ -79,7 +79,7 @@ export function useAllProducts(country) {
 
       return allProducts;
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 60 * 1000,
   });
 }
 
@@ -92,7 +92,7 @@ export function useProduct(handle, country) {
       return normalizeProduct(data.productByHandle);
     },
     enabled: !!handle,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 60 * 1000,
   });
 }
 
@@ -103,7 +103,7 @@ export function useCollections() {
       const data = await shopifyFetch(ALL_COLLECTIONS, { first: 20 });
       return data.collections.edges.map(({ node }) => normalizeCollection(node));
     },
-    staleTime: 10 * 60 * 1000,
+    staleTime: 60 * 1000,
   });
 }
 
@@ -124,6 +124,6 @@ export function useCollectionProducts(handle, country) {
       };
     },
     enabled: !!handle,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 60 * 1000,
   });
 }
