@@ -34,6 +34,7 @@ export default function ProductDetail() {
   const [zoomed, setZoomed] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
   const [heartAnimating, setHeartAnimating] = useState(false);
+  const [activeAccordion, setActiveAccordion] = useState(null);
   const isFav = isFavorite(product?.id);
   const sentinelRef = useRef(null);
 
@@ -338,15 +339,46 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* Description */}
-        {product.descriptionHtml && (
-          <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
-            <FadeIn>
-              <DescriptionAccordion html={product.descriptionHtml} />
-            </FadeIn>
-          </section>
-        )}
-
+        {/* Accordions */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
+          <FadeIn>
+            <div className="space-y-16">
+            {product.descriptionHtml && (
+              <AccordionSection
+                title="About this print"
+                isOpen={activeAccordion === "description"}
+                onToggle={() => setActiveAccordion(activeAccordion === "description" ? null : "description")}
+              >
+                <div
+                  className="prose prose-sm max-w-3xl text-[#1A1A1A] leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1"
+                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                />
+              </AccordionSection>
+            )}
+            <AccordionSection
+              title="Materials"
+              isOpen={activeAccordion === "materials"}
+              onToggle={() => setActiveAccordion(activeAccordion === "materials" ? null : "materials")}
+            >
+              <MaterialsContent />
+            </AccordionSection>
+            <AccordionSection
+              title="Shipping & Returns"
+              isOpen={activeAccordion === "shipping"}
+              onToggle={() => setActiveAccordion(activeAccordion === "shipping" ? null : "shipping")}
+            >
+              <ShippingReturnsContent />
+            </AccordionSection>
+            <AccordionSection
+              title="Care Instructions"
+              isOpen={activeAccordion === "care"}
+              onToggle={() => setActiveAccordion(activeAccordion === "care" ? null : "care")}
+            >
+              <CareContent />
+            </AccordionSection>
+            </div>
+          </FadeIn>
+        </section>
         {/* Related products */}
         {related.length > 0 && (
           <section className="px-6 md:px-10 lg:px-16 py-24 md:py-32 border-t border-[#E5E5E1] mt-16">
@@ -381,8 +413,7 @@ export default function ProductDetail() {
   );
 }
 
-function DescriptionAccordion({ html }) {
-  const [isOpen, setIsOpen] = useState(false);
+function AccordionSection({ title, isOpen, onToggle, children }) {
   const contentRef = useRef(null);
   const [maxHeight, setMaxHeight] = useState("0px");
 
@@ -390,9 +421,9 @@ function DescriptionAccordion({ html }) {
     if (contentRef.current) {
       setMaxHeight(isOpen ? `${contentRef.current.scrollHeight}px` : "0px");
     }
-  }, [isOpen, html]);
+  }, [isOpen, children]);
 
-  const handleToggle = () => setIsOpen((prev) => !prev);
+  const handleToggle = () => onToggle();
 
   return (
     <div>
@@ -402,7 +433,7 @@ function DescriptionAccordion({ html }) {
         aria-expanded={isOpen}
         className="flex items-center justify-between w-full text-left cursor-pointer group"
       >
-        <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A]">About this print</h2>
+        <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A]">{title}</h2>
         <ChevronDown
           size={20}
           className={`text-[#6B6B67] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
@@ -413,12 +444,67 @@ function DescriptionAccordion({ html }) {
         style={{ maxHeight }}
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
       >
-        <div
-          className="prose prose-sm max-w-3xl text-[#1A1A1A] leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 mt-6"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <div className="mt-6">{children}</div>
       </div>
     </div>
+  );
+}
+
+function MaterialsContent() {
+  const items = ["Premium cotton blend", "Soft-touch fabric", "Durable construction"];
+
+  return (
+    <ul className="space-y-2">
+      {items.map((item, i) => (
+        <li key={i} className="text-sm text-[#1A1A1A] leading-relaxed flex items-start gap-3">
+          <span className="w-1 h-1 rounded-full bg-[#1A1A1A] mt-2 shrink-0" />
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function ShippingReturnsContent() {
+  const items = [
+    <>
+      Free shipping on orders over <Price amount={100} />
+    </>,
+    "Orders dispatched within 1–2 business days",
+    "Returns accepted within 30 days",
+    "Secure tracked shipping",
+  ];
+
+  return (
+    <ul className="space-y-2">
+      {items.map((item, i) => (
+        <li key={i} className="text-sm text-[#1A1A1A] leading-relaxed flex items-start gap-3">
+          <span className="w-1 h-1 rounded-full bg-[#1A1A1A] mt-2 shrink-0" />
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function CareContent() {
+  const items = [
+    "Machine wash cold",
+    "Wash inside out",
+    "Do not bleach",
+    "Hang dry recommended",
+    "Iron on low heat",
+  ];
+
+  return (
+    <ul className="space-y-2">
+      {items.map((item, i) => (
+        <li key={i} className="text-sm text-[#1A1A1A] leading-relaxed flex items-start gap-3">
+          <span className="w-1 h-1 rounded-full bg-[#1A1A1A] mt-2 shrink-0" />
+          {item}
+        </li>
+      ))}
+    </ul>
   );
 }
 
