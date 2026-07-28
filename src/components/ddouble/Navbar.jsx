@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, ShoppingBag, Heart, User, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, Heart, User, Menu, X, ChevronDown } from "lucide-react";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useAuth } from "@/lib/AuthContext";
 import { useFavorites } from "@/lib/FavoritesContext";
@@ -40,6 +40,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [collectionsOpen, setCollectionsOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,6 +69,7 @@ export default function Navbar() {
   useEffect(() => {
     setMobileOpen(false);
     setMegaOpen(false);
+    setCollectionsOpen(false);
     setSearchOpen(false);
   }, [location.pathname]);
 
@@ -268,20 +270,26 @@ export default function Navbar() {
               {NAV_LINKS.map((link) =>
                 link.children ? (
                   <div key={link.label} className="space-y-2">
-                    <span className="text-xs uppercase tracking-[0.12em] text-[#6B6B67]">
+                    <button
+                      onClick={() => setCollectionsOpen(!collectionsOpen)}
+                      className="flex items-center justify-between w-full text-xs uppercase tracking-[0.12em] text-[#6B6B67]"
+                    >
                       {link.label}
-                    </span>
-                    <div className="pl-4 space-y-2">
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          to={child.path}
-                          className="block text-sm text-[#1A1A1A]"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
+                      <ChevronDown size={14} className={`transition-transform duration-200 ${collectionsOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {collectionsOpen && (
+                      <div className="pl-4 space-y-2">
+                        {link.children.map((child) => (
+                          <Link
+                            key={child.label}
+                            to={child.path}
+                            className="block text-sm text-[#1A1A1A]"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <Link
