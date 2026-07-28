@@ -79,7 +79,7 @@ export default function Footer() {
           <div>
             <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Follow</h3>
             <div className="flex gap-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
+              <a href="https://www.instagram.com/theddouble/" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
                 <Instagram size={18} />
               </a>
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">

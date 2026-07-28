@@ -308,7 +308,7 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-1">
           {allProducts.slice(0, 6).map((p, i) => (
             <FadeIn key={p.handle} delay={i * 0.05}>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="block group">
+              <a href="https://www.instagram.com/theddouble/" target="_blank" rel="noopener noreferrer" className="block group">
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={p.image}
