@@ -167,7 +167,7 @@ export default function Home() {
                 to="/shop"
                 className="mt-8 inline-flex items-center gap-3 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] px-8 py-4 hover:bg-[#D9D2C5] hover:text-[#1A1A1A] transition-all duration-300"
               >
-                Shop Collection
+                Shop All
                 <ArrowRight size={14} />
               </Link>
             </div>
