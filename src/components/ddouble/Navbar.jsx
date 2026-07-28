@@ -71,6 +71,17 @@ export default function Navbar() {
     setSearchOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
     <>
       <header
@@ -252,8 +263,8 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="lg:hidden bg-[#F9F9F7] border-t border-[#E5E5E1]">
-            <div className="px-6 py-6 space-y-4">
+          <div className="lg:hidden fixed left-0 right-0 bottom-0 top-16 md:top-20 bg-[#F9F9F7] border-t border-[#E5E5E1] overflow-y-auto overscroll-contain z-40">
+            <div className="px-6 py-6 space-y-4 min-h-full">
               {NAV_LINKS.map((link) =>
                 link.children ? (
                   <div key={link.label} className="space-y-2">
