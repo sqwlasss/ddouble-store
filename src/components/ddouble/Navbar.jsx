@@ -277,8 +277,12 @@ export default function Navbar() {
                       {link.label}
                       <ChevronDown size={14} className={`transition-transform duration-200 ${collectionsOpen ? "rotate-180" : ""}`} />
                     </button>
-                    {collectionsOpen && (
-                      <div className="pl-4 space-y-2">
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        collectionsOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="pl-4 space-y-2 pt-1">
                         {link.children.map((child) => (
                           <Link
                             key={child.label}
@@ -289,7 +293,7 @@ export default function Navbar() {
                           </Link>
                         ))}
                       </div>
-                    )}
+                    </div>
                   </div>
                 ) : (
                   <Link
