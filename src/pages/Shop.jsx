@@ -12,6 +12,7 @@ import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/u
 const CATEGORY_COLLECTIONS = [
   "abstract", "nature", "architecture", "black-white",
   "minimal", "typograph", "travel", "vintage",
+  "posters", "rugs", "pillows", "room-decor", "blankets-pillows",
 ];
 
 const SORT_OPTIONS = [
