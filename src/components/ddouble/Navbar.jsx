@@ -27,7 +27,7 @@ const NAV_LINKS = [
       { label: "Rugs", path: "/shop?category=rugs" },
       { label: "Pillows", path: "/shop?category=pillows" },
       { label: "Room Decor", path: "/shop?category=room-decor" },
-      { label: "Blankets & Pillows", path: "/shop?category=blankets-pillows" },
+      { label: "Bedding & Pillows", path: "/shop?category=blankets-pillows" },
     ],
   },
   { label: "About", path: "/about" },
