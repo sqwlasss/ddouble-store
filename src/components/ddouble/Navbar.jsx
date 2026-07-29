@@ -16,13 +16,6 @@ const NAV_LINKS = [
     label: "Collections",
     path: "/shop",
     children: [
-      { label: "Abstract", path: "/shop?category=abstract" },
-      { label: "Nature", path: "/shop?category=nature" },
-      { label: "Architecture", path: "/shop?category=architecture" },
-      { label: "Black & White", path: "/shop?category=black-white" },
-      { label: "Minimal", path: "/shop?category=minimal" },
-      { label: "Typography", path: "/shop?category=typograph" },
-      { label: "Travel", path: "/shop?category=travel" },
       { label: "Posters", path: "/shop?category=posters" },
       { label: "Rugs", path: "/shop?category=rugs" },
       { label: "Pillows", path: "/shop?category=pillows" },
