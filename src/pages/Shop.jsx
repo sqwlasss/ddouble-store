@@ -10,8 +10,6 @@ import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 
 const CATEGORY_COLLECTIONS = [
-  "abstract", "nature", "architecture", "black-white",
-  "minimal", "typograph", "travel", "vintage",
   "posters", "rugs", "pillows", "room-decor", "blankets-pillows",
 ];
 

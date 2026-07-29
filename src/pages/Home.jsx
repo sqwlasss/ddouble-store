@@ -22,8 +22,6 @@ const TESTIMONIALS = [
 ];
 
 const CATEGORY_COLLECTIONS = [
-  "abstract", "nature", "architecture", "black-white",
-  "minimal", "typograph", "travel", "vintage",
   "posters", "rugs", "pillows", "room-decor", "blankets-pillows",
 ];
 
