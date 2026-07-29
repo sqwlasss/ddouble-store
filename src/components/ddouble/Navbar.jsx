@@ -23,7 +23,6 @@ const NAV_LINKS = [
       { label: "Minimal", path: "/shop?category=minimal" },
       { label: "Typography", path: "/shop?category=typograph" },
       { label: "Travel", path: "/shop?category=travel" },
-      { label: "Vintage", path: "/shop?category=vintage" },
       { label: "Posters", path: "/shop?category=posters" },
       { label: "Rugs", path: "/shop?category=rugs" },
       { label: "Pillows", path: "/shop?category=pillows" },
