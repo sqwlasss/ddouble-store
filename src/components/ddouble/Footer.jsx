@@ -53,11 +53,12 @@ export default function Footer() {
           <div>
             <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Shop</h3>
             <div className="space-y-3">
-              <Link to="/shop" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">All Posters</Link>
-              <Link to="/shop?category=abstract" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Abstract</Link>
-              <Link to="/shop?category=nature" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Nature</Link>
-              <Link to="/shop?category=architecture" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Architecture</Link>
-              <Link to="/shop?category=minimal" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Minimal</Link>
+              <Link to="/shop" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">All Products</Link>
+              <Link to="/shop?category=posters" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Posters</Link>
+              <Link to="/shop?category=rugs" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Rugs</Link>
+              <Link to="/shop?category=pillows" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Pillows</Link>
+              <Link to="/shop?category=room-decor" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Room Decor</Link>
+              <Link to="/shop?category=blankets-pillows" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Bedding & Pillows</Link>
             </div>
           </div>
           <div>
