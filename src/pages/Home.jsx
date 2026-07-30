@@ -22,7 +22,7 @@ const TESTIMONIALS = [
 ];
 
 const CATEGORY_COLLECTIONS = [
-  "posters", "rugs", "pillows", "room-decor", "blankets-pillows",
+  "posters", "rugs", "room-decor", "blankets-pillows",
 ];
 
 function CollectionCard({ collection }) {

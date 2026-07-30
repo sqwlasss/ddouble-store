@@ -18,7 +18,6 @@ const NAV_LINKS = [
     children: [
       { label: "Posters", path: "/shop?category=posters" },
       { label: "Rugs", path: "/shop?category=rugs" },
-      { label: "Pillows", path: "/shop?category=pillows" },
       { label: "Room Decor", path: "/shop?category=room-decor" },
       { label: "Bedding & Pillows", path: "/shop?category=blankets-pillows" },
     ],
