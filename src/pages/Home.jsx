@@ -203,10 +203,10 @@ export default function Home() {
         <img
           src={LIFESTYLE_IMAGES.bedroom}
           alt="Minimalist bedroom with curated wall art"
-          className="w-full h-full object-contain"
+          className="w-full h-full object-fill"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/10" />
         <div className="absolute inset-0 flex items-center justify-center text-center px-6">
           <FadeIn>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight">
