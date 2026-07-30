@@ -5,6 +5,7 @@ import {
   updateLines,
   removeLines,
   getCart,
+  updateCartBuyerIdentity,
 } from "@/lib/shopify/cart";
 
 const CART_ID_KEY = "shopify_cart_id";
@@ -75,6 +76,7 @@ export function usePersistentCart(customerToken, country) {
         const cartId = getStoredCartId();
         let updated;
         if (cartId) {
+          await updateCartBuyerIdentity(cartId, country);
           updated = await addLines(cartId, [{ merchandiseId: variantId, quantity }]);
         } else {
           updated = await createCart(variantId, quantity, country);

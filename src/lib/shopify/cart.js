@@ -355,3 +355,73 @@ export async function getCart(cartId) {
   const data = await shopifyFetch(CART_QUERY, { cartId });
   return parseCart(data.cart);
 }
+
+const CART_BUYER_IDENTITY_UPDATE = `
+  mutation CartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+      cart {
+        id
+        checkoutUrl
+        lines(first: 50) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  product {
+                    title
+                    handle
+                    images(first: 1) {
+                      edges {
+                        node {
+                          url
+                          altText
+                        }
+                      }
+                    }
+                  }
+                  selectedOptions {
+                    name
+                    value
+                  }
+                }
+              }
+            }
+          }
+        }
+        cost {
+          totalAmount {
+            amount
+            currencyCode
+          }
+          subtotalAmount {
+            amount
+            currencyCode
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export async function updateCartBuyerIdentity(cartId, country) {
+  if (!country) return;
+  const data = await shopifyFetch(CART_BUYER_IDENTITY_UPDATE, {
+    cartId,
+    buyerIdentity: { countryCode: country },
+  });
+  if (data.cartBuyerIdentityUpdate.userErrors.length > 0) {
+    throw new Error(data.cartBuyerIdentityUpdate.userErrors.map((e) => e.message).join("\n"));
+  }
+}
