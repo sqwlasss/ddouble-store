@@ -7,6 +7,7 @@ import {
   getCart,
   updateCartBuyerIdentity,
 } from "@/lib/shopify/cart";
+import { getStoredCustomerToken } from "@/lib/shopify/customer";
 
 const CART_ID_KEY = "shopify_cart_id";
 const CART_CUSTOMER_KEY = "shopify_cart_customer";
@@ -134,11 +135,26 @@ export function usePersistentCart(customerToken, country) {
     notify();
   }, []);
 
-  const checkout = useCallback(() => {
+  const checkout = useCallback(async () => {
+    const cartId = getStoredCartId();
+    if (cartId) {
+      const customerToken = getStoredCustomerToken();
+      if (customerToken) {
+        try {
+          const updated = await updateCartBuyerIdentity(cartId, country, customerToken);
+          if (updated?.checkoutUrl) {
+            window.location.href = updated.checkoutUrl;
+            return;
+          }
+        } catch {
+          /* fall through to fallback */
+        }
+      }
+    }
     if (cart?.checkoutUrl) {
       window.location.href = cart.checkoutUrl;
     }
-  }, [cart]);
+  }, [cart, country]);
 
   return {
     cart,
