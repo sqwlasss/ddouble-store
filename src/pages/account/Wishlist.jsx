@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Heart, ShoppingBag, X, Loader2 } from "lucide-react";
 import { useAccount } from "@/lib/AccountContext";
 import { removeFromWishlist } from "@/lib/shopify/wishlist";
+import { useFavorites } from "@/lib/FavoritesContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts } from "@/hooks/useProducts";
 import { usePersistentCart } from "@/hooks/usePersistentCart";
@@ -11,15 +12,18 @@ import { toast } from "@/components/ui/use-toast";
 
 export default function Wishlist() {
   const { wishlist } = useAccount();
+  const { favorites, removeFavorite } = useFavorites();
   const { country } = useCurrency();
   const { data: allProducts, isLoading } = useAllProducts(country);
   const { addItem } = usePersistentCart(null, country);
   const navigate = useNavigate();
   const [adding, setAdding] = useState(null);
 
+  const favoriteIds = new Set(favorites.map((f) => f.id));
+
   const wishlistProducts = (allProducts || []).filter((product) => {
     const variantIds = product.variants.map((v) => v.id);
-    return variantIds.some((id) => wishlist.includes(id));
+    return variantIds.some((id) => wishlist.includes(id)) || favoriteIds.has(product.id);
   });
 
   const handleAddToCart = async (product, e) => {
@@ -43,6 +47,9 @@ export default function Wishlist() {
     e.stopPropagation();
     const variantIds = product.variants.map((v) => v.id);
     variantIds.forEach((id) => removeFromWishlist(id));
+    if (favoriteIds.has(product.id)) {
+      removeFavorite(product.id);
+    }
     toast({ title: "Removed from wishlist" });
   };
 
