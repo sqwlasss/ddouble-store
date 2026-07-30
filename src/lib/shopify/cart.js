@@ -415,13 +415,18 @@ const CART_BUYER_IDENTITY_UPDATE = `
   }
 `;
 
-export async function updateCartBuyerIdentity(cartId, country) {
+export async function updateCartBuyerIdentity(cartId, country, customerAccessToken = null) {
   if (!country) return;
+  const buyerIdentity = { countryCode: country };
+  if (customerAccessToken) {
+    buyerIdentity.customerAccessToken = customerAccessToken;
+  }
   const data = await shopifyFetch(CART_BUYER_IDENTITY_UPDATE, {
     cartId,
-    buyerIdentity: { countryCode: country },
+    buyerIdentity,
   });
   if (data.cartBuyerIdentityUpdate.userErrors.length > 0) {
     throw new Error(data.cartBuyerIdentityUpdate.userErrors.map((e) => e.message).join("\n"));
   }
+  return parseCart(data.cartBuyerIdentityUpdate.cart);
 }
