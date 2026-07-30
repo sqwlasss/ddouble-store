@@ -207,7 +207,8 @@ export default function ProductDetail() {
                 <img
                   src={showRoom ? LIFESTYLE_IMAGES.galleryWall : displayImage}
                   alt={selectedVariant?.image?.altText || product.title}
-                  className={`w-full transition-transform duration-700 ${zoomed ? "scale-150" : "scale-100"}`}
+                  className="w-full transition-transform duration-700"
+                  style={{ transform: showRoom ? `scaleX(-1) ${zoomed ? 'scale(1.5)' : 'scale(1)'}` : zoomed ? 'scale(1.5)' : 'scale(1)' }}
                 />
               </div>
             </FadeIn>
