@@ -205,7 +205,7 @@ export default function Home() {
         <img
           src={LIFESTYLE_IMAGES.bedroom}
           alt="Minimalist bedroom with curated wall art"
-          className="w-full h-full object-cover object-[center_65%]"
+          className="w-full h-full object-cover object-[center_35%]"
           loading="lazy"
         />
         <div className="absolute inset-0 bg-black/10" />
