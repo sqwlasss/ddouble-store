@@ -3,9 +3,6 @@ import { shopifyFetch } from "@/lib/shopify/client";
 import { ALL_PRODUCTS, PRODUCT_BY_HANDLE, ALL_COLLECTIONS, COLLECTION_BY_HANDLE } from "@/lib/shopify/queries";
 
 function normalizeProduct(node) {
-  const sizeOption = node.options?.find((o) => o.name === "Size");
-  const paperOption = node.options?.find((o) => o.name === "Paper");
-
   return {
     id: node.id,
     handle: node.handle,
@@ -24,12 +21,6 @@ function normalizeProduct(node) {
       width: img.width,
       height: img.height,
     })),
-    sizes: sizeOption
-      ? sizeOption.values.map((v) => ({ label: v, value: v }))
-      : [],
-    papers: paperOption
-      ? paperOption.values.map((v) => ({ label: v, value: v }))
-      : [],
     compareAtPrice: node.variants.edges[0]?.node.compareAtPrice?.amount
       ? parseFloat(node.variants.edges[0].node.compareAtPrice.amount)
       : null,

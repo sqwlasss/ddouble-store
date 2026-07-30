@@ -26,8 +26,7 @@ export default function ProductDetail() {
   const { addItem, loading: cartLoading } = useShopifyCart(country);
   const { toast } = useToast();
 
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedPaper, setSelectedPaper] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [showRoom, setShowRoom] = useState(false);
@@ -45,17 +44,20 @@ export default function ProductDetail() {
     setTimeout(() => setHeartAnimating(false), 350);
   };
 
-  const sizes = product ? (product.sizes.length > 0 ? product.sizes : [{ label: "Default", value: "Default" }]) : [];
-  const papers = product ? (product.papers.length > 0 ? product.papers : [{ label: "Default", value: "Default" }]) : [];
-
   useEffect(() => {
-    if (product && !selectedSize && sizes.length > 0) {
-      setSelectedSize(sizes[0].value);
-    }
-    if (product && !selectedPaper && papers.length > 0) {
-      setSelectedPaper(papers[0].value);
-    }
-  }, [product, selectedSize, selectedPaper]);
+    if (!product) return;
+    setSelectedOptions((prev) => {
+      const next = { ...prev };
+      let changed = false;
+      product.options.forEach((opt) => {
+        if (!(opt.name in next) && opt.values.length > 0) {
+          next[opt.name] = opt.values[0];
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
+    });
+  }, [product]);
 
   const related = useMemo(() => {
     if (!allProducts || !product) return [];
@@ -66,12 +68,15 @@ export default function ProductDetail() {
   }, [allProducts, product]);
 
   const selectedVariant = useMemo(() => {
-    if (!product || !selectedSize || !selectedPaper) return null;
+    if (!product) return null;
+    const optionNames = Object.keys(selectedOptions);
+    if (optionNames.length === 0) return product.variants[0] || null;
     return product.variants.find((v) =>
-      v.selectedOptions.some((o) => o.name === "Size" && o.value === selectedSize) &&
-      v.selectedOptions.some((o) => o.name === "Paper" && o.value === selectedPaper)
+      optionNames.every((name) =>
+        v.selectedOptions.some((o) => o.name === name && o.value === selectedOptions[name])
+      )
     );
-  }, [product, selectedSize, selectedPaper]);
+  }, [product, selectedOptions]);
 
   if (isLoading) {
     return (
@@ -111,16 +116,17 @@ export default function ProductDetail() {
     if (!selectedVariant) {
       toast({
         title: "Select options",
-        description: "Please select a size and paper type",
+        description: "Please select all product options",
         variant: "destructive",
       });
       return;
     }
     try {
+      const optionSummary = Object.values(selectedOptions).join(", ");
       await addItem(selectedVariant.id, quantity);
       toast({
         title: "Added to cart",
-        description: `${product.title} — ${selectedSize}, ${selectedPaper}`,
+        description: optionSummary ? `${product.title} — ${optionSummary}` : product.title,
       });
     } catch {
       toast({
@@ -246,49 +252,29 @@ export default function ProductDetail() {
 
               <StockIndicator variant={selectedVariant} />
 
-              {/* Size */}
-              {sizes.length > 1 && (
-                <div className="mt-8">
-                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Size</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {sizes.map((size) => (
-                      <button
-                        key={size.value}
-                        onClick={() => setSelectedSize(size.value)}
-                        className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
-                          selectedSize === size.value
-                            ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
-                            : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
-                        }`}
-                      >
-                        {size.label}
-                      </button>
-                    ))}
+              {/* Product Options */}
+              {product.options.map((option, idx) => (
+                option.values.length > 1 && (
+                  <div key={option.name} className={idx === 0 ? "mt-8" : "mt-6"}>
+                    <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">{option.name}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {option.values.map((value) => (
+                        <button
+                          key={value}
+                          onClick={() => setSelectedOptions((prev) => ({ ...prev, [option.name]: value }))}
+                          className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
+                            selectedOptions[option.name] === value
+                              ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                              : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
+                          }`}
+                        >
+                          {value}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-
-              {/* Paper */}
-              {papers.length > 1 && (
-                <div className="mt-6">
-                  <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Paper</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {papers.map((paper) => (
-                      <button
-                        key={paper.value}
-                        onClick={() => setSelectedPaper(paper.value)}
-                        className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
-                          selectedPaper === paper.value
-                            ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
-                            : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
-                        }`}
-                      >
-                        {paper.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+                )
+              ))}
 
               {/* Quantity */}
               <div className="mt-6">
@@ -400,8 +386,8 @@ export default function ProductDetail() {
       <StickyAddToCart
         product={product}
         selectedVariant={selectedVariant}
-        selectedSize={selectedSize}
-        selectedPaper={selectedPaper}
+        selectedOptions={selectedOptions}
+        options={product.options}
         displayPrice={displayPrice}
         handleAddToCart={handleAddToCart}
         cartLoading={cartLoading}
