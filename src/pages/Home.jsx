@@ -21,10 +21,6 @@ const TESTIMONIALS = [
   { name: "Emma L.", location: "Berlin", text: "I've ordered from many poster brands — DDouble is in a different league entirely." },
 ];
 
-const CATEGORY_COLLECTIONS = [
-  "posters", "rugs", "room-decor", "blankets-pillows",
-];
-
 function CollectionCard({ collection }) {
   const { country } = useCurrency();
   const { data } = useCollectionProducts(collection.handle, country);
@@ -56,9 +52,7 @@ function FeaturedProducts() {
   const { country } = useCurrency();
   const { data: collections } = useCollections();
 
-  const categoryCollections = (collections || []).filter((c) =>
-    CATEGORY_COLLECTIONS.includes(c.handle)
-  );
+  const categoryCollections = collections || [];
 
   return (
     <>
@@ -121,9 +115,7 @@ function LatestProducts() {
   const { country } = useCurrency();
   const { data: collections } = useCollections();
 
-  const categoryCollections = (collections || []).filter((c) =>
-    CATEGORY_COLLECTIONS.includes(c.handle)
-  );
+  const categoryCollections = collections || [];
 
   const lastTwo = categoryCollections.slice(2, 4);
 
@@ -142,9 +134,7 @@ export default function Home() {
   const { data: abstractData } = useCollectionProducts("abstract", country);
   const allProducts = abstractData?.products || [];
 
-  const categoryCollections = (collections || []).filter((c) =>
-    CATEGORY_COLLECTIONS.includes(c.handle)
-  );
+  const categoryCollections = collections || [];
 
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
