@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
+import CountrySelect from "@/components/ui/country-select";
+import AddressAutocomplete from "@/components/ui/address-autocomplete";
 
 const emptyAddress = {
   address1: "",
@@ -27,6 +29,18 @@ export default function Addresses() {
   const [deleting, setDeleting] = useState(null);
 
   const addressList = customer?.addresses || [];
+
+  const handlePlaceSelect = (details) => {
+    setForm((prev) => ({
+      ...prev,
+      address1: details.address1 || prev.address1,
+      address2: details.address2 || prev.address2,
+      city: details.city || prev.city,
+      province: details.province || prev.province,
+      zip: details.zip || prev.zip,
+      country: details.country || prev.country,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -128,10 +142,11 @@ export default function Addresses() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="addr-line1">Address line 1</Label>
-            <Input
+            <AddressAutocomplete
               id="addr-line1"
               value={form.address1}
-              onChange={(e) => setForm({ ...form, address1: e.target.value })}
+              onChange={(value) => setForm({ ...form, address1: value })}
+              onPlaceSelect={handlePlaceSelect}
               placeholder="Street address"
               required
             />
@@ -179,11 +194,10 @@ export default function Addresses() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="addr-country">Country</Label>
-              <Input
+              <CountrySelect
                 id="addr-country"
                 value={form.country}
-                onChange={(e) => setForm({ ...form, country: e.target.value })}
-                placeholder="Country"
+                onChange={(value) => setForm({ ...form, country: value })}
                 required
               />
             </div>

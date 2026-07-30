@@ -1,0 +1,203 @@
+import { useState, useRef, useEffect, useCallback } from "react";
+import { ChevronDown, Search, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
+import COUNTRIES, { getCountryByCode, storeCountry, getStoredCountry } from "@/lib/countries";
+
+export default function CountrySelect({ value, onChange, id, required, className = "", placeholder = "Select a country" }) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const containerRef = useRef(null);
+  const listRef = useRef(null);
+  const searchInputRef = useRef(null);
+  const triggerRef = useRef(null);
+
+  const selected = getCountryByCode(value);
+
+  useEffect(() => {
+    if (!value) {
+      const stored = getStoredCountry();
+      if (stored) {
+        onChange(stored);
+      }
+    }
+  }, []);
+
+  const filtered = search
+    ? COUNTRIES.filter(
+        (c) =>
+          c.name.toLowerCase().includes(search.toLowerCase()) ||
+          c.code.toLowerCase().includes(search.toLowerCase())
+      )
+    : COUNTRIES;
+
+  const handleSelect = useCallback(
+    (code) => {
+      onChange(code);
+      storeCountry(code);
+      setOpen(false);
+      setSearch("");
+      triggerRef.current?.focus();
+    },
+    [onChange]
+  );
+
+  useEffect(() => {
+    if (open) {
+      setSearch("");
+      setHighlightedIndex(-1);
+      setTimeout(() => searchInputRef.current?.focus(), 50);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (open && selected && listRef.current) {
+      const idx = filtered.findIndex((c) => c.code === value);
+      if (idx >= 0) {
+        setHighlightedIndex(idx);
+        const item = listRef.current.children[idx];
+        if (item) item.scrollIntoView({ block: "nearest" });
+      }
+    }
+  }, [open, value, filtered]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+        setSearch("");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setOpen(true);
+      }
+      return;
+    }
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev < filtered.length - 1 ? prev + 1 : prev
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (highlightedIndex >= 0 && filtered[highlightedIndex]) {
+          handleSelect(filtered[highlightedIndex].code);
+        }
+        break;
+      case "Escape":
+        e.preventDefault();
+        setOpen(false);
+        triggerRef.current?.focus();
+        break;
+    }
+  };
+
+  useEffect(() => {
+    if (highlightedIndex >= 0 && listRef.current) {
+      const item = listRef.current.children[highlightedIndex];
+      if (item) item.scrollIntoView({ block: "nearest" });
+    }
+  }, [highlightedIndex]);
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        ref={triggerRef}
+        id={id}
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        onKeyDown={handleKeyDown}
+          aria-required={required}
+          aria-haspopup="listbox"
+        aria-expanded={open}
+        className={cn(
+          "flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          !selected && "text-muted-foreground",
+          className
+        )}
+      >
+        {selected ? (
+          <span className="flex items-center gap-2">
+            <span className="text-base leading-none">{selected.flag}</span>
+            <span className="truncate">{selected.name}</span>
+          </span>
+        ) : (
+          <span className="text-muted-foreground">{placeholder}</span>
+        )}
+        <ChevronDown
+          size={14}
+          className={cn(
+            "shrink-0 text-muted-foreground transition-transform",
+            open && "rotate-180"
+          )}
+        />
+      </button>
+
+      {open && (
+        <div className="absolute z-50 mt-1 w-full rounded-md border border-[#E5E5E1] bg-white shadow-lg max-h-72 flex flex-col">
+          <div className="flex items-center gap-2 border-b border-[#E5E5E1] px-3 py-2">
+            <Search size={14} className="shrink-0 text-[#6B6B67]" />
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setHighlightedIndex(-1);
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder="Search countries..."
+              className="flex-1 bg-transparent text-sm outline-none placeholder:text-[#6B6B67]"
+            />
+          </div>
+          <ul
+            ref={listRef}
+            role="listbox"
+            className="flex-1 overflow-y-auto py-1"
+          >
+            {filtered.length === 0 ? (
+              <li className="px-3 py-2 text-sm text-[#6B6B67]">No countries found</li>
+            ) : (
+              filtered.map((country, idx) => (
+                <li
+                  key={country.code}
+                  role="option"
+                  aria-selected={value === country.code}
+                  onClick={() => handleSelect(country.code)}
+                  onMouseEnter={() => setHighlightedIndex(idx)}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 text-sm cursor-pointer transition-colors",
+                    highlightedIndex === idx
+                      ? "bg-[#F1F0EC]"
+                      : "hover:bg-[#F1F0EC]",
+                    value === country.code && "font-medium"
+                  )}
+                >
+                  <span className="text-base leading-none">{country.flag}</span>
+                  <span className="flex-1 truncate">{country.name}</span>
+                  {value === country.code && (
+                    <Check size={14} className="shrink-0 text-[#1A1A1A]" />
+                  )}
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
