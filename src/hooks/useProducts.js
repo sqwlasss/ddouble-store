@@ -34,6 +34,9 @@ function normalizeProduct(node) {
         : null,
       availableForSale: v.availableForSale,
       selectedOptions: v.selectedOptions,
+      image: v.image
+        ? { url: v.image.url, altText: v.image.altText || node.title }
+        : null,
     })),
     options: node.options || [],
   };
