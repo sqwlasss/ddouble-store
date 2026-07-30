@@ -10,11 +10,12 @@ import homeHero from "../../assets/home.jpg";
 import photoVertical from "../../assets/photo_vertical.jpg";
 import photo2026 from "../../assets/photo_2026.jpg";
 import diningImg from "../../assets/photo_2026-07-24_15-18-36.jpg";
+import galleryWallImg from "../../assets/photo_2026-07-30_22-18-57.jpg";
 
 const LIFESTYLE_IMAGES = {
   bedroom: photo2026,
   dining: diningImg,
-  galleryWall: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/8140dfca5_generated_d1feca24.png",
+  galleryWall: galleryWallImg,
   office: photoVertical,
 };
 
@@ -240,7 +241,7 @@ export default function Home() {
             <img src={LIFESTYLE_IMAGES.dining} alt="Dining room with art" className="w-full h-[400px] md:h-[500px] object-cover" loading="lazy" />
           </FadeIn>
           <FadeIn delay={0.1}>
-            <img src={LIFESTYLE_IMAGES.galleryWall} alt="Gallery wall arrangement" className="w-full h-[400px] md:h-[500px] object-cover" loading="lazy" />
+            <img src={LIFESTYLE_IMAGES.galleryWall} alt="Gallery wall arrangement" className="w-full h-[400px] md:h-[500px] object-cover scale-x-[-1]" loading="lazy" />
           </FadeIn>
           <FadeIn delay={0.15}>
             <img src={LIFESTYLE_IMAGES.office} alt="Home office with art" className="w-full h-[400px] md:h-[500px] object-cover" loading="lazy" />
