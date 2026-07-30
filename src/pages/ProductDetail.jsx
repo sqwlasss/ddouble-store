@@ -59,6 +59,17 @@ export default function ProductDetail() {
     });
   }, [product]);
 
+  const selectedVariant = useMemo(() => {
+    if (!product) return null;
+    const optionNames = Object.keys(selectedOptions);
+    if (optionNames.length === 0) return product.variants[0] || null;
+    return product.variants.find((v) =>
+      optionNames.every((name) =>
+        v.selectedOptions.some((o) => o.name === name && o.value === selectedOptions[name])
+      )
+    );
+  }, [product, selectedOptions]);
+
   useEffect(() => {
     setSelectedImage(null);
   }, [selectedOptions]);
@@ -87,17 +98,6 @@ export default function ProductDetail() {
       .sort(() => Math.random() - 0.5)
       .slice(0, 4);
   }, [allProducts, product]);
-
-  const selectedVariant = useMemo(() => {
-    if (!product) return null;
-    const optionNames = Object.keys(selectedOptions);
-    if (optionNames.length === 0) return product.variants[0] || null;
-    return product.variants.find((v) =>
-      optionNames.every((name) =>
-        v.selectedOptions.some((o) => o.name === name && o.value === selectedOptions[name])
-      )
-    );
-  }, [product, selectedOptions]);
 
   if (isLoading) {
     return (
