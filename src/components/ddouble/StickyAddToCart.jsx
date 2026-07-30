@@ -4,8 +4,8 @@ import Price from "@/components/ddouble/Price";
 export default function StickyAddToCart({
   product,
   selectedVariant,
-  selectedSize,
-  selectedPaper,
+  selectedOptions,
+  options,
   displayPrice,
   handleAddToCart,
   cartLoading,
@@ -24,9 +24,10 @@ export default function StickyAddToCart({
     return () => observer.disconnect();
   }, [sentinelRef]);
 
-  const needsSelection = !selectedVariant && (product?.sizes?.length > 1 || product?.papers?.length > 1);
+  const hasOptions = options?.some((opt) => opt.values.length > 1) ?? false;
+  const needsSelection = !selectedVariant && hasOptions;
 
-  const variantLabel = [selectedSize, selectedPaper].filter(Boolean).join(" · ");
+  const variantLabel = Object.values(selectedOptions || {}).filter(Boolean).join(" · ");
 
   return (
     <div
