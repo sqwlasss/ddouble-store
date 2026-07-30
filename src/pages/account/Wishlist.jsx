@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { Heart, ShoppingBag, X, Loader2 } from "lucide-react";
+import { Heart, X, Loader2 } from "lucide-react";
 import { useAccount } from "@/lib/AccountContext";
 import { removeFromWishlist } from "@/lib/shopify/wishlist";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts } from "@/hooks/useProducts";
-import { usePersistentCart } from "@/hooks/usePersistentCart";
 import Price from "@/components/ddouble/Price";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
@@ -15,9 +13,7 @@ export default function Wishlist() {
   const { favorites, removeFavorite } = useFavorites();
   const { country } = useCurrency();
   const { data: allProducts, isLoading } = useAllProducts(country);
-  const { addItem } = usePersistentCart(null, country);
   const navigate = useNavigate();
-  const [adding, setAdding] = useState(null);
 
   const favoriteIds = new Set(favorites.map((f) => f.id));
 
@@ -25,22 +21,6 @@ export default function Wishlist() {
     const variantIds = product.variants.map((v) => v.id);
     return variantIds.some((id) => wishlist.includes(id)) || favoriteIds.has(product.id);
   });
-
-  const handleAddToCart = async (product, e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const variant = product.variants.find((v) => v.availableForSale) || product.variants[0];
-    if (!variant) return;
-    setAdding(variant.id);
-    try {
-      await addItem(variant.id, 1);
-      toast({ title: "Added to cart", description: `${product.title} has been added.` });
-    } catch {
-      toast({ title: "Error", description: "Could not add to cart.", variant: "destructive" });
-    } finally {
-      setAdding(null);
-    }
-  };
 
   const handleRemove = (product, e) => {
     e.preventDefault();
@@ -108,18 +88,6 @@ export default function Wishlist() {
             <div className="mt-3 space-y-1">
               <h3 className="text-sm font-medium text-[#1A1A1A] tracking-wide">{product.title}</h3>
               <p className="text-sm text-[#6B6B67]">From <Price amount={product.price} /></p>
-              <button
-                onClick={(e) => handleAddToCart(product, e)}
-                disabled={adding === product.variants[0]?.id}
-                className="mt-2 w-full bg-[#1A1A1A] text-white text-[10px] uppercase tracking-[0.15em] py-3 hover:bg-[#D9D2C5] hover:text-[#1A1A1A] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                {adding === product.variants[0]?.id ? (
-                  <Loader2 size={12} className="animate-spin" />
-                ) : (
-                  <ShoppingBag size={12} />
-                )}
-                Add to Cart
-              </button>
             </div>
           </Link>
         ))}
