@@ -9,10 +9,6 @@ import Price from "@/components/ddouble/Price";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 
-const CATEGORY_COLLECTIONS = [
-  "posters", "rugs", "pillows", "room-decor", "blankets-pillows",
-];
-
 const SORT_OPTIONS = [
   { id: "best", label: "Featured" },
   { id: "price-asc", label: "Price: Low–High" },
@@ -136,7 +132,7 @@ export default function Shop() {
   const { data: collections } = useCollections();
 
   const categoryCollections = useMemo(
-    () => (collections || []).filter((c) => CATEGORY_COLLECTIONS.includes(c.handle)),
+    () => collections || [],
     [collections]
   );
 

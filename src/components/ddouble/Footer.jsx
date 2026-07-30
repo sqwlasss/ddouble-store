@@ -56,7 +56,6 @@ export default function Footer() {
               <Link to="/shop" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">All Products</Link>
               <Link to="/shop?category=posters" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Posters</Link>
               <Link to="/shop?category=rugs" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Rugs</Link>
-              <Link to="/shop?category=pillows" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Pillows</Link>
               <Link to="/shop?category=room-decor" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Room Decor</Link>
               <Link to="/shop?category=blankets-pillows" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Bedding & Pillows</Link>
             </div>
