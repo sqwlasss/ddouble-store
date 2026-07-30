@@ -21,7 +21,7 @@ export default function Login() {
     setLoading(true);
     try {
       await loginViaEmailPassword(email, password);
-      window.location.href = "/";
+      window.location.href = "/account";
     } catch (err) {
       setError(err.message || "Invalid email or password");
     } finally {
@@ -32,7 +32,7 @@ export default function Login() {
   const handleGoogle = async () => {
     try {
       await loginWithGoogle();
-      window.location.href = "/";
+      window.location.href = "/account";
     } catch (err) {
       setError(err.message || "Google sign-in failed");
     }
