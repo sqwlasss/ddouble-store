@@ -27,7 +27,7 @@ export default function ProductDetail() {
   const { toast } = useToast();
 
   const [selectedOptions, setSelectedOptions] = useState({});
-  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [showRoom, setShowRoom] = useState(false);
   const [zoomed, setZoomed] = useState(false);
@@ -58,6 +58,27 @@ export default function ProductDetail() {
       return changed ? next : prev;
     });
   }, [product]);
+
+  useEffect(() => {
+    setSelectedImage(null);
+  }, [selectedOptions]);
+
+  const displayImage = useMemo(() => {
+    if (selectedImage !== null && product?.images[selectedImage]) {
+      return product.images[selectedImage].url;
+    }
+    if (selectedVariant?.image?.url) {
+      return selectedVariant.image.url;
+    }
+    return product?.images[0]?.url || product?.image;
+  }, [selectedImage, selectedVariant, product]);
+
+  const matchedThumb = useMemo(() => {
+    if (selectedImage !== null) return selectedImage;
+    if (!selectedVariant?.image?.url || !product?.images) return null;
+    const idx = product.images.findIndex((img) => img.url === selectedVariant.image.url);
+    return idx !== -1 ? idx : null;
+  }, [selectedImage, selectedVariant, product]);
 
   const related = useMemo(() => {
     if (!allProducts || !product) return [];
@@ -184,8 +205,8 @@ export default function ProductDetail() {
                 onClick={() => setZoomed(!zoomed)}
               >
                 <img
-                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : (product.images[selectedImage]?.url || product.image)}
-                  alt={product.title}
+                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : displayImage}
+                  alt={selectedVariant?.image?.altText || product.title}
                   className={`w-full transition-transform duration-700 ${zoomed ? "scale-150" : "scale-100"}`}
                 />
               </div>
@@ -197,7 +218,7 @@ export default function ProductDetail() {
                     key={i}
                     onClick={() => { setSelectedImage(i); setShowRoom(false); }}
                     className={`w-20 h-20 border transition-colors overflow-hidden ${
-                      selectedImage === i && !showRoom ? "border-[#1A1A1A]" : "border-[#E5E5E1]"
+                      matchedThumb === i && !showRoom ? "border-[#1A1A1A]" : "border-[#E5E5E1]"
                     }`}
                   >
                     <img
