@@ -9,10 +9,11 @@ import { useCollections, useCollectionProducts } from "@/hooks/useProducts";
 import homeHero from "../../assets/home.jpg";
 import photoVertical from "../../assets/photo_vertical.jpg";
 import photo2026 from "../../assets/photo_2026.jpg";
+import diningImg from "../../assets/photo_2026-07-24_15-18-36.jpg";
 
 const LIFESTYLE_IMAGES = {
   bedroom: photo2026,
-  dining: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/e26fb1318_generated_cabe50da.png",
+  dining: diningImg,
   galleryWall: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/8140dfca5_generated_d1feca24.png",
   office: photoVertical,
 };
