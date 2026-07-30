@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
 
 const emptyAddress = {
   address1: "",
@@ -20,28 +19,14 @@ const emptyAddress = {
 };
 
 export default function Addresses() {
-  const { customer, addresses, addAddress, editAddress, removeAddress, setDefaultAddress, loading, hasShopifyAccount } = useAccount();
-  const navigate = useNavigate();
+  const { customer, addAddress, editAddress, removeAddress, setDefaultAddress, loading } = useAccount();
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyAddress);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(null);
 
-  const addressList = customer?.addresses || addresses || [];
-
-  if (!hasShopifyAccount) {
-    return (
-      <div className="text-center py-16">
-        <MapPin size={40} className="mx-auto text-[#D9D2C5] mb-4" />
-        <h2 className="text-xl font-light text-[#1A1A1A] mb-2">No addresses yet</h2>
-        <p className="text-sm text-[#6B6B67] mb-6">Link your account to manage shipping addresses.</p>
-        <Button onClick={() => navigate("/account/settings")} variant="outline">
-          Link Account
-        </Button>
-      </div>
-    );
-  }
+  const addressList = customer?.addresses || [];
 
   const handleSubmit = async (e) => {
     e.preventDefault();

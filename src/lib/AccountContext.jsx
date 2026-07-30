@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext, useEffect, useCallback } fr
 import { useAuth } from "@/lib/AuthContext";
 import {
   getStoredCustomerToken,
-  storeCustomerToken,
   clearCustomerToken,
   getCustomer,
   getCustomerOrders,
@@ -11,8 +10,8 @@ import {
   updateAddress,
   deleteAddress,
   setDefaultAddress,
-  createCustomerToken,
 } from "@/lib/shopify/customer";
+import { syncShopifyCustomer } from "@/lib/auth/shopifySync";
 import { getWishlist, subscribe as wishlistSubscribe } from "@/lib/shopify/wishlist";
 
 const AccountContext = createContext();
@@ -24,7 +23,6 @@ export function AccountProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [wishlist, setWishlist] = useState(getWishlist);
 
-  // Sync wishlist across tabs/events
   useEffect(() => {
     const unsub = wishlistSubscribe(() => {
       setWishlist(getWishlist());
@@ -32,46 +30,43 @@ export function AccountProvider({ children }) {
     return unsub;
   }, []);
 
-  // When user logs in/out via Base44, sync Shopify customer token
   useEffect(() => {
-    if (isAuthenticated) {
-      loadCustomer();
+    if (isAuthenticated && user) {
+      autoSync();
     } else {
       setCustomer(null);
       setOrders([]);
+      clearCustomerToken();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user?.id]);
 
-  const loadCustomer = useCallback(async () => {
-    let token = getStoredCustomerToken();
-    if (!token) return;
+  const autoSync = useCallback(async () => {
+    if (!user?.email) return;
     setLoading(true);
     try {
-      const data = await getCustomer(token);
-      if (data) {
-        setCustomer(data);
-        if (data.orders) setOrders(data.orders);
+      const synced = await syncShopifyCustomer(user);
+      if (synced) {
+        setCustomer(synced);
+        if (synced.orders) setOrders(synced.orders);
       } else {
-        clearCustomerToken();
+        const token = getStoredCustomerToken();
+        if (token) {
+          const data = await getCustomer(token);
+          if (data) {
+            setCustomer(data);
+            if (data.orders) setOrders(data.orders);
+          } else {
+            clearCustomerToken();
+          }
+        }
       }
     } catch {
-      clearCustomerToken();
+      setCustomer(null);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
-  }, []);
-
-  const signInToShopify = useCallback(async (email, password) => {
-    const result = await createCustomerToken(email, password);
-    await loadCustomer();
-    return result;
-  }, [loadCustomer]);
-
-  const signOutOfShopify = useCallback(() => {
-    clearCustomerToken();
-    setCustomer(null);
-    setOrders([]);
-  }, []);
+  }, [user]);
 
   const refreshCustomer = useCallback(async () => {
     const token = getStoredCustomerToken();
@@ -93,14 +88,12 @@ export function AccountProvider({ children }) {
     try {
       const data = await getCustomerOrders(token);
       setOrders(data);
-    } catch {
-      // silent
-    }
+    } catch {}
   }, []);
 
   const updateProfile = useCallback(async (input) => {
     const token = getStoredCustomerToken();
-    if (!token) throw new Error("Not authenticated with Shopify");
+    if (!token) throw new Error("Not authenticated");
     const updated = await updateCustomer(token, input);
     setCustomer((prev) => ({ ...prev, ...updated }));
     return updated;
@@ -108,7 +101,7 @@ export function AccountProvider({ children }) {
 
   const addAddress = useCallback(async (address) => {
     const token = getStoredCustomerToken();
-    if (!token) throw new Error("Not authenticated with Shopify");
+    if (!token) throw new Error("Not authenticated");
     const newAddress = await createAddress(token, address);
     setCustomer((prev) => ({
       ...prev,
@@ -119,7 +112,7 @@ export function AccountProvider({ children }) {
 
   const editAddress = useCallback(async (id, address) => {
     const token = getStoredCustomerToken();
-    if (!token) throw new Error("Not authenticated with Shopify");
+    if (!token) throw new Error("Not authenticated");
     const updated = await updateAddress(token, id, address);
     setCustomer((prev) => ({
       ...prev,
@@ -130,7 +123,7 @@ export function AccountProvider({ children }) {
 
   const removeAddress = useCallback(async (id) => {
     const token = getStoredCustomerToken();
-    if (!token) throw new Error("Not authenticated with Shopify");
+    if (!token) throw new Error("Not authenticated");
     await deleteAddress(token, id);
     setCustomer((prev) => ({
       ...prev,
@@ -140,7 +133,7 @@ export function AccountProvider({ children }) {
 
   const setDefault = useCallback(async (addressId) => {
     const token = getStoredCustomerToken();
-    if (!token) throw new Error("Not authenticated with Shopify");
+    if (!token) throw new Error("Not authenticated");
     const result = await setDefaultAddress(token, addressId);
     setCustomer((prev) => ({
       ...prev,
@@ -156,9 +149,6 @@ export function AccountProvider({ children }) {
         orders,
         loading,
         wishlist,
-        hasShopifyAccount: !!getStoredCustomerToken(),
-        signInToShopify,
-        signOutOfShopify,
         refreshCustomer,
         refreshOrders,
         updateProfile,
