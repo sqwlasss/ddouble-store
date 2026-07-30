@@ -24,23 +24,8 @@ function statusBadge(status) {
 }
 
 export default function Orders() {
-  const { customer, orders, loading, hasShopifyAccount } = useAccount();
+  const { orders, loading } = useAccount();
   const navigate = useNavigate();
-
-  if (!hasShopifyAccount) {
-    return (
-      <div className="text-center py-16">
-        <Package size={40} className="mx-auto text-[#D9D2C5] mb-4" />
-        <h2 className="text-xl font-light text-[#1A1A1A] mb-2">No orders yet</h2>
-        <p className="text-sm text-[#6B6B67] mb-6">
-          Link your account and start shopping to see your orders here.
-        </p>
-        <Button onClick={() => navigate("/account/settings")} variant="outline">
-          Link Account
-        </Button>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
