@@ -86,7 +86,7 @@ export default function Login() {
       {showBanner && (
         <div className="mb-4 p-3 border border-[#E5E5E1] bg-[#F1F0EC] text-sm text-[#1A1A1A] flex items-start justify-between gap-3">
           <span>Please verify your email — check your inbox for the verification link.</span>
-          <button onClick={() => setShowBanner(false)} aria-label="Dismiss">
+          <button onClick={() => setShowBanner(false)} aria-label="Dismiss" className="flex-shrink-0 min-w-11 min-h-11 flex items-center justify-center -m-3">
             <X size={14} />
           </button>
         </div>

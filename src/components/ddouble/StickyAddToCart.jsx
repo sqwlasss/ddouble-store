@@ -63,7 +63,7 @@ export default function StickyAddToCart({
         <button
           onClick={handleAddToCart}
           disabled={cartLoading}
-          className="shrink-0 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] px-6 py-3 hover:bg-[#2A2A2A] transition-all duration-300 disabled:opacity-50"
+          className="shrink-0 min-h-11 flex items-center justify-center bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] px-6 py-3 hover:bg-[#2A2A2A] transition-all duration-300 disabled:opacity-50"
         >
           {cartLoading ? "Adding..." : needsSelection ? "Select Options" : "Add to Cart"}
         </button>

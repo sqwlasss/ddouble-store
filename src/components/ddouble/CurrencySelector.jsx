@@ -19,7 +19,7 @@ export default function CurrencySelector() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 text-[11px] uppercase tracking-[0.12em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+        className="min-h-11 flex items-center gap-1 text-[11px] uppercase tracking-[0.12em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
         aria-label="Select currency"
       >
         <span>{currencyInfo.symbol}</span>
@@ -58,7 +58,7 @@ export function MobileCurrencySelector() {
           <button
             key={c.code}
             onClick={() => setCurrency(c.code)}
-            className={`px-3 py-1.5 text-xs border transition-colors ${
+            className={`px-3 min-h-11 flex items-center justify-center text-xs border transition-colors ${
               currencyCode === c.code
                 ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
                 : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A]"

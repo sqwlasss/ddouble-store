@@ -29,7 +29,7 @@ export default function ProductCard({ product, index = 0, showHeart = false }) {
         />
         <button
           onClick={handleFavorite}
-          className={`absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm ${
+          className={`absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm ${
             showHeart ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           } transition-opacity duration-300`}
           aria-label={isFav ? "Remove from favorites" : "Add to favorites"}

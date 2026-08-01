@@ -25,7 +25,7 @@ export default function CartDrawer({ open, onClose }) {
             <h2 id="cart-heading" className="text-xs uppercase tracking-[0.15em] font-medium">
               Cart ({totalItems})
             </h2>
-            <button onClick={onClose} className="p-1 hover:text-[#6B6B67] transition-colors" aria-label="Close cart">
+            <button onClick={onClose} className="min-w-11 min-h-11 flex items-center justify-center hover:text-[#6B6B67] transition-colors" aria-label="Close cart">
               <X size={18} />
             </button>
           </div>
@@ -65,7 +65,7 @@ export default function CartDrawer({ open, onClose }) {
                           </Link>
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="text-[#6B6B67] hover:text-[#1A1A1A] transition-colors flex-shrink-0"
+                            className="flex-shrink-0 min-w-11 min-h-11 flex items-center justify-center -m-2 text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
                             aria-label="Remove from cart"
                           >
                             <X size={14} />
@@ -80,7 +80,7 @@ export default function CartDrawer({ open, onClose }) {
                           <div className="flex items-center gap-3 border border-[#E5E5E1]">
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="px-2 py-1 text-[#6B6B67] hover:text-[#1A1A1A]"
+                              className="px-3 py-2 min-h-11 flex items-center justify-center text-[#6B6B67] hover:text-[#1A1A1A]"
                               aria-label="Decrease quantity"
                             >
                               <Minus size={14} />
@@ -88,7 +88,7 @@ export default function CartDrawer({ open, onClose }) {
                             <span className="text-xs w-4 text-center">{item.quantity}</span>
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="px-2 py-1 text-[#6B6B67] hover:text-[#1A1A1A]"
+                              className="px-3 py-2 min-h-11 flex items-center justify-center text-[#6B6B67] hover:text-[#1A1A1A]"
                               aria-label="Increase quantity"
                             >
                               <Plus size={14} />
@@ -148,7 +148,7 @@ export default function CartDrawer({ open, onClose }) {
               </div>
               <button
                 onClick={onClose}
-                className="w-full text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#6B6B67] py-2"
+                className="w-full min-h-11 flex items-center justify-center text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#6B6B67]"
               >
                 Continue Shopping
               </button>
