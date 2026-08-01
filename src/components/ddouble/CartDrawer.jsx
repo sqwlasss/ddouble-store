@@ -6,9 +6,10 @@ import Price from "@/components/ddouble/Price";
 import { FREE_SHIPPING_THRESHOLD, shippingProgress } from "@/config/shipping";
 import { Link } from "react-router-dom";
 import { shopifyImage } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 export default function CartDrawer({ open, onClose }) {
-  const { country } = useCurrency();
+  const { country, currencyCode } = useCurrency();
   const { items, updateQuantity, removeItem, totalItems, totalPrice, checkout, loading } = useShopifyCart(country);
   const { remaining, percent } = shippingProgress(totalPrice, FREE_SHIPPING_THRESHOLD);
 
@@ -64,7 +65,19 @@ export default function CartDrawer({ open, onClose }) {
                             {item.title}
                           </Link>
                           <button
-                            onClick={() => removeItem(item.id)}
+                            onClick={async () => {
+                              await removeItem(item.id);
+                              trackEvent("remove_from_cart", {
+                                currency: currencyCode,
+                                value: parseFloat(item.price) * item.quantity,
+                                items: [{
+                                  item_id: item.handle,
+                                  item_name: item.title,
+                                  price: parseFloat(item.price),
+                                  quantity: item.quantity,
+                                }],
+                              });
+                            }}
                             className="flex-shrink-0 min-w-11 min-h-11 flex items-center justify-center -m-2 text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
                             aria-label="Remove from cart"
                           >
@@ -131,7 +144,20 @@ export default function CartDrawer({ open, onClose }) {
                 Shipping and taxes calculated at checkout
               </p>
               <button
-                onClick={checkout}
+                onClick={() => {
+                  // purchase requires server-side confirmation (not implemented — client-only begin_checkout)
+                  trackEvent("begin_checkout", {
+                    currency: currencyCode,
+                    value: totalPrice,
+                    items: items.map((i) => ({
+                      item_id: i.handle,
+                      item_name: i.title,
+                      price: parseFloat(i.price),
+                      quantity: i.quantity,
+                    })),
+                  });
+                  checkout();
+                }}
                 disabled={loading}
                 className="w-full bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] py-4 hover:bg-[#2A2A2A] transition-all duration-300 disabled:opacity-50"
               >

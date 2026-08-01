@@ -16,6 +16,7 @@ import { useShopifyCart } from "@/hooks/useShopifyCart";
 import Seo from "@/components/Seo";
 import { useToast } from "@/components/ui/use-toast";
 import { shopifyImage } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 import { FREE_SHIPPING_THRESHOLD, STORE_CURRENCY } from "@/config/shipping";
 import DOMPurify from "dompurify";
 
@@ -23,7 +24,7 @@ const SITE_URL = "https://ddouble-store.vercel.app";
 
 export default function ProductDetail() {
   const { handle } = useParams();
-  const { country, formatPrice } = useCurrency();
+  const { country, formatPrice, currencyCode } = useCurrency();
   const { data: product, isLoading } = useProduct(handle, country);
   const { data: allProducts } = useAllProducts(country);
   const { addItem, loading: cartLoading } = useShopifyCart(country);
@@ -158,6 +159,18 @@ export default function ProductDetail() {
     }).replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
   }, [product?.descriptionHtml]);
 
+  // GA4: product detail view — fires once per product (PDP mount). Deps keyed
+  // on the product identity only, so option/quantity changes don't refire.
+  useEffect(() => {
+    if (!product) return;
+    const price = selectedVariant ? selectedVariant.price : product.price;
+    trackEvent("view_item", {
+      currency: currencyCode,
+      value: price,
+      items: [{ item_id: product.handle, item_name: product.title, price }],
+    });
+  }, [product, currencyCode]);
+
   if (isLoading) {
     return (
       <div className="bg-[#F9F9F7] min-h-screen">
@@ -206,6 +219,16 @@ export default function ProductDetail() {
     try {
       const optionSummary = Object.values(selectedOptions).join(", ");
       await addItem(selectedVariant.id, quantity);
+      trackEvent("add_to_cart", {
+        currency: currencyCode,
+        value: displayPrice * quantity,
+        items: [{
+          item_id: product.handle,
+          item_name: product.title,
+          price: displayPrice,
+          quantity,
+        }],
+      });
       toast({
         title: "Added to cart",
         description: optionSummary ? `${product.title} — ${optionSummary}` : product.title,

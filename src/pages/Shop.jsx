@@ -9,6 +9,7 @@ import ProductCard from "@/components/ddouble/ProductCard";
 import FadeIn from "@/components/ddouble/FadeIn";
 import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useCurrency } from "@/lib/CurrencyContext";
+import { trackEvent } from "@/lib/analytics";
 
 import { useAllProductsPage, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 import useEscapeClose from "@/hooks/useEscapeClose";
@@ -38,7 +39,9 @@ function useIsMobile() {
   return isMobile;
 }
 
-function ProductGrid({ products, loading, error, refetch, sort, priceRange, searchQuery, clearFilters }) {
+function ProductGrid({ products, loading, error, refetch, sort, priceRange, searchQuery, clearFilters, category }) {
+  const { currencyCode } = useCurrency();
+  const lastListKeyRef = useRef(null);
   const filtered = useMemo(() => {
     let result = [...(products || [])];
 
@@ -70,6 +73,25 @@ function ProductGrid({ products, loading, error, refetch, sort, priceRange, sear
 
     return result;
   }, [products, priceRange, sort, searchQuery]);
+
+  // GA4: view_item_list fires once per filter-set change (category/price/sort/
+  // search), never per pagination page. Skipped while loading or when the
+  // filtered set is empty, so only real product lists are reported.
+  useEffect(() => {
+    const key = [category, priceRange, sort, searchQuery].join("|");
+    if (key === lastListKeyRef.current) return;
+    if (loading || filtered.length === 0) return;
+    lastListKeyRef.current = key;
+    trackEvent("view_item_list", {
+      currency: currencyCode,
+      item_list_id: category === "all" ? "shop-all" : `collection-${category}`,
+      items: filtered.map((p) => ({
+        item_id: p.handle,
+        item_name: p.title,
+        price: p.price,
+      })),
+    });
+  }, [category, priceRange, sort, searchQuery, loading, filtered, currencyCode]);
 
   if (loading) {
     return (
@@ -124,7 +146,7 @@ function ProductGrid({ products, loading, error, refetch, sort, priceRange, sear
   );
 }
 
-function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters, country, onCountChange, onLoadingChange }) {
+function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters, country, onCountChange, onLoadingChange, category }) {
   const { data, isLoading, error, refetch } = useCollectionProducts(collectionHandle, country);
   const products = data?.products || [];
 
@@ -143,6 +165,7 @@ function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, c
       priceRange={priceRange}
       searchQuery={searchQuery}
       clearFilters={clearFilters}
+      category={category}
     />
   );
 }
@@ -392,6 +415,7 @@ export default function Shop() {
               priceRange={priceRange}
               searchQuery={searchQuery}
               clearFilters={clearFilters}
+              category={category}
             />
             {hasMore && (
               <button
@@ -413,6 +437,7 @@ export default function Shop() {
             country={country}
             onCountChange={setCollectionCount}
             onLoadingChange={setCollectionLoading}
+            category={category}
           />
         )}
       </div>
