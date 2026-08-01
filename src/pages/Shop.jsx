@@ -254,7 +254,7 @@ export default function Shop() {
       />
       <Navbar />
 
-      <main>
+      <main id="main">
       <div className="pt-28 md:pt-36 pb-24 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         {category !== "all" && activeCollection && (
           <Breadcrumb items={[

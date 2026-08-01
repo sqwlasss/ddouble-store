@@ -49,7 +49,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F9F9F7]">
+        <main id="main" className="min-h-screen flex items-center justify-center bg-[#F9F9F7]">
           <div className="text-center px-6">
             <h1 className="text-2xl font-light text-[#1A1A1A]">Something went wrong</h1>
             <p className="mt-4 text-sm text-[#6B6B67]">Please try refreshing the page.</p>
@@ -60,7 +60,7 @@ class ErrorBoundary extends React.Component {
               Refresh
             </button>
           </div>
-        </div>
+        </main>
       );
     }
     return this.props.children;
