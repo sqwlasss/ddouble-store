@@ -5,6 +5,7 @@ import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
 import FadeIn from "@/components/ddouble/FadeIn";
+import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useCurrency } from "@/lib/CurrencyContext";
 
 import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/useProducts";
@@ -155,6 +156,14 @@ export default function Shop() {
 
       <main>
       <div className="pt-28 md:pt-36 pb-24 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
+        {category !== "all" && activeCollection && (
+          <Breadcrumb items={[
+            { label: "Home", href: "/" },
+            { label: "Shop", href: "/shop" },
+            { label: activeCollection.title },
+          ]} />
+        )}
+
         <FadeIn>
           <div className="mb-12 md:mb-16">
             <h1 className="text-3xl md:text-4xl font-light text-[#1A1A1A]">
