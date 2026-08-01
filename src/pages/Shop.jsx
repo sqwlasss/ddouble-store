@@ -214,7 +214,8 @@ export default function Shop() {
 
   const { data: pageData, isPending, isFetching, error, refetch } = useAllProductsPage(
     country,
-    pagination.country === country ? pagination.cursor : null
+    pagination.country === country ? pagination.cursor : null,
+    { enabled: category === "all" }
   );
   const pageInfo = pageData?.pageInfo;
   const { data: collections } = useCollections();
