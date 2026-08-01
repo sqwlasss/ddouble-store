@@ -190,7 +190,7 @@ export default function Shop() {
                 onClick={clearFilters}
                 className="text-[11px] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors flex items-center gap-1"
               >
-                <X size={10} /> Clear all
+                <X size={12} /> Clear all
               </button>
             )}
           </div>
