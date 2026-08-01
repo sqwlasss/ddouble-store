@@ -11,7 +11,7 @@ import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 
 const SORT_OPTIONS = [
-  { id: "best", label: "Featured" },
+  { id: "default", label: "Default" },
   { id: "price-asc", label: "Price: Low–High" },
   { id: "price-desc", label: "Price: High–Low" },
   { id: "alpha", label: "A–Z" },
@@ -42,6 +42,8 @@ function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFi
         result.sort((a, b) => a.title.localeCompare(b.title));
         break;
       default:
+        // "default": Shopify query order (insertion order). createdAt is not
+        // exposed by the storefront queries, so no date-based sort is applied.
         break;
     }
 
@@ -210,7 +212,7 @@ export default function Shop() {
               onClick={() => setSortOpen(!sortOpen)}
               className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
             >
-              {SORT_OPTIONS.find((s) => s.id === sort)?.label ?? "Featured"}
+              {SORT_OPTIONS.find((s) => s.id === sort)?.label ?? "Default"}
               <ChevronDown size={12} />
             </button>
             {sortOpen && (
