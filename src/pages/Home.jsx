@@ -158,7 +158,7 @@ export default function Home() {
               </p>
               <Link
                 to="/shop"
-                className="mt-8 inline-flex items-center gap-3 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] px-8 py-4 hover:bg-[#D9D2C5] hover:text-[#1A1A1A] transition-all duration-300"
+                className="mt-8 inline-flex items-center gap-3 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] px-8 py-4 hover:bg-[#2A2A2A] transition-all duration-300"
               >
                 Shop All
                 <ArrowRight size={14} />
@@ -216,7 +216,7 @@ export default function Home() {
             </h2>
             <Link
               to="/shop"
-              className="mt-8 inline-flex items-center gap-3 bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.15em] px-8 py-4 hover:bg-[#D9D2C5] transition-all duration-300"
+              className="mt-8 inline-flex items-center gap-3 bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.15em] px-8 py-4 hover:bg-[#F1F0EC] transition-all duration-300"
             >
               Explore
               <ArrowRight size={14} />

@@ -109,7 +109,7 @@ export default function CartDrawer({ open, onClose }) {
             <button
               onClick={checkout}
               disabled={loading}
-              className="w-full bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] py-4 hover:bg-[#D9D2C5] hover:text-[#1A1A1A] transition-all duration-300 disabled:opacity-50"
+              className="w-full bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] py-4 hover:bg-[#2A2A2A] transition-all duration-300 disabled:opacity-50"
             >
               {loading ? "Loading..." : "Checkout"}
             </button>
