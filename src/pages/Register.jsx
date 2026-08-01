@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser, loginWithGoogle } from "@/lib/firebaseAuth";
+import { registerUser, loginWithGoogle, sendEmailVerification } from "@/lib/firebaseAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserPlus, Mail, Lock, Loader2, ArrowLeft } from "lucide-react";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { toast } from "@/components/ui/use-toast";
@@ -17,8 +16,8 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showOtp, setShowOtp] = useState(false);
-  const [otpCode, setOtpCode] = useState("");
+  const [showVerifyScreen, setShowVerifyScreen] = useState(false);
+  const [registeredUser, setRegisteredUser] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +28,9 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      await registerUser({ email, password });
-      setShowOtp(true);
+      const user = await registerUser({ email, password });
+      setRegisteredUser(user);
+      setShowVerifyScreen(true);
     } catch (err) {
       setError(err.message || "Registration failed");
     } finally {
@@ -38,28 +38,19 @@ export default function Register() {
     }
   };
 
-  const handleVerify = async () => {
+  const handleResend = async () => {
     setError("");
     setLoading(true);
     try {
-      window.location.href = "/";
-    } catch (err) {
-      setError(err.message || "Invalid verification code");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResend = async () => {
-    setError("");
-    try {
-      // Email verification sent on registration; resend not implemented in this migration
+      await sendEmailVerification(registeredUser);
       toast({
-        title: "Code sent",
-        description: "Check your email for the new code.",
+        title: "Verification email sent",
+        description: "Check your inbox for the verification link.",
       });
     } catch (err) {
-      setError(err.message || "Failed to resend code");
+      setError(err.message || "Failed to resend verification email");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,63 +63,31 @@ export default function Register() {
     }
   };
 
-  if (showOtp) {
+  if (showVerifyScreen) {
     return (
       <AuthLayout
         icon={Mail}
-        title="Verify your email"
-        subtitle={`We sent a code to ${email}`}
+        title="Check your inbox"
+        subtitle={`We emailed a verification link to ${email}`}
       >
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-sm text-[#6B6B67] hover:text-[#1A1A1A] transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back
-        </button>
-
         {error && (
           <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
             {error}
           </div>
         )}
-        <div className="flex justify-center mb-6">
-          <InputOTP
-            maxLength={6}
-            value={otpCode}
-            onChange={setOtpCode}
-            autoFocus
-            autoComplete="one-time-code"
-          >
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-              <InputOTPSlot index={3} />
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-          </InputOTP>
+        <p className="text-sm text-[#6B6B67] text-center">
+          Click the link in the email to verify your account, then log in.
+        </p>
+        <div className="mt-6">
+          <Button className="w-full h-12 font-medium" onClick={handleResend} disabled={loading}>
+            {loading ? "Sending…" : "Resend email"}
+          </Button>
         </div>
-        <Button
-          className="w-full h-12 font-medium"
-          onClick={handleVerify}
-          disabled={loading || otpCode.length < 6}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Verifying...
-            </>
-          ) : (
-            "Verify"
-          )}
-        </Button>
         <p className="text-center text-sm text-[#6B6B67] mt-4">
-          Didn't receive the code?{" "}
-          <button onClick={handleResend} className="text-[#1A1A1A] font-medium hover:underline">
-            Resend
-          </button>
+          Already verified?{" "}
+          <Link to="/login" className="text-[#1A1A1A] underline underline-offset-4">
+            Log in
+          </Link>
         </p>
       </AuthLayout>
     );

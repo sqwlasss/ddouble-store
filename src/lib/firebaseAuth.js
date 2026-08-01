@@ -7,7 +7,6 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   GoogleAuthProvider,
-  sendEmailVerification,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
@@ -29,6 +28,17 @@ function serializeUser(firebaseUser) {
   };
 }
 
+export function getCurrentUser() {
+  return auth.currentUser;
+}
+
+export async function sendEmailVerification(user) {
+  const { sendEmailVerification: send } = await import('firebase/auth');
+  const u = user ?? getCurrentUser();
+  if (!u) throw new Error('No signed-in user');
+  return send(u);
+}
+
 export async function loginViaEmailPassword(email, password) {
   const result = await signInWithEmailAndPassword(auth, email, password);
   return serializeUser(result.user);
@@ -37,7 +47,7 @@ export async function loginViaEmailPassword(email, password) {
 export async function registerUser({ email, password }) {
   const result = await createUserWithEmailAndPassword(auth, email, password);
   await sendEmailVerification(result.user);
-  return serializeUser(result.user);
+  return result.user;
 }
 
 export async function logout() {
