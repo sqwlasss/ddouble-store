@@ -93,9 +93,9 @@ export default function Login() {
       )}
 
       {error && (
-        <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
+        <p id="login-error" role="alert" className="mb-4 p-3 text-xs text-[#1A1A1A] border border-[#E5E5E1] bg-[#F1F0EC]">
           {error}
-        </div>
+        </p>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -112,6 +112,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="pl-10 h-12"
+              aria-describedby={error ? "login-error" : undefined}
               required
             />
           </div>
@@ -133,6 +134,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pl-10 h-12"
+              aria-describedby={error ? "login-error" : undefined}
               required
             />
           </div>
