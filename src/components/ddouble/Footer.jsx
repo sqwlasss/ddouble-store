@@ -54,7 +54,7 @@ export default function Footer() {
                   className="flex-1 bg-transparent py-3 text-sm text-[#1A1A1A] placeholder:text-[#5A5A56]"
                   required
                 />
-                <button type="submit" aria-label="Subscribe" className="p-2 text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">
+                <button type="submit" aria-label="Subscribe" className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">
                   <ArrowRight size={18} />
                 </button>
               </form>
@@ -98,10 +98,10 @@ export default function Footer() {
           <div>
             <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56] mb-4">Follow</h3>
             <div className="flex gap-4">
-              <a href="https://www.instagram.com/theddouble/" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">
+              <a href="https://www.instagram.com/theddouble/" target="_blank" rel="noopener noreferrer" className="min-w-11 min-h-11 flex items-center justify-center -m-2 text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">
                 <Instagram size={18} />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="min-w-11 min-h-11 flex items-center justify-center -m-2 text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">
                 <Facebook size={18} />
               </a>
             </div>

@@ -274,12 +274,12 @@ export default function Shop() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setFiltersOpen(!filtersOpen)}
-              className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+              className="min-h-11 flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
             >
               <SlidersHorizontal size={14} />
               Filter
               {activeFilters > 0 && (
-                <span className="w-5 h-5 bg-[#1A1A1A] text-white text-[9px] rounded-full flex items-center justify-center">
+                <span className="w-5 h-5 bg-[#1A1A1A] text-white text-xs rounded-full flex items-center justify-center">
                   {activeFilters}
                 </span>
               )}
@@ -287,7 +287,7 @@ export default function Shop() {
             {activeFilters > 0 && (
               <button
                 onClick={clearFilters}
-                className="text-[11px] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors flex items-center gap-1"
+                className="min-h-11 flex items-center gap-1 text-[11px] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
               >
                 <X size={12} /> Clear all
               </button>
@@ -297,7 +297,7 @@ export default function Shop() {
           <div className="relative">
             <button
               onClick={() => setSortOpen(!sortOpen)}
-              className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+              className="min-h-11 flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
             >
               {SORT_OPTIONS.find((s) => s.id === sort)?.label ?? "Default"}
               <ChevronDown size={12} />
@@ -418,7 +418,7 @@ function FilterGroup({ label, options, value, onChange }) {
           <button
             key={opt.handle}
             onClick={() => onChange(opt.handle)}
-            className={`block text-sm transition-colors ${
+            className={`flex items-center min-h-11 w-full text-sm transition-colors ${
               value === opt.handle
                 ? "text-[#1A1A1A] font-medium"
                 : "text-[#6B6B67] hover:text-[#1A1A1A]"

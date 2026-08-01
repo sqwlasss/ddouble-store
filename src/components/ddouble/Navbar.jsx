@@ -108,7 +108,7 @@ export default function Navbar() {
             <div className="flex items-center gap-8 flex-1">
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden p-1"
+                className="lg:hidden min-w-11 min-h-11 flex items-center justify-center"
                 aria-label="Menu"
               >
                 {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -160,31 +160,31 @@ export default function Navbar() {
             {/* Center: logo */}
             <Link
               to="/"
-              className="flex-1 text-center text-xl md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
+              className="flex-1 text-center text-lg md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
             >
               DDOUBLE
             </Link>
 
             {/* Right: icons */}
-            <div className="flex items-center gap-4 md:gap-5 flex-1 justify-end">
+            <div className="flex items-center gap-1 md:gap-5 flex-1 justify-end">
               <div className="hidden md:block">
                 <CurrencySelector />
               </div>
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Search"
               >
                 <Search size={18} />
               </button>
               <Link
                 to="/favorites"
-                className="relative p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                className="relative min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Favorites"
               >
                 <Heart size={18} />
                 {favoritesCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#1A1A1A] text-white text-[9px] rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#1A1A1A] text-white text-xs rounded-full flex items-center justify-center">
                     {favoritesCount}
                   </span>
                 )}
@@ -192,7 +192,7 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <Link
                   to="/account"
-                  className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                  className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                   aria-label="Account"
                 >
                   <User size={18} />
@@ -200,7 +200,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   to="/login"
-                  className="p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                  className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                   aria-label="Log in"
                 >
                   <User size={18} />
@@ -208,12 +208,12 @@ export default function Navbar() {
               )}
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative p-1 text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                className="relative min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Cart"
               >
                 <ShoppingBag size={18} />
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#1A1A1A] text-white text-[9px] rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#1A1A1A] text-white text-xs rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -247,7 +247,7 @@ export default function Navbar() {
                   }}
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery("")} className="text-[#6B6B67] hover:text-[#1A1A1A]" aria-label="Clear search">
+                  <button onClick={() => setSearchQuery("")} className="min-w-11 min-h-11 flex items-center justify-center -m-2 text-[#6B6B67] hover:text-[#1A1A1A]" aria-label="Clear search">
                     <X size={14} />
                   </button>
                 )}
@@ -258,7 +258,7 @@ export default function Navbar() {
                   <div className="flex flex-wrap gap-2">
                     {["Poster", "Rug", "Bedding"].map((term) => (
                       <button key={term} onClick={() => setSearchQuery(term)}
-                        className="text-xs border border-[#E5E5E1] px-3 py-1.5 hover:border-[#1A1A1A] transition-colors">
+                        className="text-xs border border-[#E5E5E1] px-3 min-h-11 flex items-center justify-center hover:border-[#1A1A1A] transition-colors">
                         {term}
                       </button>
                     ))}
@@ -301,7 +301,7 @@ export default function Navbar() {
                   <div key={link.label} className="space-y-2">
                     <button
                       onClick={() => setCollectionsOpen(!collectionsOpen)}
-                      className="flex items-center justify-between w-full text-xs uppercase tracking-[0.12em] text-[#6B6B67]"
+                      className="flex items-center justify-between w-full min-h-11 text-xs uppercase tracking-[0.12em] text-[#6B6B67]"
                     >
                       {link.label}
                       <ChevronDown size={14} className={`transition-transform duration-200 ${collectionsOpen ? "rotate-180" : ""}`} />
@@ -316,7 +316,7 @@ export default function Navbar() {
                           <Link
                             key={child.label}
                             to={child.path}
-                            className="block text-sm text-[#1A1A1A]"
+                            className="flex items-center min-h-11 text-sm text-[#1A1A1A]"
                           >
                             {child.label}
                           </Link>
@@ -328,7 +328,7 @@ export default function Navbar() {
                   <Link
                     key={link.label}
                     to={link.path}
-                    className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]"
+                    className="flex items-center min-h-11 text-xs uppercase tracking-[0.12em] text-[#1A1A1A]"
                   >
                     {link.label}
                   </Link>
@@ -336,18 +336,18 @@ export default function Navbar() {
               )}
               <Link
                 to="/favorites"
-                className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]"
+                className="flex items-center min-h-11 text-xs uppercase tracking-[0.12em] text-[#1A1A1A]"
               >
                 Favorites
               </Link>
               <MobileCurrencySelector />
               <div className="border-t border-[#E5E5E1] pt-4 mt-4">
                 {isAuthenticated ? (
-                  <Link to="/account" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
+                  <Link to="/account" className="flex items-center min-h-11 text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
                     My Account
                   </Link>
                 ) : (
-                  <Link to="/login" className="block text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
+                  <Link to="/login" className="flex items-center min-h-11 text-xs uppercase tracking-[0.12em] text-[#1A1A1A]">
                     Log in
                   </Link>
                 )}

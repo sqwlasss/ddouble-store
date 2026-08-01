@@ -82,7 +82,7 @@ export default function Wishlist() {
               />
               <button
                 onClick={(e) => handleRemove(product, e)}
-                className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
                 aria-label="Remove from wishlist"
               >
                 <X size={14} className="text-[#1A1A1A]" />

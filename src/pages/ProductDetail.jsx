@@ -290,7 +290,7 @@ export default function ProductDetail() {
               <div className="flex gap-3 mt-4">
                 <button
                   onClick={() => setShowRoom(false)}
-                  className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
+                  className={`px-4 py-2 min-h-11 flex items-center justify-center text-[11px] uppercase tracking-[0.1em] border transition-colors ${
                     !showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
                   }`}
                 >
@@ -298,7 +298,7 @@ export default function ProductDetail() {
                 </button>
                 <button
                   onClick={() => setShowRoom(true)}
-                  className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
+                  className={`px-4 py-2 min-h-11 flex items-center justify-center text-[11px] uppercase tracking-[0.1em] border transition-colors ${
                     showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
                   }`}
                 >
@@ -315,7 +315,7 @@ export default function ProductDetail() {
                 <h1 className="text-3xl md:text-4xl font-light text-[#1A1A1A]">{product.title}</h1>
                 <button
                   onClick={handleFavorite}
-                  className="mt-1 shrink-0 w-10 h-10 flex items-center justify-center rounded-full border border-[#E5E5E1] hover:border-[#1A1A1A] transition-colors"
+                  className="mt-1 shrink-0 w-11 h-11 flex items-center justify-center rounded-full border border-[#E5E5E1] hover:border-[#1A1A1A] transition-colors"
                   aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
                 >
                   <Heart
@@ -340,7 +340,7 @@ export default function ProductDetail() {
                         <button
                           key={value}
                           onClick={() => setSelectedOptions((prev) => ({ ...prev, [option.name]: value }))}
-                          className={`px-4 py-2.5 text-xs border transition-all duration-200 ${
+                          className={`px-4 py-2.5 min-h-11 flex items-center justify-center text-xs border transition-all duration-200 ${
                             selectedOptions[option.name] === value
                               ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
                               : "border-[#E5E5E1] text-[#6B6B67] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
@@ -360,14 +360,14 @@ export default function ProductDetail() {
                 <div className="inline-flex items-center border border-[#E5E5E1]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-4 py-3 text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+                    className="px-4 py-3 min-h-11 flex items-center justify-center text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
                   >
                     <Minus size={14} />
                   </button>
                   <span className="w-10 text-center text-sm">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-4 py-3 text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+                    className="px-4 py-3 min-h-11 flex items-center justify-center text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
                   >
                     <Plus size={14} />
                   </button>
