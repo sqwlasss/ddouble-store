@@ -16,10 +16,6 @@ import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useToast } from "@/components/ui/use-toast";
 import { shopifyImage } from "@/lib/utils";
 
-const LIFESTYLE_IMAGES = {
-  galleryWall: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/8140dfca5_generated_d1feca24.png",
-};
-
 export default function ProductDetail() {
   const { handle } = useParams();
   const { country } = useCurrency();
@@ -136,6 +132,8 @@ export default function ProductDetail() {
     );
   }
 
+  const roomImage = product.images.length > 1 ? product.images[1]?.url : null;
+
   const displayPrice = selectedVariant
     ? selectedVariant.price
     : product.price;
@@ -212,13 +210,13 @@ export default function ProductDetail() {
                 className={`relative overflow-hidden bg-[#F1F0EC] cursor-zoom-in w-full ${zoomed ? "cursor-zoom-out" : ""}`}
               >
                 <img
-                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : shopifyImage(displayImage, 1200)}
+                  src={showRoom ? shopifyImage(roomImage, 1200) : shopifyImage(displayImage, 1200)}
                   alt={selectedVariant?.image?.altText || product.title}
                   width={1200}
                   height={1600}
                   fetchpriority="high"
                   className="w-full transition-transform duration-700"
-                  style={{ transform: showRoom ? `scaleX(-1) ${zoomed ? 'scale(1.5)' : 'scale(1)'}` : zoomed ? 'scale(1.5)' : 'scale(1)' }}
+                  style={{ transform: zoomed ? "scale(1.5)" : "scale(1)" }}
                 />
               </button>
             </FadeIn>
@@ -246,24 +244,26 @@ export default function ProductDetail() {
                 ))}
               </div>
             )}
-            <div className="flex gap-3 mt-4">
-              <button
-                onClick={() => setShowRoom(false)}
-                className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
-                  !showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
-                }`}
-              >
-                Product
-              </button>
-              <button
-                onClick={() => setShowRoom(true)}
-                className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
-                  showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
-                }`}
-              >
-                View in Room
-              </button>
-            </div>
+            {roomImage && (
+              <div className="flex gap-3 mt-4">
+                <button
+                  onClick={() => setShowRoom(false)}
+                  className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
+                    !showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
+                  }`}
+                >
+                  Product
+                </button>
+                <button
+                  onClick={() => setShowRoom(true)}
+                  className={`px-4 py-2 text-[11px] uppercase tracking-[0.1em] border transition-colors ${
+                    showRoom ? "border-[#1A1A1A] text-[#1A1A1A]" : "border-[#E5E5E1] text-[#6B6B67]"
+                  }`}
+                >
+                  View in Room
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Details */}
