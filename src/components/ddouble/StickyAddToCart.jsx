@@ -12,6 +12,7 @@ export default function StickyAddToCart({
   sentinelRef,
 }) {
   const [visible, setVisible] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
 
   useEffect(() => {
     const el = sentinelRef?.current;
@@ -24,6 +25,17 @@ export default function StickyAddToCart({
     return () => observer.disconnect();
   }, [sentinelRef]);
 
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   const hasOptions = options?.some((opt) => opt.values.length > 1) ?? false;
   const needsSelection = !selectedVariant && hasOptions;
 
@@ -31,8 +43,9 @@ export default function StickyAddToCart({
 
   return (
     <div
+      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       className={`fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#E5E5E1] shadow-[0_-4px_20px_rgba(0,0,0,0.04)] transition-transform duration-300 md:hidden ${
-        visible ? "translate-y-0" : "translate-y-full"
+        visible && !footerVisible ? "translate-y-0" : "translate-y-full"
       }`}
     >
       <div className="flex items-center gap-3 px-4 py-3 max-w-[1440px] mx-auto">
