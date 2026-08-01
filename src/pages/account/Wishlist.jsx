@@ -7,6 +7,7 @@ import { useAllProducts } from "@/hooks/useProducts";
 import Price from "@/components/ddouble/Price";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import { shopifyImage } from "@/lib/utils";
 
 export default function Wishlist() {
   const { wishlist } = useAccount();
@@ -72,7 +73,7 @@ export default function Wishlist() {
           >
             <div className="relative overflow-hidden bg-[#F1F0EC]">
               <img
-                src={product.image}
+                src={shopifyImage(product.image, 600)}
                 alt={product.title}
                 className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 loading="lazy"

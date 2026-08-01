@@ -3,6 +3,7 @@ import { useAccount } from "@/lib/AccountContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Price from "@/components/ddouble/Price";
+import { shopifyImage } from "@/lib/utils";
 
 const STATUS_COLORS = {
   PAID: "text-green-700 bg-green-50",
@@ -83,7 +84,7 @@ export default function Orders() {
                   <div key={i} className="flex items-center gap-3">
                     {item.image ? (
                       <img
-                        src={item.image}
+                        src={shopifyImage(item.image, 160)}
                         alt={item.title}
                         className="w-12 h-14 object-cover bg-[#F1F0EC]"
                       />

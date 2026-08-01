@@ -9,6 +9,7 @@ import { useCurrency } from "@/lib/CurrencyContext";
 import CurrencySelector, { MobileCurrencySelector } from "@/components/ddouble/CurrencySelector";
 import Price from "@/components/ddouble/Price";
 import CartDrawer from "@/components/ddouble/CartDrawer";
+import { shopifyImage } from "@/lib/utils";
 
 const NAV_LINKS = [
   { label: "Shop", path: "/shop" },
@@ -273,7 +274,7 @@ export default function Navbar() {
                       onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
                       className="flex items-center gap-3 py-2 hover:bg-[#F1F0EC] -mx-2 px-2 transition-colors"
                     >
-                      <img src={product.image} alt={product.title} className="w-10 h-10 object-cover" />
+                      <img src={shopifyImage(product.image, 160)} alt={product.title} className="w-10 h-10 object-cover" />
                       <div>
                         <p className="text-sm text-[#1A1A1A]">{product.title}</p>
                         <p className="text-xs text-[#6B6B67]"><Price amount={product.price} /></p>
