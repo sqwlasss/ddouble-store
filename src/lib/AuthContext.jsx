@@ -1,8 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { onAuthChange } from '@/lib/firebaseAuth';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { onAuthChange, logout as firebaseLogout } from '@/lib/firebaseAuth';
 
 const AuthContext = createContext();
 
@@ -29,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const logout = async (shouldRedirect = true) => {
-    await signOut(auth);
+    await firebaseLogout();
     setUser(null);
     setIsAuthenticated(false);
     if (shouldRedirect) {
