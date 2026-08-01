@@ -229,7 +229,7 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search for posters..."
-                  className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#6B6B67] outline-none"
+                  className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#6B6B67]"
                   autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

@@ -72,6 +72,11 @@
     background-color: #D9D2C5;
     color: #1A1A1A;
   }
+
+  :focus-visible {
+    outline: 2px solid #1A1A1A;
+    outline-offset: 2px;
+  }
 }
 
 /* Custom scrollbar */

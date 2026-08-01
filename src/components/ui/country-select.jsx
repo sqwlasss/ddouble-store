@@ -125,7 +125,7 @@ export default function CountrySelect({ value, onChange, id, required, className
           aria-haspopup="listbox"
         aria-expanded={open}
         className={cn(
-          "flex h-9 w-full items-center justify-between rounded-none border border-[#E5E5E1] bg-transparent px-3 py-1 text-base transition-colors hover:bg-[#F1F0EC] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "flex h-9 w-full items-center justify-between rounded-none border border-[#E5E5E1] bg-transparent px-3 py-1 text-base transition-colors hover:bg-[#F1F0EC] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
           !selected && "text-[#5A5A56]",
           className
         )}
@@ -161,7 +161,7 @@ export default function CountrySelect({ value, onChange, id, required, className
               }}
               onKeyDown={handleKeyDown}
               placeholder="Search countries..."
-              className="flex-1 bg-transparent text-sm outline-none placeholder:text-[#6B6B67]"
+              className="flex-1 bg-transparent text-sm placeholder:text-[#6B6B67]"
             />
           </div>
           <ul
