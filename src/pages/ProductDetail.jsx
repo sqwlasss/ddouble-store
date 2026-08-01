@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Minus, Plus, Truck, RotateCcw, ArrowLeft, Heart, ChevronDown } from "lucide-react";
+import { Minus, Plus, Truck, RotateCcw, Heart, ChevronDown } from "lucide-react";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import Navbar from "@/components/ddouble/Navbar";
@@ -10,6 +10,7 @@ import FadeIn from "@/components/ddouble/FadeIn";
 import Price from "@/components/ddouble/Price";
 import StockIndicator from "@/components/ddouble/StockIndicator";
 import StickyAddToCart from "@/components/ddouble/StickyAddToCart";
+import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useToast } from "@/components/ui/use-toast";
@@ -186,14 +187,11 @@ export default function ProductDetail() {
       <main>
       <div className="pt-24 md:pt-28 max-w-[1440px] mx-auto">
         {/* Breadcrumb */}
-        <div className="px-6 md:px-10 lg:px-16 py-4">
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 text-xs text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
-          >
-            <ArrowLeft size={12} /> Back to Shop
-          </Link>
-        </div>
+        <Breadcrumb items={[
+          { label: "Home", href: "/" },
+          { label: "Shop", href: "/shop" },
+          { label: product.title },
+        ]} />
 
         {/* Main */}
         <div className="flex flex-col lg:flex-row">
