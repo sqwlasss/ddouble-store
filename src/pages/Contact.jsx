@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Mail, MapPin } from "lucide-react";
+import Seo from "@/components/Seo";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import FadeIn from "@/components/ddouble/FadeIn";
@@ -15,6 +16,11 @@ export default function Contact() {
 
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
+      <Seo
+        title="Contact — DDouble | Get in Touch"
+        description="Questions about orders, shipping, or returns? Contact the DDouble studio in Copenhagen — we typically respond within 24 hours."
+        canonicalPath="/contact"
+      />
       <Navbar />
 
       <main>

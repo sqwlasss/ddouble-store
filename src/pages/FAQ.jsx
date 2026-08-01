@@ -1,5 +1,6 @@
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
+import Seo from "@/components/Seo";
 import FadeIn from "@/components/ddouble/FadeIn";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -69,6 +70,11 @@ const FAQ_SECTIONS = [
 export default function FAQ() {
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
+      <Seo
+        title="FAQ — DDouble | Orders, Shipping & Returns"
+        description="Answers on ordering, shipping, returns, sizes, and print quality — everything you need to know about DDouble fine-art prints."
+        canonicalPath="/faq"
+      />
       <Navbar />
         <script
           type="application/ld+json"
