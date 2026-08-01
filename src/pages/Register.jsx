@@ -71,9 +71,9 @@ export default function Register() {
         subtitle={`We emailed a verification link to ${email}`}
       >
         {error && (
-          <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
+          <p id="register-resend-error" role="alert" className="mb-4 p-3 text-xs text-[#1A1A1A] border border-[#E5E5E1] bg-[#F1F0EC]">
             {error}
-          </div>
+          </p>
         )}
         <p className="text-sm text-[#6B6B67] text-center">
           Click the link in the email to verify your account, then log in.
@@ -134,9 +134,9 @@ export default function Register() {
       </div>
 
       {error && (
-        <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
+        <p id="register-error" role="alert" className="mb-4 p-3 text-xs text-[#1A1A1A] border border-[#E5E5E1] bg-[#F1F0EC]">
           {error}
-        </div>
+        </p>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -153,6 +153,7 @@ export default function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="pl-10 h-12"
+              aria-describedby={error ? "register-error" : undefined}
               required
             />
           </div>
@@ -169,6 +170,7 @@ export default function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pl-10 h-12"
+              aria-describedby={error ? "register-error" : undefined}
               required
             />
           </div>
@@ -185,6 +187,7 @@ export default function Register() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="pl-10 h-12"
+              aria-describedby={error ? "register-error" : undefined}
               required
             />
           </div>
