@@ -518,7 +518,7 @@ function MaterialsContent() {
 function ShippingReturnsContent() {
   const items = [
     <>
-      Free shipping on orders over <Price amount={100} />
+      Free shipping on orders over <Price amount={FREE_SHIPPING_THRESHOLD} />
     </>,
     "Orders dispatched within 1–2 business days",
     "Returns accepted within 30 days",
