@@ -6,6 +6,7 @@ import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useCollections, useCollectionProducts } from "@/hooks/useProducts";
+import { shopifyImage } from "@/lib/utils";
 import homeHero from "../../assets/home.jpg";
 import homeHero800 from "../../assets/home-800.jpg";
 import photoVertical from "../../assets/photo_vertical.jpg";
@@ -32,7 +33,7 @@ function CollectionCard({ collection }) {
       <div className="aspect-square overflow-hidden bg-[#F1F0EC] relative">
         {collection.image ? (
           <img
-            src={collection.image}
+            src={shopifyImage(collection.image, 600)}
             alt={collection.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
@@ -174,7 +175,7 @@ export default function Home() {
             sizes="(max-width: 1023px) 100vw, 50vw"
             width="800"
             height="970"
-            fetchPriority="high"
+            fetchpriority="high"
             alt="Scandinavian living room with premium wall art"
             className="w-full h-[60vh] lg:h-full object-cover"
           />
@@ -310,7 +311,7 @@ export default function Home() {
               <a href="https://www.instagram.com/theddouble/" target="_blank" rel="noopener noreferrer" className="block group">
                 <div className="aspect-square overflow-hidden">
                   <img
-                    src={p.image}
+                    src={shopifyImage(p.image, 400)}
                     alt={p.title}
                     width="400"
                     height="400"
