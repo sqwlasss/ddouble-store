@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import Navbar from "@/components/ddouble/Navbar";
@@ -111,23 +111,22 @@ const PRICE_RANGES = [
 ];
 
 export default function Shop() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { country } = useCurrency();
 
-  const [category, setCategory] = useState(searchParams.get("category") || "all");
-  const [priceRange, setPriceRange] = useState("all");
-  const [sort, setSort] = useState("best");
+  const category = searchParams.get("category") || "all";
+  const priceRange = searchParams.get("price") || "all";
+  const sort = searchParams.get("sort") || "default";
+  const searchQuery = searchParams.get("q") || "";
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
-  useEffect(() => {
-    const cat = searchParams.get("category");
-    if (cat) setCategory(cat);
-    else setCategory("all");
-    const q = searchParams.get("q");
-    if (q) setSearchQuery(q);
-  }, [searchParams]);
+  const updateParam = (key, value, mode = "replace") => {
+    const params = new URLSearchParams(searchParams);
+    if (!value || value === "all") params.delete(key);
+    else params.set(key, value);
+    setSearchParams(params, { replace: mode === "replace" });
+  };
 
   const { data: allProducts, isLoading: allLoading } = useAllProducts(country);
   const { data: collections } = useCollections();
@@ -140,9 +139,11 @@ export default function Shop() {
   const activeFilters = [category, priceRange].filter((f) => f !== "all").length;
 
   const clearFilters = () => {
-    setCategory("all");
-    setPriceRange("all");
-    setSearchQuery("");
+    const params = new URLSearchParams(searchParams);
+    params.delete("category");
+    params.delete("price");
+    params.delete("q");
+    setSearchParams(params, { replace: true });
   };
 
   const activeCollection = categoryCollections.find((c) => c.handle === category);
@@ -209,7 +210,7 @@ export default function Shop() {
               onClick={() => setSortOpen(!sortOpen)}
               className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
             >
-              {SORT_OPTIONS.find((s) => s.id === sort)?.label}
+              {SORT_OPTIONS.find((s) => s.id === sort)?.label ?? "Featured"}
               <ChevronDown size={12} />
             </button>
             {sortOpen && (
@@ -218,7 +219,7 @@ export default function Shop() {
                   <button
                     key={opt.id}
                     onClick={() => {
-                      setSort(opt.id);
+                      updateParam("sort", opt.id);
                       setSortOpen(false);
                     }}
                     className={`block w-full text-left px-4 py-2 text-xs ${
@@ -240,13 +241,13 @@ export default function Shop() {
               label="Category"
               options={[{ handle: "all", title: "All" }, ...categoryCollections]}
               value={category}
-              onChange={setCategory}
+              onChange={(cat) => updateParam("category", cat, "push")}
             />
             <FilterGroup
               label="Price"
               options={PRICE_RANGES.map((r) => ({ handle: r.id, title: r.label }))}
               value={priceRange}
-              onChange={setPriceRange}
+              onChange={(r) => updateParam("price", r, "replace")}
             />
           </div>
         )}
