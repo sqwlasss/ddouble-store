@@ -57,7 +57,7 @@ export default function Register() {
   const handleGoogle = async () => {
     try {
       await loginWithGoogle();
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
       setError(err.message || "Google sign-in failed");
     }
