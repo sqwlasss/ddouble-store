@@ -13,8 +13,8 @@ export default function Settings() {
 
       <div className="space-y-10 max-w-lg">
         <section>
-          <h3 className="text-sm font-medium text-[#1A1A1A] mb-4 flex items-center gap-2">
-            <User size={16} />
+          <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4 flex items-center gap-1.5">
+            <User size={12} />
             Account
           </h3>
           <div className="border border-[#E5E5E1] p-5 space-y-3">
@@ -33,7 +33,7 @@ export default function Settings() {
         </section>
 
         <section className="border-t border-[#E5E5E1] pt-8">
-          <h3 className="text-sm font-medium text-[#1A1A1A] mb-4">Account actions</h3>
+          <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Account actions</h3>
           <Button
             onClick={() => logout()}
             variant="outline"
