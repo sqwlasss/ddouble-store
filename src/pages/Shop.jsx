@@ -341,11 +341,12 @@ export default function Shop() {
           </div>
         )}
 
-        {/* Mobile filter bottom-sheet (below md). Escape close + focus trap +
-            aria-modal come from Radix Dialog defaults. */}
-        <Dialog open={filtersOpen && isMobile} onOpenChange={setFiltersOpen}>
-          <DialogContent className="fixed bottom-0 inset-x-0 max-h-[80vh] overflow-y-auto bg-[#F9F9F7] border-t border-[#E5E5E1] p-6 focus:outline-none">
-            <DialogTitle className="sr-only">Filters</DialogTitle>
+        {/* Mobile filter bottom-sheet (below md). Escape close + focus trap
+            come from Radix Dialog defaults (Radix 1.x does not emit aria-modal;
+            CartDrawer sets it manually on its Content). */}
+        <Dialog.Root open={filtersOpen && isMobile} onOpenChange={setFiltersOpen}>
+          <Dialog.Content className="fixed bottom-0 inset-x-0 max-h-[80vh] overflow-y-auto bg-[#F9F9F7] border-t border-[#E5E5E1] p-6 focus:outline-none">
+            <Dialog.Title className="sr-only">Filters</Dialog.Title>
             <div className="grid grid-cols-2 gap-6">
               <FilterGroup
                 label="Category"
@@ -360,8 +361,8 @@ export default function Shop() {
                 onChange={(r) => updateParam("price", r, "replace")}
               />
             </div>
-          </DialogContent>
-        </Dialog>
+          </Dialog.Content>
+        </Dialog.Root>
 
         {/* Product grid */}
         {category === "all" ? (
