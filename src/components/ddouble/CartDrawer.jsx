@@ -3,6 +3,7 @@ import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useCurrency } from "@/lib/CurrencyContext";
 import Price from "@/components/ddouble/Price";
 import { Link } from "react-router-dom";
+import { shopifyImage } from "@/lib/utils";
 
 export default function CartDrawer({ open, onClose }) {
   const { country } = useCurrency();
@@ -43,7 +44,7 @@ export default function CartDrawer({ open, onClose }) {
                 return (
                   <div key={item.id} className="flex gap-4">
                     <img
-                      src={item.image}
+                      src={shopifyImage(item.image, 160)}
                       alt={item.title}
                       className="w-20 h-24 object-cover bg-[#F1F0EC]"
                     />

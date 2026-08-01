@@ -14,6 +14,7 @@ import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useToast } from "@/components/ui/use-toast";
+import { shopifyImage } from "@/lib/utils";
 
 const LIFESTYLE_IMAGES = {
   galleryWall: "https://media.base44.com/images/public/6a590df7244fc537b99549d8/8140dfca5_generated_d1feca24.png",
@@ -203,8 +204,11 @@ export default function ProductDetail() {
                 onClick={() => setZoomed(!zoomed)}
               >
                 <img
-                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : displayImage}
+                  src={showRoom ? LIFESTYLE_IMAGES.galleryWall : shopifyImage(displayImage, 1200)}
                   alt={selectedVariant?.image?.altText || product.title}
+                  width={1200}
+                  height={1600}
+                  fetchPriority="high"
                   className="w-full transition-transform duration-700"
                   style={{ transform: showRoom ? `scaleX(-1) ${zoomed ? 'scale(1.5)' : 'scale(1)'}` : zoomed ? 'scale(1.5)' : 'scale(1)' }}
                 />
@@ -221,8 +225,10 @@ export default function ProductDetail() {
                     }`}
                   >
                     <img
-                      src={img.url}
+                      src={shopifyImage(img.url, 200)}
                       alt={img.altText}
+                      width={80}
+                      height={80}
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />

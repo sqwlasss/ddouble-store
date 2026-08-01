@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/lib/FavoritesContext";
 import Price from "@/components/ddouble/Price";
+import { shopifyImage } from "@/lib/utils";
 
 export default function ProductCard({ product, index = 0, showHeart = false }) {
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -21,7 +22,7 @@ export default function ProductCard({ product, index = 0, showHeart = false }) {
     <Link to={`/product/${product.handle}`} className="group block">
       <div className="relative overflow-hidden bg-[#F1F0EC]">
         <img
-          src={product.image}
+          src={shopifyImage(product.image, 600)}
           alt={product.title}
           className="w-full aspect-[3/4] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           loading={index < 4 ? "eager" : "lazy"}
