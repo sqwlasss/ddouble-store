@@ -9,6 +9,7 @@ import { AccountProvider } from '@/lib/AccountContext';
 import { FavoritesProvider } from '@/lib/FavoritesContext';
 import { CurrencyProvider } from '@/lib/CurrencyContext';
 import ScrollToTop from './components/ScrollToTop';
+import CookieConsent from './components/CookieConsent';
 
 const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
@@ -130,6 +131,7 @@ function App() {
                   <ScrollToTop />
                   <AuthenticatedApp />
                   <Toaster />
+                  <CookieConsent />
                 </FavoritesProvider>
               </AccountProvider>
             </CurrencyProvider>
