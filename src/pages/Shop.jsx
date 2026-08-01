@@ -35,7 +35,7 @@ function useIsMobile() {
   return isMobile;
 }
 
-function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFilters }) {
+function ProductGrid({ products, loading, error, refetch, sort, priceRange, searchQuery, clearFilters }) {
   const filtered = useMemo(() => {
     let result = [...(products || [])];
 
@@ -82,10 +82,24 @@ function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFi
     );
   }
 
+  if (error) {
+    return (
+      <div className="py-24 text-center">
+        <p className="text-sm text-[#6B6B67]">Something went wrong loading products.</p>
+        <button
+          onClick={refetch}
+          className="mt-4 text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#1A1A1A]"
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
+
   if (filtered.length === 0) {
     return (
       <div className="py-24 text-center">
-        <p className="text-sm text-[#6B6B67]">No prints match your filters.</p>
+        <p className="text-sm text-[#6B6B67]">No pieces match your filters — try adjusting them.</p>
         <button
           onClick={clearFilters}
           className="mt-4 text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#1A1A1A]"
@@ -108,7 +122,7 @@ function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFi
 }
 
 function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters, country, onCountChange, onLoadingChange }) {
-  const { data, isLoading } = useCollectionProducts(collectionHandle, country);
+  const { data, isLoading, error, refetch } = useCollectionProducts(collectionHandle, country);
   const products = data?.products || [];
 
   useEffect(() => {
@@ -120,6 +134,8 @@ function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, c
     <ProductGrid
       products={products}
       loading={isLoading}
+      error={error}
+      refetch={refetch}
       sort={sort}
       priceRange={priceRange}
       searchQuery={searchQuery}
@@ -160,7 +176,7 @@ export default function Shop() {
     setSearchParams(params, { replace: mode === "replace" });
   };
 
-  const { data: pageData, isPending, isFetching } = useAllProductsPage(
+  const { data: pageData, isPending, isFetching, error, refetch } = useAllProductsPage(
     country,
     pagination.country === country ? pagination.cursor : null
   );
@@ -347,6 +363,10 @@ export default function Shop() {
             <ProductGrid
               products={pages}
               loading={allLoading}
+              // Only surface the error when there is nothing to show: a failed
+              // "load more" fetch keeps the accumulated grid visible.
+              error={error && pages.length === 0 ? error : null}
+              refetch={refetch}
               sort={sort}
               priceRange={priceRange}
               searchQuery={searchQuery}
