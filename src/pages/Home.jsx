@@ -7,6 +7,7 @@ import Footer from "@/components/ddouble/Footer";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useCollections, useCollectionProducts } from "@/hooks/useProducts";
 import homeHero from "../../assets/home.jpg";
+import homeHero800 from "../../assets/home-800.jpg";
 import photoVertical from "../../assets/photo_vertical.jpg";
 import photo2026 from "../../assets/photo_2026.jpg";
 import diningImg from "../../assets/photo_2026-07-24_15-18-36.jpg";
@@ -168,7 +169,12 @@ export default function Home() {
         </div>
         <div className="flex-1 lg:h-screen">
           <img
-            src={homeHero}
+            src={homeHero800}
+            srcSet={`${homeHero800} 800w, ${homeHero} 1056w`}
+            sizes="(max-width: 1023px) 100vw, 50vw"
+            width="800"
+            height="970"
+            fetchPriority="high"
             alt="Scandinavian living room with premium wall art"
             className="w-full h-[60vh] lg:h-full object-cover"
           />
