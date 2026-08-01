@@ -21,6 +21,10 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Shipping = lazy(() => import('./pages/Shipping'));
+const Returns = lazy(() => import('./pages/Returns'));
 
 // Account pages
 const AccountLayout = lazy(() => import('./components/AccountLayout'));
@@ -92,6 +96,10 @@ const AuthenticatedApp = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/returns" element={<Returns />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
