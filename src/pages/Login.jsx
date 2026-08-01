@@ -4,7 +4,7 @@ import { loginViaEmailPassword, loginWithGoogle } from "@/lib/firebaseAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LogIn, Mail, Lock, Loader2, ArrowLeft } from "lucide-react";
+import { LogIn, Mail, Lock, Loader2, ArrowLeft, X } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 
@@ -14,14 +14,19 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showBanner, setShowBanner] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
-      await loginViaEmailPassword(email, password);
-      window.location.href = "/account";
+      const user = await loginViaEmailPassword(email, password);
+      if (user.emailVerified === false) {
+        setShowBanner(true);
+      } else {
+        window.location.href = "/account";
+      }
     } catch (err) {
       setError(err.message || "Invalid email or password");
     } finally {
@@ -77,6 +82,15 @@ export default function Login() {
           <span className="bg-[#F9F9F7] px-3 text-[#6B6B67]">or</span>
         </div>
       </div>
+
+      {showBanner && (
+        <div className="mb-4 p-3 border border-[#E5E5E1] bg-[#F1F0EC] text-sm text-[#1A1A1A] flex items-start justify-between gap-3">
+          <span>Please verify your email — check your inbox for the verification link.</span>
+          <button onClick={() => setShowBanner(false)} aria-label="Dismiss">
+            <X size={14} />
+          </button>
+        </div>
+      )}
 
       {error && (
         <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
