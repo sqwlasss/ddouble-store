@@ -27,7 +27,7 @@ export default function CurrencySelector() {
         <ChevronDown size={10} />
       </button>
       {open && (
-        <div className="absolute right-0 top-full mt-2 bg-white border border-[#E5E5E1] rounded-sm shadow-[0_8px_40px_rgba(0,0,0,0.03)] py-2 min-w-[140px] z-10">
+        <div className="absolute right-0 top-full mt-2 bg-white border border-[#E5E5E1] rounded-none shadow-[0_8px_40px_rgba(0,0,0,0.03)] py-2 min-w-[140px] z-10">
           {supportedCurrencies.map((c) => (
             <button
               key={c.code}

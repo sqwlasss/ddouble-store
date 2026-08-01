@@ -125,8 +125,8 @@ export default function CountrySelect({ value, onChange, id, required, className
           aria-haspopup="listbox"
         aria-expanded={open}
         className={cn(
-          "flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-          !selected && "text-muted-foreground",
+          "flex h-9 w-full items-center justify-between rounded-none border border-[#E5E5E1] bg-transparent px-3 py-1 text-base transition-colors hover:bg-[#F1F0EC] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          !selected && "text-[#6B6B67]",
           className
         )}
       >
@@ -136,19 +136,19 @@ export default function CountrySelect({ value, onChange, id, required, className
             <span className="truncate">{selected.name}</span>
           </span>
         ) : (
-          <span className="text-muted-foreground">{placeholder}</span>
+          <span className="text-[#6B6B67]">{placeholder}</span>
         )}
         <ChevronDown
           size={14}
           className={cn(
-            "shrink-0 text-muted-foreground transition-transform",
+            "shrink-0 text-[#6B6B67] transition-transform",
             open && "rotate-180"
           )}
         />
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-1 w-full rounded-md border border-[#E5E5E1] bg-white shadow-lg max-h-72 flex flex-col">
+        <div className="absolute z-50 mt-1 w-full rounded-none border border-[#E5E5E1] bg-white shadow-[0_8px_40px_rgba(0,0,0,0.03)] max-h-72 flex flex-col">
           <div className="flex items-center gap-2 border-b border-[#E5E5E1] px-3 py-2">
             <Search size={14} className="shrink-0 text-[#6B6B67]" />
             <input
