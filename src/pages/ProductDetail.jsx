@@ -208,7 +208,7 @@ export default function ProductDetail() {
                   alt={selectedVariant?.image?.altText || product.title}
                   width={1200}
                   height={1600}
-                  fetchPriority="high"
+                  fetchpriority="high"
                   className="w-full transition-transform duration-700"
                   style={{ transform: showRoom ? `scaleX(-1) ${zoomed ? 'scale(1.5)' : 'scale(1)'}` : zoomed ? 'scale(1.5)' : 'scale(1)' }}
                 />
