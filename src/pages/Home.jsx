@@ -27,22 +27,22 @@ const TESTIMONIALS = [
 ];
 
 function CollectionCard({ collection }) {
-  const { country } = useCurrency();
-  const { data } = useCollectionProducts(collection.handle, country);
-  const firstProduct = data?.products?.[0];
-
   return (
     <Link to={`/shop?category=${collection.handle}`} className="group block">
       <div className="aspect-square overflow-hidden bg-[#F1F0EC] relative">
-        {firstProduct?.image ? (
+        {collection.image ? (
           <img
-            src={firstProduct.image}
+            src={collection.image}
             alt={collection.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full animate-pulse" />
+          <div className="w-full h-full flex items-center justify-center px-4">
+            <span className="text-xs uppercase tracking-[0.15em] text-[#6B6B67] text-center">
+              {collection.title}
+            </span>
+          </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-5 md:p-6">
