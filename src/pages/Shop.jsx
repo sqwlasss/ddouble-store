@@ -311,6 +311,7 @@ export default function Shop() {
               onClick={toggleSort}
               className="min-h-11 flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
               aria-expanded={sortOpen}
+              aria-haspopup="true"
             >
               {SORT_OPTIONS.find((s) => s.id === sort)?.label ?? "Default"}
               <ChevronDown size={12} />

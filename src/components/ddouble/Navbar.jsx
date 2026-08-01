@@ -40,7 +40,6 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const mobileMenuRef = useRef(null);
   const searchPanelRef = useRef(null);
-  const megaButtonRef = useRef(null);
   const { country } = useCurrency();
   const { totalItems } = useShopifyCart(country);
   const { favoritesCount } = useFavorites();
@@ -127,7 +126,6 @@ export default function Navbar() {
 
   const closeMegaMenu = () => {
     setMegaOpen(false);
-    megaButtonRef.current?.focus();
   };
 
   useEscapeClose(mobileOpen, () => setMobileOpen(false));
@@ -168,7 +166,7 @@ export default function Navbar() {
                     onBlur={handleMegaBlur}
                   >
                     <button
-                      ref={megaButtonRef}
+                      onClick={() => setMegaOpen(!megaOpen)}
                       className="text-[11px] uppercase tracking-[0.12em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                       aria-haspopup="true"
                       aria-expanded={megaOpen}
