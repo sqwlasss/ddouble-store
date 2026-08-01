@@ -46,7 +46,7 @@ export default function Login() {
       footer={
         <>
           Don't have an account?{" "}
-          <Link to="/register" className="text-primary font-medium hover:underline">
+          <Link to="/register" className="text-[#1A1A1A] font-medium hover:underline">
             Create one
           </Link>
         </>
@@ -54,7 +54,7 @@ export default function Login() {
     >
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        className="flex items-center gap-2 text-sm text-[#6B6B67] hover:text-[#1A1A1A] transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
         Back
@@ -71,15 +71,15 @@ export default function Login() {
 
       <div className="relative mb-6">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
+          <div className="w-full border-t border-[#E5E5E1]" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-3 text-muted-foreground">or</span>
+          <span className="bg-[#F9F9F7] px-3 text-[#6B6B67]">or</span>
         </div>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 rounded-none bg-destructive/10 text-destructive text-sm">
+        <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
           {error}
         </div>
       )}
@@ -88,7 +88,7 @@ export default function Login() {
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B67]" aria-hidden="true" />
             <Input
               id="email"
               type="email"
@@ -105,12 +105,12 @@ export default function Login() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+            <Link to="/forgot-password" className="text-xs text-[#1A1A1A] hover:underline">
               Forgot password?
             </Link>
           </div>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B67]" aria-hidden="true" />
             <Input
               id="password"
               type="password"

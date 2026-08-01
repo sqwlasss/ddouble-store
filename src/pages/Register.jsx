@@ -81,14 +81,14 @@ export default function Register() {
       >
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+          className="flex items-center gap-2 text-sm text-[#6B6B67] hover:text-[#1A1A1A] transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Back
         </button>
 
         {error && (
-          <div className="mb-4 p-3 rounded-none bg-destructive/10 text-destructive text-sm">
+          <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
             {error}
           </div>
         )}
@@ -124,9 +124,9 @@ export default function Register() {
             "Verify"
           )}
         </Button>
-        <p className="text-center text-sm text-muted-foreground mt-4">
+        <p className="text-center text-sm text-[#6B6B67] mt-4">
           Didn't receive the code?{" "}
-          <button onClick={handleResend} className="text-primary font-medium hover:underline">
+          <button onClick={handleResend} className="text-[#1A1A1A] font-medium hover:underline">
             Resend
           </button>
         </p>
@@ -142,7 +142,7 @@ export default function Register() {
       footer={
         <>
           Already have an account?{" "}
-          <Link to="/login" className="text-primary font-medium hover:underline">
+          <Link to="/login" className="text-[#1A1A1A] font-medium hover:underline">
             Log in
           </Link>
         </>
@@ -150,7 +150,7 @@ export default function Register() {
     >
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        className="flex items-center gap-2 text-sm text-[#6B6B67] hover:text-[#1A1A1A] transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
         Back
@@ -167,15 +167,15 @@ export default function Register() {
 
       <div className="relative mb-6">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
+          <div className="w-full border-t border-[#E5E5E1]" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-3 text-muted-foreground">or</span>
+          <span className="bg-[#F9F9F7] px-3 text-[#6B6B67]">or</span>
         </div>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 rounded-none bg-destructive/10 text-destructive text-sm">
+        <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
           {error}
         </div>
       )}
@@ -184,7 +184,7 @@ export default function Register() {
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B67]" aria-hidden="true" />
             <Input
               id="email"
               type="email"
@@ -201,7 +201,7 @@ export default function Register() {
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B67]" aria-hidden="true" />
             <Input
               id="password"
               type="password"
@@ -217,7 +217,7 @@ export default function Register() {
         <div className="space-y-2">
           <Label htmlFor="confirm">Confirm Password</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B67]" aria-hidden="true" />
             <Input
               id="confirm"
               type="password"
