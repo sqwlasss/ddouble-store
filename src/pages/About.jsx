@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import Seo from "@/components/Seo";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import FadeIn from "@/components/ddouble/FadeIn";
@@ -8,6 +9,11 @@ import aboutImg from "../../assets/about-us.jpg";
 export default function About() {
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
+      <Seo
+        title="About — DDouble | Museum-Grade Wall Art, Made in Copenhagen"
+        description="The story behind DDouble: fine-art prints on museum-grade paper, made in Copenhagen and designed to be lived with, not just looked at."
+        canonicalPath="/about"
+      />
       <Navbar />
 
       <main>

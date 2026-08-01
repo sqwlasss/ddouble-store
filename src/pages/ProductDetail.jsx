@@ -13,6 +13,7 @@ import StickyAddToCart from "@/components/ddouble/StickyAddToCart";
 import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
+import Seo from "@/components/Seo";
 import { useToast } from "@/components/ui/use-toast";
 import { shopifyImage } from "@/lib/utils";
 import { FREE_SHIPPING_THRESHOLD } from "@/config/shipping";
@@ -182,6 +183,12 @@ export default function ProductDetail() {
 
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
+      <Seo
+        title={`${product.title} — DDouble | Fine-Art Poster`}
+        description={(product.description || product.title).slice(0, 155)}
+        canonicalPath={`/product/${product.handle}`}
+        image={product.image}
+      />
       <Navbar />
         <script
           type="application/ld+json"

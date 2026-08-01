@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
+import Seo from "@/components/Seo";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
@@ -234,6 +235,11 @@ export default function Shop() {
 
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
+      <Seo
+        title={activeCollection ? `${activeCollection.title} — DDouble | Fine-Art Prints & Decor` : "Shop All — DDouble | Fine-Art Prints & Decor"}
+        description="Fine-art prints and decor, made in Copenhagen."
+        canonicalPath={category !== "all" ? `/shop?category=${category}` : "/shop"}
+      />
       <Navbar />
 
       <main>

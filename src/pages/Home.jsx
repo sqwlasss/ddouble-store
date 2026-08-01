@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import Seo from "@/components/Seo";
 import FadeIn from "@/components/ddouble/FadeIn";
 import ProductCard from "@/components/ddouble/ProductCard";
 import Navbar from "@/components/ddouble/Navbar";
@@ -144,6 +145,7 @@ export default function Home() {
 
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
+      <Seo title="DDouble — Museum-Grade Wall Art | Made in Copenhagen" canonicalPath="/" />
       <Navbar />
 
       <main>
