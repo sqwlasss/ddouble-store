@@ -90,8 +90,8 @@ export default function Footer() {
           <div>
             <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56] mb-4">Help</h3>
             <div className="space-y-3">
-              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">Shipping</Link>
-              <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">Returns</Link>
+              <Link to="/shipping" className="block text-sm text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">Shipping</Link>
+              <Link to="/returns" className="block text-sm text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">Returns</Link>
               <Link to="/faq" className="block text-sm text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">Size Guide</Link>
             </div>
           </div>
@@ -112,8 +112,8 @@ export default function Footer() {
         <div className="py-6 border-t border-[#E5E5E1] flex flex-col md:flex-row items-center justify-between gap-4">
           <span className="text-[11px] text-[#5A5A56]">© 2026 DDouble. All rights reserved.</span>
           <div className="flex gap-6">
-            <Link to="/about" className="text-[11px] text-[#5A5A56] hover:text-[#1A1A1A] transition-colors">Privacy Policy</Link>
-            <Link to="/about" className="text-[11px] text-[#5A5A56] hover:text-[#1A1A1A] transition-colors">Terms of Service</Link>
+            <Link to="/privacy" className="text-[11px] text-[#5A5A56] hover:text-[#1A1A1A] transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="text-[11px] text-[#5A5A56] hover:text-[#1A1A1A] transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
