@@ -8,7 +8,7 @@ import FadeIn from "@/components/ddouble/FadeIn";
 import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useCurrency } from "@/lib/CurrencyContext";
 
-import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/useProducts";
+import { useAllProductsPage, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 
 const SORT_OPTIONS = [
   { id: "default", label: "Default" },
@@ -129,6 +129,10 @@ export default function Shop() {
   const [sortOpen, setSortOpen] = useState(false);
   const [collectionCount, setCollectionCount] = useState(0);
   const [collectionLoading, setCollectionLoading] = useState(true);
+  // Pagination for the "all" view: pages are accumulated from useAllProductsPage
+  // and keyed by country so a storefront switch resets cursor/pages without ever
+  // firing a stale-cursor query for the new country.
+  const [pagination, setPagination] = useState({ country, cursor: null, pages: [], hasMore: false });
 
   const updateParam = (key, value, mode = "replace") => {
     const params = new URLSearchParams(searchParams);
@@ -137,8 +141,44 @@ export default function Shop() {
     setSearchParams(params, { replace: mode === "replace" });
   };
 
-  const { data: allProducts, isLoading: allLoading } = useAllProducts(country);
+  const { data: pageData, isPending, isFetching } = useAllProductsPage(
+    country,
+    pagination.country === country ? pagination.cursor : null
+  );
+  const pageInfo = pageData?.pageInfo;
   const { data: collections } = useCollections();
+
+  // Derived state: when the storefront changes, treat pagination as reset so
+  // the grid never shows the previous country's accumulated list.
+  const current =
+    pagination.country === country
+      ? pagination
+      : { country, cursor: null, pages: [], hasMore: false };
+  const pages = current.pages;
+  const hasMore = current.hasMore;
+  // Skeleton only while the first page is loading; "Load more" fetches keep
+  // the already-accumulated grid visible.
+  const allLoading = isPending && pages.length === 0;
+
+  // Append each fetched page to the accumulated list, deduping by product id.
+  // A country change replaces the list instead of appending to the old one.
+  useEffect(() => {
+    if (!pageData?.products) return;
+    setPagination((prev) => {
+      if (prev.country !== country) {
+        return { country, cursor: null, pages: pageData.products, hasMore: pageData.pageInfo.hasNextPage };
+      }
+      const map = new Map(prev.pages.map((p) => [p.id, p]));
+      for (const p of pageData.products) map.set(p.id, p);
+      return { ...prev, pages: [...map.values()], hasMore: pageData.pageInfo.hasNextPage };
+    });
+  }, [pageData, country]);
+
+  const loadMore = () => {
+    if (pageInfo?.hasNextPage) {
+      setPagination((prev) => ({ ...prev, cursor: pageInfo.endCursor }));
+    }
+  };
 
   const categoryCollections = useMemo(
     () => collections || [],
@@ -180,7 +220,7 @@ export default function Shop() {
               {category === "all"
                 ? allLoading
                   ? "Loading…"
-                  : `${(allProducts || []).length} ${(allProducts || []).length === 1 ? "piece" : "pieces"}`
+                  : `${pages.length} ${pages.length === 1 ? "piece" : "pieces"}`
                 : collectionLoading
                   ? "Loading…"
                   : `${collectionCount} ${collectionCount === 1 ? "piece" : "pieces"}`}
@@ -262,14 +302,25 @@ export default function Shop() {
 
         {/* Product grid */}
         {category === "all" ? (
-          <ProductGrid
-            products={allProducts}
-            loading={allLoading}
-            sort={sort}
-            priceRange={priceRange}
-            searchQuery={searchQuery}
-            clearFilters={clearFilters}
-          />
+          <>
+            <ProductGrid
+              products={pages}
+              loading={allLoading}
+              sort={sort}
+              priceRange={priceRange}
+              searchQuery={searchQuery}
+              clearFilters={clearFilters}
+            />
+            {hasMore && (
+              <button
+                onClick={loadMore}
+                disabled={isFetching}
+                className="mt-16 mx-auto block text-xs uppercase tracking-[0.15em] border border-[#1A1A1A] px-8 py-4 hover:bg-[#1A1A1A] hover:text-white transition-colors disabled:opacity-50"
+              >
+                {isFetching ? "Loading…" : "Load more"}
+              </button>
+            )}
+          </>
         ) : (
           <CollectionProducts
             collectionHandle={category}
