@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, ShoppingBag, Heart, User, Menu, X, ChevronDown } from "lucide-react";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
@@ -10,6 +10,8 @@ import CurrencySelector, { MobileCurrencySelector } from "@/components/ddouble/C
 import Price from "@/components/ddouble/Price";
 import CartDrawer from "@/components/ddouble/CartDrawer";
 import { shopifyImage } from "@/lib/utils";
+import useEscapeClose from "@/hooks/useEscapeClose";
+import usePanelFocus from "@/hooks/usePanelFocus";
 
 const NAV_LINKS = [
   { label: "Shop", path: "/shop" },
@@ -36,6 +38,9 @@ export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const mobileMenuRef = useRef(null);
+  const searchPanelRef = useRef(null);
+  const megaButtonRef = useRef(null);
   const { country } = useCurrency();
   const { totalItems } = useShopifyCart(country);
   const { favoritesCount } = useFavorites();
@@ -93,6 +98,42 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
+  // Panel keyboard behavior: Escape closes; focus moves into the panel on
+  // open and back to the trigger on close (CartDrawer/filter sheet get this
+  // from Radix Dialog already).
+  const saveMobileMenuFocus = usePanelFocus(mobileOpen, mobileMenuRef);
+  const saveSearchFocus = usePanelFocus(searchOpen, searchPanelRef);
+
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setSearchQuery("");
+  };
+
+  const toggleMobileMenu = () => {
+    saveMobileMenuFocus();
+    setMobileOpen((prev) => !prev);
+  };
+
+  const toggleSearch = () => {
+    saveSearchFocus();
+    setSearchOpen((prev) => !prev);
+  };
+
+  // Hover/click mega menu: keep open while focus is inside (React's onBlur
+  // bubbles, so only close when focus leaves the whole menu subtree).
+  const handleMegaBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) setMegaOpen(false);
+  };
+
+  const closeMegaMenu = () => {
+    setMegaOpen(false);
+    megaButtonRef.current?.focus();
+  };
+
+  useEscapeClose(mobileOpen, () => setMobileOpen(false));
+  useEscapeClose(searchOpen, closeSearch);
+  useEscapeClose(megaOpen, closeMegaMenu);
+
   return (
     <>
       <header
@@ -107,9 +148,10 @@ export default function Navbar() {
             {/* Left: mobile menu + desktop nav */}
             <div className="flex items-center gap-8 flex-1">
               <button
-                onClick={() => setMobileOpen(!mobileOpen)}
+                onClick={toggleMobileMenu}
                 className="lg:hidden min-w-11 min-h-11 flex items-center justify-center"
                 aria-label="Menu"
+                aria-expanded={mobileOpen}
               >
                 {mobileOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
@@ -123,9 +165,14 @@ export default function Navbar() {
                     onMouseEnter={() => setMegaOpen(true)}
                     onMouseLeave={() => setMegaOpen(false)}
                     onFocus={() => setMegaOpen(true)}
-                    onBlur={() => setMegaOpen(false)}
+                    onBlur={handleMegaBlur}
                   >
-                    <button className="text-[11px] uppercase tracking-[0.12em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">
+                    <button
+                      ref={megaButtonRef}
+                      className="text-[11px] uppercase tracking-[0.12em] text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                      aria-haspopup="true"
+                      aria-expanded={megaOpen}
+                    >
                       {link.label}
                     </button>
                     {megaOpen && (
@@ -171,9 +218,10 @@ export default function Navbar() {
                 <CurrencySelector />
               </div>
               <button
-                onClick={() => setSearchOpen(!searchOpen)}
+                onClick={toggleSearch}
                 className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Search"
+                aria-expanded={searchOpen}
               >
                 <Search size={18} />
               </button>
@@ -223,26 +271,20 @@ export default function Navbar() {
 
           {/* Search bar */}
           {searchOpen && (
-            <div className="border-t border-[#E5E5E1] py-4 relative">
+            <div ref={searchPanelRef} className="border-t border-[#E5E5E1] py-4 relative">
               <div className="flex items-center gap-3">
                 <Search size={16} className="text-[#6B6B67] shrink-0" />
                 <input
                   type="text"
                   placeholder="Search for posters..."
                   className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#6B6B67]"
-                  autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   aria-label="Search"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && searchQuery.trim()) {
                       navigate(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
-                      setSearchOpen(false);
-                      setSearchQuery("");
-                    }
-                    if (e.key === "Escape") {
-                      setSearchOpen(false);
-                      setSearchQuery("");
+                      closeSearch();
                     }
                   }}
                 />
@@ -271,7 +313,7 @@ export default function Navbar() {
                     <Link
                       key={product.handle}
                       to={`/product/${product.handle}`}
-                      onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+                      onClick={closeSearch}
                       className="flex items-center gap-3 py-2 hover:bg-[#F1F0EC] -mx-2 px-2 transition-colors"
                     >
                       <img src={shopifyImage(product.image, 160)} alt={product.title} className="w-10 h-10 object-cover" />
@@ -294,7 +336,11 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="lg:hidden fixed left-0 right-0 bottom-0 top-16 md:top-20 bg-[#F9F9F7] border-t border-[#E5E5E1] overflow-y-auto overscroll-contain z-40">
+          <div
+            ref={mobileMenuRef}
+            tabIndex={-1}
+            className="lg:hidden fixed left-0 right-0 bottom-0 top-16 md:top-20 bg-[#F9F9F7] border-t border-[#E5E5E1] overflow-y-auto overscroll-contain z-40"
+          >
             <div className="px-6 py-6 space-y-4 min-h-full">
               {navLinks.map((link) =>
                 link.children ? (
