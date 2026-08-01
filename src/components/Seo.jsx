@@ -19,6 +19,7 @@ function setLink(rel, href) {
   let el = document.head.querySelector(`link[rel="${rel}"]`);
   if (!el) { el = document.createElement("link"); el.setAttribute("rel", rel); document.head.appendChild(el); }
   if (href) el.setAttribute("href", href);
+  else el.remove();
 }
 
 export default function Seo({ title, description, canonicalPath, image, noindex = false, jsonLd = null }) {
@@ -26,7 +27,7 @@ export default function Seo({ title, description, canonicalPath, image, noindex 
     const prevTitle = document.title;
     document.title = title || DEFAULT_TITLE;
     setMeta("name", "description", description || DEFAULT_DESCRIPTION);
-    if (canonicalPath) setLink("canonical", `${SITE_URL}${canonicalPath}`);
+    setLink("canonical", canonicalPath ? `${SITE_URL}${canonicalPath}` : "");
     setMeta("property", "og:title", title || DEFAULT_TITLE);
     setMeta("property", "og:description", description || DEFAULT_DESCRIPTION);
     setMeta("property", "og:url", canonicalPath ? `${SITE_URL}${canonicalPath}` : SITE_URL);

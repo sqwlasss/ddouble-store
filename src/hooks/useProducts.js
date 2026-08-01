@@ -82,7 +82,7 @@ export function useAllProducts(country) {
 // accumulate pages and drive a "load more" button. Kept separate from
 // useAllProducts so existing callers (Navbar search, ProductDetail related,
 // Favorites, Wishlist) keep receiving the plain array they expect.
-export function useAllProductsPage(country, after = null) {
+export function useAllProductsPage(country, after = null, { enabled = true } = {}) {
   return useQuery({
     queryKey: ["products", "all-posters", country, after],
     queryFn: async () => {
@@ -96,6 +96,7 @@ export function useAllProductsPage(country, after = null) {
       };
     },
     staleTime: 60 * 1000,
+    enabled,
   });
 }
 
