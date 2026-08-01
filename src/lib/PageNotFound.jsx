@@ -38,7 +38,7 @@ export default function PageNotFound({}) {
                                 </div>
                                 <div className="text-left space-y-1">
                                     <p className="text-sm font-medium text-[#1A1A1A]">Admin Note</p>
-                                    <p className="text-sm text-[#6B6B67] leading-relaxed">
+                                    <p className="text-sm text-[#5A5A56] leading-relaxed">
                                         This could mean that the AI hasn't implemented this page yet. Ask it to implement it in the chat.
                                     </p>
                                 </div>

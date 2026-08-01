@@ -254,7 +254,7 @@ export default function Navbar() {
               </div>
               {searchOpen && !searchQuery.trim() && (
                 <div className="mt-3 pt-3 border-t border-[#E5E5E1]">
-                  <p className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-2">Popular searches</p>
+                  <p className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56] mb-2">Popular searches</p>
                   <div className="flex flex-wrap gap-2">
                     {["Poster", "Rug", "Bedding"].map((term) => (
                       <button key={term} onClick={() => setSearchQuery(term)}
@@ -277,7 +277,7 @@ export default function Navbar() {
                       <img src={shopifyImage(product.image, 160)} alt={product.title} className="w-10 h-10 object-cover" />
                       <div>
                         <p className="text-sm text-[#1A1A1A]">{product.title}</p>
-                        <p className="text-xs text-[#6B6B67]"><Price amount={product.price} /></p>
+                        <p className="text-xs text-[#5A5A56]"><Price amount={product.price} /></p>
                       </div>
                     </Link>
                   ))}

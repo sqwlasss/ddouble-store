@@ -138,12 +138,12 @@ export default function CartDrawer({ open, onClose }) {
                 {loading ? "Loading..." : "Checkout"}
               </button>
               <div className="pt-3 space-y-2">
-                <p className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67]">Secure checkout by Shopify</p>
+                <p className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56]">Secure checkout by Shopify</p>
                 <div className="flex gap-2">
-                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">VISA</span>
-                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">Mastercard</span>
-                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">PayPal</span>
-                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">Apple Pay</span>
+                  <span className="text-[11px] font-bold text-[#5A5A56] border border-[#E5E5E1] px-2 py-1 rounded-sm">VISA</span>
+                  <span className="text-[11px] font-bold text-[#5A5A56] border border-[#E5E5E1] px-2 py-1 rounded-sm">Mastercard</span>
+                  <span className="text-[11px] font-bold text-[#5A5A56] border border-[#E5E5E1] px-2 py-1 rounded-sm">PayPal</span>
+                  <span className="text-[11px] font-bold text-[#5A5A56] border border-[#E5E5E1] px-2 py-1 rounded-sm">Apple Pay</span>
                 </div>
               </div>
               <button
