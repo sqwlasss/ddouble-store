@@ -334,7 +334,7 @@ export default function ProductDetail() {
               {product.options.map((option, idx) => (
                 option.values.length > 1 && (
                   <div key={option.name} className={idx === 0 ? "mt-8" : "mt-6"}>
-                    <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">{option.name}</h3>
+                    <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56] mb-3">{option.name}</h3>
                     <div className="flex flex-wrap gap-2">
                       {option.values.map((value) => (
                         <button
@@ -356,7 +356,7 @@ export default function ProductDetail() {
 
               {/* Quantity */}
               <div className="mt-6">
-                <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Quantity</h3>
+                <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56] mb-3">Quantity</h3>
                 <div className="inline-flex items-center border border-[#E5E5E1]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -602,7 +602,7 @@ function EstimatedDelivery() {
 
   return (
     <div className="mt-8 pt-8 border-t border-[#E5E5E1]">
-      <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3">Estimated Delivery</h3>
+      <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56] mb-3">Estimated Delivery</h3>
       <div className="space-y-2">
         {regions.map((region) => (
           <div key={region.name} className="flex items-center gap-3">

@@ -99,7 +99,7 @@ export default function FAQ() {
       <main>
       <div className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-3xl mx-auto">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Help</span>
+          <span className="text-[11px] uppercase tracking-[0.2em] text-[#5A5A56]">Help</span>
           <h1 className="mt-4 text-4xl md:text-5xl font-light text-[#1A1A1A]">
             Frequently Asked Questions
           </h1>
@@ -112,7 +112,7 @@ export default function FAQ() {
           {FAQ_SECTIONS.map((section, si) => (
             <FadeIn key={si} delay={si * 0.08}>
               <div>
-                <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67] mb-4">{section.title}</h2>
+                <h2 className="text-[11px] uppercase tracking-[0.2em] text-[#5A5A56] mb-4">{section.title}</h2>
                 <Accordion type="single" collapsible>
                   {section.items.map((item, i) => (
                     <AccordionItem key={i} value={`${si}-${i}`} className="border-b border-[#E5E5E1]">

@@ -411,7 +411,7 @@ export default function Shop() {
 function FilterGroup({ label, options, value, onChange }) {
   return (
     <div>
-      <span className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-3 block">{label}</span>
+      <span className="text-[11px] uppercase tracking-[0.15em] text-[#5A5A56] mb-3 block">{label}</span>
       <div className="space-y-2">
         {options.map((opt) => (
           <button

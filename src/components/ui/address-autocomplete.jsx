@@ -156,7 +156,7 @@ export default function AddressAutocomplete({
               <div className="min-w-0">
                 <div className="text-[#1A1A1A] truncate">{p.mainText}</div>
                 {p.secondaryText && (
-                  <div className="text-[#6B6B67] text-xs truncate">
+                  <div className="text-[#5A5A56] text-xs truncate">
                     {p.secondaryText}
                   </div>
                 )}

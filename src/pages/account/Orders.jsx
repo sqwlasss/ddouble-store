@@ -11,7 +11,7 @@ import { toast } from "@/components/ui/use-toast";
 const STATUS_COLORS = {
   PAID: "text-green-700 bg-green-50",
   PENDING: "text-yellow-700 bg-yellow-50",
-  UNFULFILLED: "text-[#6B6B67] bg-[#F1F0EC]",
+  UNFULFILLED: "text-[#5A5A56] bg-[#F1F0EC]",
   FULFILLED: "text-green-700 bg-green-50",
   CANCELED: "text-red-700 bg-red-50",
   REFUNDED: "text-red-700 bg-red-50",
@@ -21,7 +21,7 @@ const STATUS_COLORS = {
 function statusBadge(status) {
   const color = STATUS_COLORS[status] || STATUS_COLORS.UNFULFILLED;
   return (
-    <span className={`inline-block px-2 py-0.5 text-[10px] uppercase tracking-[0.05em] ${color}`}>
+    <span className={`inline-block px-2 py-0.5 text-[11px] uppercase tracking-[0.05em] ${color}`}>
       {status ? status.replace(/_/g, " ") : "N/A"}
     </span>
   );
