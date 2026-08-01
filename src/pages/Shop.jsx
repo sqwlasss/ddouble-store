@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import * as Dialog from "@radix-ui/react-dialog";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
@@ -16,6 +17,23 @@ const SORT_OPTIONS = [
   { id: "price-desc", label: "Price: High–Low" },
   { id: "alpha", label: "A–Z" },
 ];
+
+// True below the Tailwind `md` breakpoint (768px). Inline per brief — the
+// shared use-mobile.jsx hook was deleted in Part 1 and is not recreated.
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia("(max-width: 767px)").matches
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 767px)");
+    const onChange = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+
+  return isMobile;
+}
 
 function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFilters }) {
   const filtered = useMemo(() => {
@@ -125,6 +143,7 @@ export default function Shop() {
   const priceRange = searchParams.get("price") || "all";
   const sort = searchParams.get("sort") || "default";
   const searchQuery = searchParams.get("q") || "";
+  const isMobile = useIsMobile();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [collectionCount, setCollectionCount] = useState(0);
@@ -282,9 +301,9 @@ export default function Shop() {
           </div>
         </div>
 
-        {/* Filters drawer */}
+        {/* Filters drawer (desktop, md+ only) */}
         {filtersOpen && (
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-6 md:gap-8 pb-8 mb-8 border-b border-[#E5E5E1]">
+          <div className="hidden md:grid grid-cols-2 gap-6 md:gap-8 pb-8 mb-8 border-b border-[#E5E5E1]">
             <FilterGroup
               label="Category"
               options={[{ handle: "all", title: "All" }, ...categoryCollections]}
@@ -299,6 +318,28 @@ export default function Shop() {
             />
           </div>
         )}
+
+        {/* Mobile filter bottom-sheet (below md). Escape close + focus trap +
+            aria-modal come from Radix Dialog defaults. */}
+        <Dialog open={filtersOpen && isMobile} onOpenChange={setFiltersOpen}>
+          <DialogContent className="fixed bottom-0 inset-x-0 max-h-[80vh] overflow-y-auto bg-[#F9F9F7] border-t border-[#E5E5E1] p-6">
+            <DialogTitle className="sr-only">Filters</DialogTitle>
+            <div className="grid grid-cols-2 gap-6">
+              <FilterGroup
+                label="Category"
+                options={[{ handle: "all", title: "All" }, ...categoryCollections]}
+                value={category}
+                onChange={(cat) => updateParam("category", cat, "push")}
+              />
+              <FilterGroup
+                label="Price"
+                options={PRICE_RANGES.map((r) => ({ handle: r.id, title: r.label }))}
+                value={priceRange}
+                onChange={(r) => updateParam("price", r, "replace")}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Product grid */}
         {category === "all" ? (
