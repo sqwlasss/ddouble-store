@@ -30,9 +30,9 @@ export default function Shipping() {
               <div>
                 <h2 className="text-sm font-medium text-[#1A1A1A] tracking-wide">Processing time</h2>
                 <p className="mt-3 text-sm text-[#6B6B67] leading-relaxed">
-                  Prints are made to order in our partner studio in Copenhagen. We typically
-                  dispatch orders within 1–3 business days, and you'll receive a confirmation email
-                  once your order leaves us.
+                  Prints are produced in our partner studio in Copenhagen. Orders are processed as
+                  quickly as possible after purchase, and you'll receive a tracking number by email
+                  once your order ships.
                 </p>
               </div>
             </FadeIn>
