@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
@@ -11,6 +11,8 @@ import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useCurrency } from "@/lib/CurrencyContext";
 
 import { useAllProductsPage, useCollections, useCollectionProducts } from "@/hooks/useProducts";
+import useEscapeClose from "@/hooks/useEscapeClose";
+import usePanelFocus from "@/hooks/usePanelFocus";
 
 const SORT_OPTIONS = [
   { id: "default", label: "Default" },
@@ -163,6 +165,7 @@ export default function Shop() {
   const isMobile = useIsMobile();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
+  const sortMenuRef = useRef(null);
   const [collectionCount, setCollectionCount] = useState(0);
   const [collectionLoading, setCollectionLoading] = useState(true);
   // Pagination for the "all" view: pages are accumulated from useAllProductsPage
@@ -176,6 +179,15 @@ export default function Shop() {
     else params.set(key, value);
     setSearchParams(params, { replace: mode === "replace" });
   };
+
+  // Sort menu: Escape closes it; focus moves into the menu on open and back
+  // to the trigger on close.
+  const saveSortFocus = usePanelFocus(sortOpen, sortMenuRef);
+  const toggleSort = () => {
+    saveSortFocus();
+    setSortOpen((prev) => !prev);
+  };
+  useEscapeClose(sortOpen, () => setSortOpen(false));
 
   const { data: pageData, isPending, isFetching, error, refetch } = useAllProductsPage(
     country,
@@ -296,14 +308,15 @@ export default function Shop() {
 
           <div className="relative">
             <button
-              onClick={() => setSortOpen(!sortOpen)}
+              onClick={toggleSort}
               className="min-h-11 flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+              aria-expanded={sortOpen}
             >
               {SORT_OPTIONS.find((s) => s.id === sort)?.label ?? "Default"}
               <ChevronDown size={12} />
             </button>
             {sortOpen && (
-              <div className="absolute right-0 top-full mt-2 bg-white border border-[#E5E5E1] rounded-none shadow-[0_8px_40px_rgba(0,0,0,0.03)] py-2 min-w-[160px] z-10">
+              <div ref={sortMenuRef} tabIndex={-1} className="absolute right-0 top-full mt-2 bg-white border border-[#E5E5E1] rounded-none shadow-[0_8px_40px_rgba(0,0,0,0.03)] py-2 min-w-[160px] z-10">
                 {SORT_OPTIONS.map((opt) => (
                   <button
                     key={opt.id}
