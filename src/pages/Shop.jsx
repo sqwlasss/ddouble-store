@@ -344,7 +344,7 @@ export default function Shop() {
         {/* Mobile filter bottom-sheet (below md). Escape close + focus trap +
             aria-modal come from Radix Dialog defaults. */}
         <Dialog open={filtersOpen && isMobile} onOpenChange={setFiltersOpen}>
-          <DialogContent className="fixed bottom-0 inset-x-0 max-h-[80vh] overflow-y-auto bg-[#F9F9F7] border-t border-[#E5E5E1] p-6">
+          <DialogContent className="fixed bottom-0 inset-x-0 max-h-[80vh] overflow-y-auto bg-[#F9F9F7] border-t border-[#E5E5E1] p-6 focus:outline-none">
             <DialogTitle className="sr-only">Filters</DialogTitle>
             <div className="grid grid-cols-2 gap-6">
               <FilterGroup
