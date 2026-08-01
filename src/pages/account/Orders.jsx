@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Price from "@/components/ddouble/Price";
 import { shopifyImage } from "@/lib/utils";
+import { useCurrency } from "@/lib/CurrencyContext";
+import { useShopifyCart } from "@/hooks/useShopifyCart";
+import { toast } from "@/components/ui/use-toast";
 
 const STATUS_COLORS = {
   PAID: "text-green-700 bg-green-50",
@@ -27,6 +30,22 @@ function statusBadge(status) {
 export default function Orders() {
   const { orders, loading } = useAccount();
   const navigate = useNavigate();
+  const { country } = useCurrency();
+  const { addItem, loading: cartLoading } = useShopifyCart(country);
+
+  const handleBuyAgain = async (order) => {
+    for (const item of order.lineItems) {
+      try {
+        await addItem(item.variantId, item.quantity);
+      } catch {
+        // Variants may be inactive; report per-item failures.
+        toast({
+          title: `Could not re-add ${item.title}`,
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -106,7 +125,7 @@ export default function Orders() {
               </div>
             )}
 
-            <div className="mt-4 pt-4 border-t border-[#E5E5E1]">
+            <div className="mt-4 pt-4 border-t border-[#E5E5E1] flex items-center justify-between">
               <a
                 href={order.statusUrl}
                 target="_blank"
@@ -116,6 +135,16 @@ export default function Orders() {
                 View order status
                 <ExternalLink size={12} />
               </a>
+              {order.lineItems.length > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={cartLoading}
+                  onClick={() => handleBuyAgain(order)}
+                >
+                  Buy again
+                </Button>
+              )}
             </div>
           </div>
         ))}
