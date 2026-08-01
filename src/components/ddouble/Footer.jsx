@@ -20,6 +20,7 @@ export default function Footer() {
     ? collections.map((c) => ({ label: c.title, handle: c.handle }))
     : FALLBACK_COLLECTIONS;
 
+  // Rate limiting for this endpoint belongs on the backend (not present). Add server-side limits before launch.
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (email) {
