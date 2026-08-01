@@ -9,6 +9,7 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
+  // Rate limiting for this endpoint belongs on the backend (not present). Add server-side limits before launch.
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
