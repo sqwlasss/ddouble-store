@@ -4,7 +4,7 @@ import { Search, ShoppingBag, Heart, User, Menu, X, ChevronDown } from "lucide-r
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useAuth } from "@/lib/AuthContext";
 import { useFavorites } from "@/lib/FavoritesContext";
-import { useAllProducts } from "@/hooks/useProducts";
+import { useAllProducts, useCollections } from "@/hooks/useProducts";
 import { useCurrency } from "@/lib/CurrencyContext";
 import CurrencySelector, { MobileCurrencySelector } from "@/components/ddouble/CurrencySelector";
 import Price from "@/components/ddouble/Price";
@@ -42,6 +42,23 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { data: allProducts } = useAllProducts(country);
+  const { data: collections } = useCollections();
+
+  // Build the Collections dropdown from live data; fall back to hardcoded links while loading.
+  const navLinks = useMemo(() => {
+    if (!collections || collections.length === 0) return NAV_LINKS;
+    return NAV_LINKS.map((link) =>
+      link.label === "Collections"
+        ? {
+            ...link,
+            children: collections.map((c) => ({
+              label: c.title,
+              path: `/shop?category=${c.handle}`,
+            })),
+          }
+        : link
+    );
+  }, [collections]);
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim() || !allProducts) return [];
@@ -97,7 +114,7 @@ export default function Navbar() {
 
             {/* Desktop nav */}
             <div className="hidden lg:flex items-center gap-8">
-              {NAV_LINKS.map((link) =>
+              {navLinks.map((link) =>
                 link.children ? (
                   <div
                     key={link.label}
@@ -258,7 +275,7 @@ export default function Navbar() {
         {mobileOpen && (
           <div className="lg:hidden fixed left-0 right-0 bottom-0 top-16 md:top-20 bg-[#F9F9F7] border-t border-[#E5E5E1] overflow-y-auto overscroll-contain z-40">
             <div className="px-6 py-6 space-y-4 min-h-full">
-              {NAV_LINKS.map((link) =>
+              {navLinks.map((link) =>
                 link.children ? (
                   <div key={link.label} className="space-y-2">
                     <button

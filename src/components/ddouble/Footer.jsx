@@ -1,10 +1,24 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { useCollections } from "@/hooks/useProducts";
+
+const FALLBACK_COLLECTIONS = [
+  { label: "Posters", handle: "posters" },
+  { label: "Rugs", handle: "rugs" },
+  { label: "Room Decor", handle: "room-decor" },
+  { label: "Bedding & Pillows", handle: "bedding-pillows" },
+];
 
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const { data: collections } = useCollections();
+
+  // Use live collections when available; fall back to hardcoded links while loading.
+  const shopLinks = collections?.length
+    ? collections.map((c) => ({ label: c.title, handle: c.handle }))
+    : FALLBACK_COLLECTIONS;
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -54,10 +68,15 @@ export default function Footer() {
             <h3 className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-4">Shop</h3>
             <div className="space-y-3">
               <Link to="/shop" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">All Products</Link>
-              <Link to="/shop?category=posters" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Posters</Link>
-              <Link to="/shop?category=rugs" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Rugs</Link>
-              <Link to="/shop?category=room-decor" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Room Decor</Link>
-              <Link to="/shop?category=bedding-pillows" className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors">Bedding & Pillows</Link>
+              {shopLinks.map((collection) => (
+                <Link
+                  key={collection.handle}
+                  to={`/shop?category=${collection.handle}`}
+                  className="block text-sm text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
+                >
+                  {collection.label}
+                </Link>
+              ))}
             </div>
           </div>
           <div>
