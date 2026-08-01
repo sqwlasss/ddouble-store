@@ -57,7 +57,7 @@ export default function Terms() {
                 <p className="mt-3 text-sm text-[#6B6B67] leading-relaxed">
                   Prices are shown in the currency you select and include any applicable taxes at
                   checkout. Shipping costs are shown before you pay. We accept the payment methods
-                  offered at checkout, which are processed securely by Shopify Payments.
+                  offered at checkout, which are handled by Shopify's secure hosted checkout.
                 </p>
               </div>
             </FadeIn>

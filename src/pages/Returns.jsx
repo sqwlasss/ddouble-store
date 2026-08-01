@@ -46,8 +46,7 @@ export default function Returns() {
                     hello@ddouble.com
                   </a>{" "}
                   with your order number and the reason for the return, and we'll send you the
-                  return instructions. Unless the item arrived damaged or faulty, you're responsible
-                  for the cost of return shipping.
+                  return instructions.
                 </p>
               </div>
             </FadeIn>
@@ -57,8 +56,7 @@ export default function Returns() {
                 <h2 className="text-sm font-medium text-[#1A1A1A] tracking-wide">Refunds</h2>
                 <p className="mt-3 text-sm text-[#6B6B67] leading-relaxed">
                   Once we receive the returned print and confirm it's in its original condition, we
-                  process your refund to the original payment method. Refunds typically appear
-                  within 5–10 business days depending on your bank or card issuer.
+                  process your refund to the original payment method.
                 </p>
               </div>
             </FadeIn>
@@ -78,8 +76,8 @@ export default function Returns() {
               <div>
                 <h2 className="text-sm font-medium text-[#1A1A1A] tracking-wide">Damaged or faulty items</h2>
                 <p className="mt-3 text-sm text-[#6B6B67] leading-relaxed">
-                  If your order arrives damaged or faulty, contact us within 14 days of delivery and
-                  we'll replace it or refund you — including any return shipping costs. Photos of
+                  If your order arrives damaged or faulty, contact us and we'll replace it or refund
+                  you — including any return shipping costs. Photos of
                   the damage help us resolve things faster.
                 </p>
               </div>
