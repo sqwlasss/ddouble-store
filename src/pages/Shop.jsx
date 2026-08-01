@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import Navbar from "@/components/ddouble/Navbar";
@@ -89,9 +89,14 @@ function ProductGrid({ products, loading, sort, priceRange, searchQuery, clearFi
   );
 }
 
-function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters, country }) {
+function CollectionProducts({ collectionHandle, priceRange, sort, searchQuery, clearFilters, country, onCountChange, onLoadingChange }) {
   const { data, isLoading } = useCollectionProducts(collectionHandle, country);
   const products = data?.products || [];
+
+  useEffect(() => {
+    onCountChange(products.length);
+    onLoadingChange(isLoading);
+  }, [products.length, isLoading, onCountChange, onLoadingChange]);
 
   return (
     <ProductGrid
@@ -122,6 +127,8 @@ export default function Shop() {
   const searchQuery = searchParams.get("q") || "";
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
+  const [collectionCount, setCollectionCount] = useState(0);
+  const [collectionLoading, setCollectionLoading] = useState(true);
 
   const updateParam = (key, value, mode = "replace") => {
     const params = new URLSearchParams(searchParams);
@@ -149,9 +156,6 @@ export default function Shop() {
   };
 
   const activeCollection = categoryCollections.find((c) => c.handle === category);
-  const productCount = category === "all"
-    ? (allProducts || []).length
-    : undefined;
 
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
@@ -175,9 +179,11 @@ export default function Shop() {
             <p className="mt-2 text-sm text-[#6B6B67]">
               {category === "all"
                 ? allLoading
-                  ? "Loading..."
-                  : `${productCount} prints`
-                : ""}
+                  ? "Loading…"
+                  : `${(allProducts || []).length} ${(allProducts || []).length === 1 ? "piece" : "pieces"}`
+                : collectionLoading
+                  ? "Loading…"
+                  : `${collectionCount} ${collectionCount === 1 ? "piece" : "pieces"}`}
             </p>
           </div>
         </FadeIn>
@@ -272,6 +278,8 @@ export default function Shop() {
             searchQuery={searchQuery}
             clearFilters={clearFilters}
             country={country}
+            onCountChange={setCollectionCount}
+            onLoadingChange={setCollectionLoading}
           />
         )}
       </div>
