@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import Seo from "@/components/Seo";
@@ -68,34 +69,33 @@ const FAQ_SECTIONS = [
 ];
 
 export default function FAQ() {
+  const faqJsonLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQ_SECTIONS.flatMap((section) =>
+        section.items.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.a,
+          },
+        }))
+      ),
+    }),
+    []
+  );
+
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
       <Seo
         title="FAQ — DDouble | Orders, Shipping & Returns"
         description="Answers on ordering, shipping, returns, sizes, and print quality — everything you need to know about DDouble fine-art prints."
         canonicalPath="/faq"
+        jsonLd={faqJsonLd}
       />
       <Navbar />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: FAQ_SECTIONS.flatMap((section) =>
-                section.items.map((item) => ({
-                  "@type": "Question",
-                  name: item.q,
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: item.a,
-                  },
-                }))
-              ),
-            }),
-          }}
-        />
-
       <main>
       <div className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-3xl mx-auto">
         <FadeIn>
