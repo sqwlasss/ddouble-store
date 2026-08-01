@@ -92,7 +92,7 @@ export default function Navbar() {
               className="lg:hidden p-1"
               aria-label="Menu"
             >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
 
             {/* Desktop nav */}

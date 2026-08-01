@@ -443,7 +443,7 @@ function AccordionSection({ title, isOpen, onToggle, children }) {
       >
         <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A]">{title}</h2>
         <ChevronDown
-          size={20}
+          size={16}
           className={`text-[#6B6B67] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
         />
       </button>

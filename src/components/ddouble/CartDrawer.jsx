@@ -76,7 +76,7 @@ export default function CartDrawer({ open, onClose }) {
                             className="px-2 py-1 text-[#6B6B67] hover:text-[#1A1A1A]"
                             aria-label="Decrease quantity"
                           >
-                            <Minus size={12} />
+                            <Minus size={14} />
                           </button>
                           <span className="text-xs w-4 text-center">{item.quantity}</span>
                           <button
@@ -84,7 +84,7 @@ export default function CartDrawer({ open, onClose }) {
                             className="px-2 py-1 text-[#6B6B67] hover:text-[#1A1A1A]"
                             aria-label="Increase quantity"
                           >
-                            <Plus size={12} />
+                            <Plus size={14} />
                           </button>
                         </div>
                         <span className="text-sm font-medium"><Price amount={linePrice} /></span>
