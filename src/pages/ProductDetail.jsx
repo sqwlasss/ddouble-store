@@ -18,7 +18,7 @@ import { shopifyImage } from "@/lib/utils";
 
 export default function ProductDetail() {
   const { handle } = useParams();
-  const { country } = useCurrency();
+  const { country, formatPrice } = useCurrency();
   const { data: product, isLoading } = useProduct(handle, country);
   const { data: allProducts } = useAllProducts(country);
   const { addItem, loading: cartLoading } = useShopifyCart(country);
@@ -338,9 +338,11 @@ export default function ProductDetail() {
                 disabled={cartLoading || !selectedVariant}
                 className="mt-8 w-full bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] py-4 hover:bg-[#2A2A2A] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {cartLoading ? "Adding..." : `Add to Cart — `}
-                {!cartLoading && <Price amount={displayPrice} />}
+                {cartLoading ? "Adding…" : selectedVariant ? `Add to Cart · ${formatPrice(displayPrice)}` : "Select options"}
               </button>
+              {product.options.some((o) => o.values.length > 1) && !selectedVariant && (
+                <p className="mt-2 text-xs text-[#6B6B67]">Select your options above to add to cart.</p>
+              )}
               <div ref={sentinelRef} className="h-px md:hidden" />
 
               {/* Shipping info */}
