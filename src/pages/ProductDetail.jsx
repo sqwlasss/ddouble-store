@@ -97,10 +97,17 @@ export default function ProductDetail() {
 
   const related = useMemo(() => {
     if (!allProducts || !product) return [];
-    return allProducts
-      .filter((p) => p.handle !== product.handle)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 4);
+    const others = allProducts.filter((p) => p.handle !== product.handle);
+    // Products have a tags array but no collectionHandle in the current data,
+    // so tag overlap is the cheap same-collection signal (per Task 5.8 brief).
+    const sameCollection = others.filter((p) =>
+      p.tags?.some((t) => product.tags?.includes(t))
+    );
+    const rest = others.filter((p) => !sameCollection.includes(p));
+    return [
+      ...sameCollection.slice(0, 4),
+      ...rest.slice(0, 4 - Math.min(sameCollection.length, 4)),
+    ];
   }, [allProducts, product]);
 
   const sanitizedHtml = useMemo(() => {
