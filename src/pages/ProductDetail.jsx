@@ -15,6 +15,7 @@ import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useToast } from "@/components/ui/use-toast";
 import { shopifyImage } from "@/lib/utils";
+import { FREE_SHIPPING_THRESHOLD } from "@/config/shipping";
 import DOMPurify from "dompurify";
 
 export default function ProductDetail() {
@@ -361,15 +362,23 @@ export default function ProductDetail() {
               )}
               <div ref={sentinelRef} className="h-px md:hidden" />
 
-              {/* Shipping info */}
-              <div className="mt-8 pt-8 border-t border-[#E5E5E1] space-y-4">
+              {/* Trust strip */}
+              <div className="mt-8 pt-8 border-t border-[#E5E5E1] grid grid-cols-2 gap-x-4 gap-y-4">
                 <div className="flex items-center gap-3">
-                  <Truck size={16} className="text-[#6B6B67]" />
-                  <span className="text-sm text-[#6B6B67]">Free shipping on orders over <Price amount={100} /></span>
+                  <Truck size={14} className="text-[#6B6B67] shrink-0" />
+                  <span className="text-sm text-[#6B6B67]">Free shipping over <Price amount={FREE_SHIPPING_THRESHOLD} /></span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <RotateCcw size={16} className="text-[#6B6B67]" />
-                  <span className="text-sm text-[#6B6B67]">30-day hassle-free returns</span>
+                  <RotateCcw size={14} className="text-[#6B6B67] shrink-0" />
+                  <span className="text-sm text-[#6B6B67]">30-day returns</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Truck size={14} className="text-[#6B6B67] shrink-0" />
+                  <span className="text-sm text-[#6B6B67]">Ships in 1-2 days</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Truck size={14} className="text-[#6B6B67] shrink-0" />
+                  <span className="text-sm text-[#6B6B67]">Tracked delivery</span>
                 </div>
               </div>
 
