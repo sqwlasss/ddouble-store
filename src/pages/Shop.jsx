@@ -5,8 +5,8 @@ import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import ProductCard from "@/components/ddouble/ProductCard";
 import FadeIn from "@/components/ddouble/FadeIn";
-import Price from "@/components/ddouble/Price";
 import { useCurrency } from "@/lib/CurrencyContext";
+
 import { useAllProducts, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 
 const SORT_OPTIONS = [
