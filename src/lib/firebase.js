@@ -1,7 +1,3 @@
-import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
-import { getAuth } from 'firebase/auth';
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -12,9 +8,23 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+let appPromise = null;
 
-if (typeof window !== 'undefined') {
-  getAnalytics(app);
+/**
+ * Lazily initialize the Firebase app (module-level cached promise).
+ * Firebase modules are loaded on first call, keeping them out of the main chunk.
+ */
+export function initFirebase() {
+  if (!appPromise) {
+    appPromise = (async () => {
+      const { initializeApp } = await import('firebase/app');
+      const app = initializeApp(firebaseConfig);
+      const { getAnalytics } = await import('firebase/analytics');
+      if (typeof window !== 'undefined') {
+        getAnalytics(app);
+      }
+      return app;
+    })();
+  }
+  return appPromise;
 }

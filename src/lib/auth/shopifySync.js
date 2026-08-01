@@ -11,7 +11,7 @@ export async function syncShopifyCustomer(firebaseUser) {
   try {
     // firebaseUser is the serialized user object from AuthContext (no methods) —
     // get the raw Firebase user to obtain a real ID token.
-    const raw = getCurrentUser();
+    const raw = await getCurrentUser();
     const token = raw ? await raw.getIdToken() : null;
     if (!token) return null;
 
