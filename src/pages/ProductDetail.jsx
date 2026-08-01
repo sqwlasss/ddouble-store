@@ -451,18 +451,19 @@ function AccordionSection({ title, isOpen, onToggle, children }) {
 
   return (
     <div>
-      <button
-        onClick={handleToggle}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggle(); } }}
-        aria-expanded={isOpen}
-        className="flex items-center justify-between w-full text-left cursor-pointer group"
-      >
-        <h2 className="text-2xl md:text-3xl font-light text-[#1A1A1A]">{title}</h2>
-        <ChevronDown
-          size={16}
-          className={`text-[#6B6B67] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-        />
-      </button>
+      <h2 className="text-2xl md:text-3xl font-light">
+        <button
+          onClick={handleToggle}
+          aria-expanded={isOpen}
+          className="flex items-center justify-between w-full text-left cursor-pointer group"
+        >
+          <span>{title}</span>
+          <ChevronDown
+            size={20}
+            className={`text-[#6B6B67] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+          />
+        </button>
+      </h2>
       <div
         ref={contentRef}
         style={{ maxHeight }}
