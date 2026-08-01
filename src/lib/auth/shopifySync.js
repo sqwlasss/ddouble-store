@@ -1,43 +1,28 @@
-import {
-  createCustomer,
-  createCustomerToken,
-  getCustomer,
-  clearCustomerToken,
-} from "@/lib/shopify/customer";
+import { getCustomer, storeCustomerToken } from "@/lib/shopify/customer";
 
-function derivePassword(firebaseUid) {
-  const seed = "ddouble-v1|" + firebaseUid;
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) {
-    h = ((h << 5) - h) + seed.charCodeAt(i);
-    h |= 0;
-  }
-  const str = Math.abs(h).toString(36);
-  return "Dd!" + str.padStart(12, "0") + "X1!";
-}
+const SYNC_ENDPOINT = import.meta.env.VITE_SHOPIFY_CUSTOMER_SYNC_ENDPOINT;
 
 export async function syncShopifyCustomer(firebaseUser) {
   if (!firebaseUser?.email) return null;
-
-  const password = derivePassword(firebaseUser.id);
-
-  try {
-    const { accessToken } = await createCustomerToken(firebaseUser.email, password);
-    return await getCustomer(accessToken);
-  } catch {}
+  // Opt-in: no backend sync endpoint configured → skip client-side sync entirely.
+  if (!SYNC_ENDPOINT) return null;
 
   try {
-    const names = (firebaseUser.displayName || "").split(" ");
-    await createCustomer({
-      email: firebaseUser.email,
-      password,
-      firstName: names[0] || "",
-      lastName: names.slice(1).join(" ") || "",
+    const res = await fetch(SYNC_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: firebaseUser.email,
+        displayName: firebaseUser.displayName || "",
+        firebaseUid: firebaseUser.id,
+        token: await firebaseUser.getIdToken(),
+      }),
     });
-    const { accessToken } = await createCustomerToken(firebaseUser.email, password);
+    if (!res.ok) return null;
+    const { accessToken, expiresAt } = await res.json();
+    storeCustomerToken(accessToken, expiresAt);
     return await getCustomer(accessToken);
   } catch {
-    clearCustomerToken();
     return null;
   }
 }
