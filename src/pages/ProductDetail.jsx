@@ -15,6 +15,7 @@ import { useProduct, useAllProducts } from "@/hooks/useProducts";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useToast } from "@/components/ui/use-toast";
 import { shopifyImage } from "@/lib/utils";
+import DOMPurify from "dompurify";
 
 export default function ProductDetail() {
   const { handle } = useParams();
@@ -101,6 +102,14 @@ export default function ProductDetail() {
       .sort(() => Math.random() - 0.5)
       .slice(0, 4);
   }, [allProducts, product]);
+
+  const sanitizedHtml = useMemo(() => {
+    if (!product?.descriptionHtml) return "";
+    return DOMPurify.sanitize(product.descriptionHtml, {
+      ALLOWED_TAGS: ["p", "ul", "ol", "li", "strong", "em", "br", "a"],
+      ALLOWED_ATTR: ["href", "target", "rel"],
+    }).replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+  }, [product?.descriptionHtml]);
 
   if (isLoading) {
     return (
@@ -375,7 +384,7 @@ export default function ProductDetail() {
               >
                 <div
                   className="prose prose-sm max-w-3xl text-[#1A1A1A] leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1"
-                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
                 />
               </AccordionSection>
             )}
