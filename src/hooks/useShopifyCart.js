@@ -11,16 +11,47 @@ import { getStoredCustomerToken } from "@/lib/shopify/customer";
 
 const CART_ID_KEY = "shopify_cart_id";
 
+function customerCartKey() {
+  try {
+    const token = getStoredCustomerToken();
+    return token ? `shopify_cart_${token.slice(0, 12)}` : null;
+  } catch {
+    return null;
+  }
+}
+
 function getStoredCartId() {
-  return localStorage.getItem(CART_ID_KEY);
+  try {
+    // Prefer the customer-scoped cart id when a token exists, else the generic key.
+    const scopedKey = customerCartKey();
+    if (scopedKey) {
+      const scoped = localStorage.getItem(scopedKey);
+      if (scoped) return scoped;
+    }
+    return localStorage.getItem(CART_ID_KEY);
+  } catch {
+    return null;
+  }
 }
 
 function storeCartId(cartId) {
-  localStorage.setItem(CART_ID_KEY, cartId);
+  try {
+    localStorage.setItem(CART_ID_KEY, cartId);
+  } catch {
+    /* best effort */
+  }
 }
 
 function clearStoredCartId() {
-  localStorage.removeItem(CART_ID_KEY);
+  try {
+    localStorage.removeItem(CART_ID_KEY);
+    const scopedKey = customerCartKey();
+    if (scopedKey) {
+      localStorage.removeItem(scopedKey);
+    }
+  } catch {
+    /* best effort */
+  }
 }
 
 const listeners = new Set();
@@ -72,6 +103,15 @@ export function useShopifyCart(country) {
           updated = await createCart(variantId, quantity, country);
         }
         storeCartId(updated.id);
+        try {
+          // Also persist cart id under a customer-scoped key for cross-device sync.
+          const customerToken = getStoredCustomerToken();
+          if (customerToken) {
+            localStorage.setItem(`shopify_cart_${customerToken.slice(0, 12)}`, updated.id);
+          }
+        } catch {
+          /* best effort */
+        }
         setCart(updated);
         notify();
         return updated;
@@ -122,6 +162,7 @@ export function useShopifyCart(country) {
   }, []);
 
   const checkout = useCallback(async () => {
+    // Abandoned-cart email would hook here (server-side service required — not implemented).
     const cartId = getStoredCartId();
     if (cartId) {
       const customerToken = getStoredCustomerToken();
