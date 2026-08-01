@@ -51,7 +51,7 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="flex-1 bg-transparent py-3 text-sm text-[#1A1A1A] placeholder:text-[#5A5A56] outline-none"
+                  className="flex-1 bg-transparent py-3 text-sm text-[#1A1A1A] placeholder:text-[#5A5A56]"
                   required
                 />
                 <button type="submit" aria-label="Subscribe" className="p-2 text-[#1A1A1A] hover:text-[#5A5A56] transition-colors">

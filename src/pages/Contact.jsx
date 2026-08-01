@@ -48,7 +48,7 @@ export default function Contact() {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     required
-                    className="mt-2 w-full bg-transparent border-b border-[#E5E5E1] py-3 text-sm text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors"
+                    className="mt-2 w-full bg-transparent border-b border-[#E5E5E1] py-3 text-sm text-[#1A1A1A] focus:border-[#1A1A1A] transition-colors"
                   />
                 </div>
                 <div>
@@ -59,7 +59,7 @@ export default function Contact() {
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     required
-                    className="mt-2 w-full bg-transparent border-b border-[#E5E5E1] py-3 text-sm text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors"
+                    className="mt-2 w-full bg-transparent border-b border-[#E5E5E1] py-3 text-sm text-[#1A1A1A] focus:border-[#1A1A1A] transition-colors"
                   />
                 </div>
                 <div>
@@ -70,7 +70,7 @@ export default function Contact() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     required
-                    className="mt-2 w-full bg-transparent border-b border-[#E5E5E1] py-3 text-sm text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors resize-none"
+                    className="mt-2 w-full bg-transparent border-b border-[#E5E5E1] py-3 text-sm text-[#1A1A1A] focus:border-[#1A1A1A] transition-colors resize-none"
                   />
                 </div>
                 <button
