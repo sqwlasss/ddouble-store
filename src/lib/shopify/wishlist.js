@@ -49,6 +49,50 @@ export function toggleWishlist(variantId) {
   return items;
 }
 
+// Resolve the variant ids for a product-like item. Accepts either a catalog
+// product ({ variants: [{ id }] }) or a favorites entry ({ variantIds: [id] })
+// so the same helpers work for both stores.
+export function getVariantIds(item) {
+  if (!item) return [];
+  if (Array.isArray(item.variantIds) && item.variantIds.length) {
+    return item.variantIds;
+  }
+  if (Array.isArray(item.variants)) {
+    return item.variants.map((v) => v.id).filter(Boolean);
+  }
+  return [];
+}
+
+// Add every variant of a product to the customer wishlist. Idempotent: variant
+// ids already present are left untouched (no duplicates).
+export function addProductToWishlist(product) {
+  const variantIds = getVariantIds(product);
+  if (!variantIds.length) return getWishlistRaw();
+  const items = getWishlistRaw();
+  let changed = false;
+  variantIds.forEach((id) => {
+    if (!items.includes(id)) {
+      items.push(id);
+      changed = true;
+    }
+  });
+  if (changed) {
+    saveWishlist(items);
+    notify();
+  }
+  return items;
+}
+
+// Remove every variant of a product from the customer wishlist.
+export function removeProductFromWishlist(product) {
+  const variantIds = new Set(getVariantIds(product));
+  if (!variantIds.size) return getWishlistRaw();
+  const items = getWishlistRaw().filter((id) => !variantIds.has(id));
+  saveWishlist(items);
+  notify();
+  return items;
+}
+
 export function addToWishlist(variantId) {
   const items = getWishlistRaw();
   if (!items.includes(variantId)) {

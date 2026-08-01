@@ -1,6 +1,6 @@
 import { Heart, X, Loader2 } from "lucide-react";
 import { useAccount } from "@/lib/AccountContext";
-import { removeFromWishlist } from "@/lib/shopify/wishlist";
+import { removeProductFromWishlist } from "@/lib/shopify/wishlist";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts } from "@/hooks/useProducts";
@@ -26,8 +26,10 @@ export default function Wishlist() {
   const handleRemove = (product, e) => {
     e.preventDefault();
     e.stopPropagation();
-    const variantIds = product.variants.map((v) => v.id);
-    variantIds.forEach((id) => removeFromWishlist(id));
+    // One-way sync: favorites is the source of truth, so remove from both the
+    // customer wishlist (all variants) and favorites — removeFavorite mirrors
+    // the removal back to the wishlist too, so this stays idempotent.
+    removeProductFromWishlist(product);
     if (favoriteIds.has(product.id)) {
       removeFavorite(product.id);
     }
