@@ -137,6 +137,15 @@ export default function CartDrawer({ open, onClose }) {
               >
                 {loading ? "Loading..." : "Checkout"}
               </button>
+              <div className="pt-3 space-y-2">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67]">Secure checkout by Shopify</p>
+                <div className="flex gap-2">
+                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">VISA</span>
+                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">Mastercard</span>
+                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">PayPal</span>
+                  <span className="text-[10px] font-bold text-[#6B6B67] border border-[#E5E5E1] px-2 py-1 rounded-sm">Apple Pay</span>
+                </div>
+              </div>
               <button
                 onClick={onClose}
                 className="w-full text-xs uppercase tracking-[0.1em] underline underline-offset-4 text-[#6B6B67] py-2"
