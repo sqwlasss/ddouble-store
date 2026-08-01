@@ -146,8 +146,8 @@ export default function Home() {
 
       <main>
       {/* Hero */}
-      <section className="min-h-screen flex flex-col lg:flex-row">
-        <div className="flex-1 flex items-center justify-center px-6 md:px-16 py-32 lg:py-0">
+      <section className="min-h-screen flex flex-col-reverse lg:flex-row">
+        <div className="flex-1 flex items-center justify-center px-6 md:px-16 py-12 md:py-32 lg:py-0">
           <FadeIn>
             <div className="max-w-md">
               <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-light text-[#1A1A1A] leading-[1.1] tracking-[-0.02em]">
