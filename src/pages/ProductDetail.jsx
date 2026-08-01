@@ -74,7 +74,12 @@ export default function ProductDetail() {
 
   useEffect(() => {
     setSelectedImage(null);
+    setZoomed(false);
   }, [selectedOptions]);
+
+  useEffect(() => {
+    setZoomed(false);
+  }, [selectedImage]);
 
   const displayImage = useMemo(() => {
     if (selectedImage !== null && product?.images[selectedImage]) {
@@ -199,9 +204,12 @@ export default function ProductDetail() {
           {/* Gallery */}
           <div className="lg:w-[58%] px-6 md:px-10 lg:pl-16 lg:pr-0">
             <FadeIn>
-              <div
-                className={`relative overflow-hidden bg-[#F1F0EC] cursor-zoom-in ${zoomed ? "cursor-zoom-out" : ""}`}
+              <button
+                type="button"
                 onClick={() => setZoomed(!zoomed)}
+                aria-label="Zoom image"
+                aria-pressed={zoomed}
+                className={`relative overflow-hidden bg-[#F1F0EC] cursor-zoom-in w-full ${zoomed ? "cursor-zoom-out" : ""}`}
               >
                 <img
                   src={showRoom ? LIFESTYLE_IMAGES.galleryWall : shopifyImage(displayImage, 1200)}
@@ -212,7 +220,7 @@ export default function ProductDetail() {
                   className="w-full transition-transform duration-700"
                   style={{ transform: showRoom ? `scaleX(-1) ${zoomed ? 'scale(1.5)' : 'scale(1)'}` : zoomed ? 'scale(1.5)' : 'scale(1)' }}
                 />
-              </div>
+              </button>
             </FadeIn>
             {product.images.length > 1 && (
               <div className="flex gap-3 mt-4">
@@ -220,6 +228,8 @@ export default function ProductDetail() {
                   <button
                     key={i}
                     onClick={() => { setSelectedImage(i); setShowRoom(false); }}
+                    aria-label={`View image ${i + 1}`}
+                    aria-current={matchedThumb === i ? "true" : undefined}
                     className={`w-20 h-20 border transition-colors overflow-hidden ${
                       matchedThumb === i && !showRoom ? "border-[#1A1A1A]" : "border-[#E5E5E1]"
                     }`}
