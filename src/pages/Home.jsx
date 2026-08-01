@@ -148,7 +148,7 @@ export default function Home() {
       <Seo title="DDouble — Museum-Grade Wall Art | Made in Copenhagen" canonicalPath="/" />
       <Navbar />
 
-      <main>
+      <main id="main">
       {/* Hero */}
       <section className="min-h-screen flex flex-col-reverse lg:flex-row">
         <div className="flex-1 flex items-center justify-center px-6 md:px-16 py-12 md:py-32 lg:py-0">

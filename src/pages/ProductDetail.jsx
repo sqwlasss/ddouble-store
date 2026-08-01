@@ -174,7 +174,7 @@ export default function ProductDetail() {
     return (
       <div className="bg-[#F9F9F7] min-h-screen">
         <Navbar />
-        <div className="pt-40 text-center px-6">
+        <main id="main" className="pt-40 text-center px-6">
           <h1 className="text-2xl font-light text-[#1A1A1A]">Product not found</h1>
           <Link
             to="/shop"
@@ -182,7 +182,7 @@ export default function ProductDetail() {
           >
             Back to Shop
           </Link>
-        </div>
+        </main>
         <Footer />
       </div>
     );
@@ -230,7 +230,7 @@ export default function ProductDetail() {
       />
       <Navbar />
 
-      <main>
+      <main id="main">
       <div className="pt-24 md:pt-28 max-w-[1440px] mx-auto">
         {/* Breadcrumb */}
         <Breadcrumb items={[

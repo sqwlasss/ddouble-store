@@ -141,6 +141,9 @@ export default function Navbar() {
             : "bg-transparent"
         }`}
       >
+        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-[#1A1A1A] focus:text-white focus:px-4 focus:py-2 text-xs uppercase tracking-[0.15em]">
+          Skip to content
+        </a>
         <nav className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Left: mobile menu + desktop nav */}

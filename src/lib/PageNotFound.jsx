@@ -9,7 +9,7 @@ export default function PageNotFound({}) {
     const { user, isAuthenticated } = useAuth();
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-6 bg-[#F9F9F7] font-body">
+        <main id="main" className="min-h-screen flex items-center justify-center p-6 bg-[#F9F9F7] font-body">
             <Seo noindex title="Page Not Found — DDouble" canonicalPath={null} />
             <div className="max-w-md w-full">
                 <div className="text-center space-y-6">
@@ -60,6 +60,6 @@ export default function PageNotFound({}) {
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     )
 }

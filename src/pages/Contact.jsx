@@ -23,7 +23,7 @@ export default function Contact() {
       />
       <Navbar />
 
-      <main>
+      <main id="main">
       <div className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         <FadeIn>
           <span className="text-[11px] uppercase tracking-[0.2em] text-[#5A5A56]">Get in touch</span>

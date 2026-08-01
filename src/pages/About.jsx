@@ -16,7 +16,7 @@ export default function About() {
       />
       <Navbar />
 
-      <main>
+      <main id="main">
       {/* Hero */}
       <section className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         <FadeIn>
