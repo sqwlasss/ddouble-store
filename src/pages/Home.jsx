@@ -296,6 +296,7 @@ export default function Home() {
       </section>
 
       {/* Instagram Gallery */}
+      {allProducts?.length > 0 && (
       <section className="py-24 md:py-32 border-t border-[#E5E5E1]">
         <FadeIn>
           <div className="text-center mb-12">
@@ -311,6 +312,8 @@ export default function Home() {
                   <img
                     src={p.image}
                     alt={p.title}
+                    width="400"
+                    height="400"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -320,6 +323,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      )}
       </main>
 
       <Footer />
