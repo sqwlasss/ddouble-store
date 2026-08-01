@@ -16,8 +16,10 @@ import { useShopifyCart } from "@/hooks/useShopifyCart";
 import Seo from "@/components/Seo";
 import { useToast } from "@/components/ui/use-toast";
 import { shopifyImage } from "@/lib/utils";
-import { FREE_SHIPPING_THRESHOLD } from "@/config/shipping";
+import { FREE_SHIPPING_THRESHOLD, STORE_CURRENCY } from "@/config/shipping";
 import DOMPurify from "dompurify";
+
+const SITE_URL = "https://ddouble-store.vercel.app";
 
 export default function ProductDetail() {
   const { handle } = useParams();
@@ -70,6 +72,42 @@ export default function ProductDetail() {
       )
     );
   }, [product, selectedOptions]);
+
+  const productSchema = useMemo(() => {
+    if (!product) return null;
+    const variant = selectedVariant || product.variants[0];
+    return {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.title,
+      description: product.description || product.title,
+      image: product.image,
+      url: `https://ddouble-store.vercel.app/product/${product.handle}`,
+      brand: { "@type": "Brand", name: "DDouble" },
+      offers: {
+        "@type": "Offer",
+        price: variant?.price ?? product.price,
+        priceCurrency: STORE_CURRENCY,
+        availability: variant?.availableForSale
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        url: `https://ddouble-store.vercel.app/product/${product.handle}`,
+      },
+    };
+  }, [product, selectedVariant]);
+
+  const breadcrumbJsonLd = useMemo(() => {
+    if (!product) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Shop", item: `${SITE_URL}/shop` },
+        { "@type": "ListItem", position: 3, name: product.title, item: `${SITE_URL}/product/${product.handle}` },
+      ],
+    };
+  }, [product]);
 
   useEffect(() => {
     setSelectedImage(null);
@@ -188,29 +226,9 @@ export default function ProductDetail() {
         description={(product.description || product.title).slice(0, 155)}
         canonicalPath={`/product/${product.handle}`}
         image={product.image}
+        jsonLd={[productSchema, breadcrumbJsonLd]}
       />
       <Navbar />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              name: product.title,
-              description: product.description || product.title,
-              image: product.image,
-              url: `https://ddouble-store.vercel.app/product/${product.handle}`,
-              brand: { "@type": "Brand", name: "DDouble" },
-              offers: {
-                "@type": "Offer",
-                price: product.price,
-                priceCurrency: product.currency || "USD",
-                availability: "https://schema.org/InStock",
-                url: `https://ddouble-store.vercel.app/product/${product.handle}`,
-              },
-            }),
-          }}
-        />
 
       <main>
       <div className="pt-24 md:pt-28 max-w-[1440px] mx-auto">

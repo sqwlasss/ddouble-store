@@ -4,6 +4,8 @@
 // number shown in the current currency (e.g. 100 GBP shown as "£100.00" in GBP).
 export const FREE_SHIPPING_THRESHOLD = 100;
 
+export const STORE_CURRENCY = "GBP";
+
 export function shippingProgress(subtotal, threshold = FREE_SHIPPING_THRESHOLD) {
   const remaining = Math.max(0, threshold - subtotal);
   const percent = subtotal >= threshold ? 100 : Math.min(100, (subtotal / threshold) * 100);
