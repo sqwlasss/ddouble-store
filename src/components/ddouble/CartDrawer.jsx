@@ -3,12 +3,14 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useShopifyCart } from "@/hooks/useShopifyCart";
 import { useCurrency } from "@/lib/CurrencyContext";
 import Price from "@/components/ddouble/Price";
+import { FREE_SHIPPING_THRESHOLD, shippingProgress } from "@/config/shipping";
 import { Link } from "react-router-dom";
 import { shopifyImage } from "@/lib/utils";
 
 export default function CartDrawer({ open, onClose }) {
   const { country } = useCurrency();
   const { items, updateQuantity, removeItem, totalItems, totalPrice, checkout, loading } = useShopifyCart(country);
+  const { remaining, percent } = shippingProgress(totalPrice, FREE_SHIPPING_THRESHOLD);
 
   return (
     <Dialog.Root open={open} onOpenChange={(o) => !o && onClose()}>
@@ -101,6 +103,23 @@ export default function CartDrawer({ open, onClose }) {
               </div>
             )}
           </div>
+
+          {items.length > 0 && (
+            <div className="border-t border-[#E5E5E1] px-6 pt-4 pb-2">
+              {remaining > 0 ? (
+                <>
+                  <p className="text-[11px] text-[#6B6B67]">
+                    You're <span className="text-[#1A1A1A]"><Price amount={remaining} /></span> away from free shipping
+                  </p>
+                  <div className="mt-2 h-1 bg-[#E5E5E1]">
+                    <div className="h-1 bg-[#1A1A1A] transition-all duration-300" style={{ width: `${percent}%` }} />
+                  </div>
+                </>
+              ) : (
+                <p className="text-[11px] text-[#1A1A1A]">Free shipping unlocked</p>
+              )}
+            </div>
+          )}
 
           {items.length > 0 && (
             <div className="border-t border-[#E5E5E1] px-6 py-5 space-y-4">
