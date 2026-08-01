@@ -2,27 +2,167 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ddouble-store.vercel.app/</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-08-01</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ddouble-store.vercel.app/shop</loc>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-08-01</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ddouble-store.vercel.app/shop?category=posters</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/shop?category=rugs</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/shop?category=room-decor</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/shop?category=bedding-pillows</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/fine-art-poster-black-white-wristwatch-stack-photography</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/vikama-cartoon-leopard-print-carpet-bedroom-by-the-bed-soft-foot-mat-living-room-sofa-non-slip-cushions-home-decoration-1</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/2pcs-color-acrylic-magazine-holder-brochure-holder-30-50cm-record-stand-literature-rack-hanging-bookshelf-pamphlet-storage-stand</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/space-saving-no-drill-wall-bookshelf-adjustable-corridor-storage-shelf-with-wall-book-display-rack-for-behind-door-organization</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/acrylic-picture-book-display-stand-childrens-wall-albums-record-holder-reading-magazine-storage-hanging-rack</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/leaf-shaped-soap-holder-ceramic-bathroom-soap-dish-with-drain</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/cloud-shaped-jewelry-tray-decorative-plate-for-rings-earrings-bracelets-necklaces-plastic-vanity-tray-for-women-bedroom-decor</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/charcoal-burnt-wooden-corner-shelf-wood-floating-shelf-dsiplay-stand-home-appliance-book-flower-pot-holder-living-room-art-gift</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/vintage-dark-light-leopard-pattern-throw-blanket-for-office-desk-nap-bedroom-use-for-birthday-anniversary-holiday-meetup-gift</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/e5bb-double-sided-leopard-print-blanket-thick-for-interior-designs</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/light-luxury-solid-color-multifunctional-rabbit-velvet-blanket-winter-thick-warm-flannel-used-for-bedroom-living-room-blanket</loc>
+    <lastmod>2026-07-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/ceramics-balloon-dog-sculpture-home-decor-room-decoration-accessories-office-nordic-animal-decorative-sculptures-figurinesneedoh</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/lilac-aesthetic-knot-globe-plush-cushion-nordic-ball-stuffed-pillow-sofa-decorative-throw-pillow-soft-sleeping-back-cushion</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/one-side-leopard-zebra-print-square-pillowcase-sofa-lounge-decorative-cushion-including-animal-print-pillow-cushion-home-decor</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/vikama-faux-animal-print-rug-leopard-print-cheetah-soft-non-slip-floor-mat-ideal-for-bedroom-living-room-kitchen-home-decor</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/lifelike-leopard-leather-carpet-for-living-room-decor-soft-faux-fur-floor-mat-bedroom-rug-tiger-deer-animal-skin-texture-carpets</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/skateboard-trio-wall-poster-need-money-for-porsche-art-print</loc>
+    <lastmod>2026-07-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/what-would-blair-waldorf-do</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/monochrome-city-portrait-poster-audrey-hepburn-empire-state-building-art-print</loc>
+    <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/product/vikama-wild-leopard-pattern-rug-leopard-claws-design-color-contrast-anti-slip-short-fiber-unique-decorative-feature</loc>
+    <lastmod>2026-07-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ddouble-store.vercel.app/about</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-08-01</lastmod>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ddouble-store.vercel.app/contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-08-01</lastmod>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ddouble-store.vercel.app/faq</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-08-01</lastmod>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/privacy</loc>
+    <lastmod>2026-08-01</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/terms</loc>
+    <lastmod>2026-08-01</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/shipping</loc>
+    <lastmod>2026-08-01</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://ddouble-store.vercel.app/returns</loc>
+    <lastmod>2026-08-01</lastmod>
+    <priority>0.3</priority>
   </url>
 </urlset>
