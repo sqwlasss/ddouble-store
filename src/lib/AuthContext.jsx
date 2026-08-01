@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { onAuthChange } from '@/lib/firebaseAuth';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -6,6 +7,7 @@ import { auth } from '@/lib/firebase';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
@@ -31,12 +33,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
     if (shouldRedirect) {
-      window.location.href = '/';
+      navigate('/');
     }
   };
 
   const navigateToLogin = () => {
-    window.location.href = '/login';
+    navigate('/login');
   };
 
   return (

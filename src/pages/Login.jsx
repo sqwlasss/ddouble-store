@@ -25,7 +25,7 @@ export default function Login() {
       if (user.emailVerified === false) {
         setShowBanner(true);
       } else {
-        window.location.href = "/account";
+        navigate("/account");
       }
     } catch (err) {
       setError(err.message || "Invalid email or password");
@@ -37,7 +37,7 @@ export default function Login() {
   const handleGoogle = async () => {
     try {
       await loginWithGoogle();
-      window.location.href = "/account";
+      navigate("/account");
     } catch (err) {
       setError(err.message || "Google sign-in failed");
     }

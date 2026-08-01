@@ -113,21 +113,21 @@ const AuthenticatedApp = () => {
 function App() {
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <QueryClientProvider client={queryClientInstance}>
-          <CurrencyProvider>
-            <AccountProvider>
-              <FavoritesProvider>
-                <Router>
+      <Router>
+        <AuthProvider>
+          <QueryClientProvider client={queryClientInstance}>
+            <CurrencyProvider>
+              <AccountProvider>
+                <FavoritesProvider>
                   <ScrollToTop />
                   <AuthenticatedApp />
-                </Router>
-                <Toaster />
-              </FavoritesProvider>
-            </AccountProvider>
-          </CurrencyProvider>
-        </QueryClientProvider>
-      </AuthProvider>
+                  <Toaster />
+                </FavoritesProvider>
+              </AccountProvider>
+            </CurrencyProvider>
+          </QueryClientProvider>
+        </AuthProvider>
+      </Router>
     </ErrorBoundary>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { resetPassword } from "@/lib/firebaseAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Lock, Loader2, AlertTriangle } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
 
 export default function ResetPassword() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const resetToken = searchParams.get("token");
 
@@ -26,7 +27,7 @@ export default function ResetPassword() {
     setLoading(true);
     try {
       await resetPassword({ resetToken, newPassword });
-      window.location.href = "/login";
+      navigate("/login");
     } catch (err) {
       setError(err.message || "Failed to reset password");
     } finally {
