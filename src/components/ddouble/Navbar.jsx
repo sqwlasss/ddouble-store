@@ -239,6 +239,10 @@ export default function Navbar() {
                       setSearchOpen(false);
                       setSearchQuery("");
                     }
+                    if (e.key === "Escape") {
+                      setSearchOpen(false);
+                      setSearchQuery("");
+                    }
                   }}
                 />
                 {searchQuery && (
@@ -247,6 +251,19 @@ export default function Navbar() {
                   </button>
                 )}
               </div>
+              {searchOpen && !searchQuery.trim() && (
+                <div className="mt-3 pt-3 border-t border-[#E5E5E1]">
+                  <p className="text-[10px] uppercase tracking-[0.15em] text-[#6B6B67] mb-2">Popular searches</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Poster", "Rug", "Bedding"].map((term) => (
+                      <button key={term} onClick={() => setSearchQuery(term)}
+                        className="text-xs border border-[#E5E5E1] px-3 py-1.5 hover:border-[#1A1A1A] transition-colors">
+                        {term}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               {searchResults.length > 0 && (
                 <div className="mt-3 border-t border-[#E5E5E1] pt-3 space-y-2">
                   {searchResults.map((product) => (
@@ -266,7 +283,9 @@ export default function Navbar() {
                 </div>
               )}
               {searchQuery.trim() && searchResults.length === 0 && (
-                <p className="mt-3 text-xs text-[#6B6B67]">No results found.</p>
+                <p className="mt-3 text-xs text-[#6B6B67]">
+                  No results for '{searchQuery}' — try <button onClick={() => setSearchQuery("Poster")} className="underline underline-offset-2 text-[#1A1A1A]">Poster</button>
+                </p>
               )}
             </div>
           )}
