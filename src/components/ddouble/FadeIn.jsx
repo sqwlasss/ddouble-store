@@ -1,28 +1,35 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 export default function FadeIn({ children, className = "", delay = 0 }) {
-  const [reduced, setReduced] = useState(false);
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = (e) => setReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { rootMargin: "-50px", threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
-  if (reduced) return <div className={className}>{children}</div>;
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: Math.min(delay, 0.4), ease: [0.16, 1, 0.3, 1] }}
+    <div
+      ref={ref}
       className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(20px)",
+        transition: `opacity 0.5s ease ${Math.min(delay, 0.4)}s, transform 0.5s ease ${Math.min(delay, 0.4)}s`,
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
