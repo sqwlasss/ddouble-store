@@ -151,7 +151,7 @@ export default function Navbar() {
                 aria-label="Menu"
                 aria-expanded={mobileOpen}
               >
-                {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+                {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
               </button>
 
               <div className="hidden lg:flex items-center gap-8">
@@ -221,14 +221,14 @@ export default function Navbar() {
                 aria-label="Search"
                 aria-expanded={searchOpen}
               >
-                <Search size={18} />
+                <Search size={18} aria-hidden="true" />
               </button>
               <Link
                 to="/favorites"
                 className="relative min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Favorites"
               >
-                <Heart size={18} />
+                <Heart size={18} aria-hidden="true" />
                 {favoritesCount > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#1A1A1A] text-white text-xs rounded-full flex items-center justify-center">
                     {favoritesCount}
@@ -241,7 +241,7 @@ export default function Navbar() {
                   className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                   aria-label="Account"
                 >
-                  <User size={18} />
+                  <User size={18} aria-hidden="true" />
                 </Link>
               ) : (
                 <Link
@@ -249,7 +249,7 @@ export default function Navbar() {
                   className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                   aria-label="Log in"
                 >
-                  <User size={18} />
+                  <User size={18} aria-hidden="true" />
                 </Link>
               )}
               <button
@@ -257,9 +257,9 @@ export default function Navbar() {
                 className="relative min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Cart"
               >
-                <ShoppingBag size={18} />
+                <ShoppingBag size={18} aria-hidden="true" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#1A1A1A] text-white text-xs rounded-full flex items-center justify-center">
+                  <span aria-live="polite" className="absolute -top-1 -right-1 w-5 h-5 bg-[#1A1A1A] text-white text-xs rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -271,7 +271,7 @@ export default function Navbar() {
           {searchOpen && (
             <div ref={searchPanelRef} className="border-t border-[#E5E5E1] py-4 relative">
               <div className="flex items-center gap-3">
-                <Search size={16} className="text-[#6B6B67] shrink-0" />
+                <Search size={16} aria-hidden="true" className="text-[#6B6B67] shrink-0" />
                 <input
                   type="text"
                   placeholder="Search for posters..."
@@ -288,7 +288,7 @@ export default function Navbar() {
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery("")} className="min-w-11 min-h-11 flex items-center justify-center -m-2 text-[#6B6B67] hover:text-[#1A1A1A]" aria-label="Clear search">
-                    <X size={14} />
+                    <X size={14} aria-hidden="true" />
                   </button>
                 )}
               </div>
@@ -348,7 +348,7 @@ export default function Navbar() {
                       className="flex items-center justify-between w-full min-h-11 text-xs uppercase tracking-[0.12em] text-[#6B6B67]"
                     >
                       {link.label}
-                      <ChevronDown size={14} className={`transition-transform duration-200 ${collectionsOpen ? "rotate-180" : ""}`} />
+                      <ChevronDown size={14} aria-hidden="true" className={`transition-transform duration-200 ${collectionsOpen ? "rotate-180" : ""}`} />
                     </button>
                     <div
                       className={`overflow-hidden transition-all duration-300 ease-in-out ${

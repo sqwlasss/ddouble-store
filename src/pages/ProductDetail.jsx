@@ -361,6 +361,7 @@ export default function ProductDetail() {
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="px-4 py-3 min-h-11 flex items-center justify-center text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+                    aria-label="Decrease quantity"
                   >
                     <Minus size={14} />
                   </button>
@@ -368,6 +369,7 @@ export default function ProductDetail() {
                   <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="px-4 py-3 min-h-11 flex items-center justify-center text-[#6B6B67] hover:text-[#1A1A1A] transition-colors"
+                    aria-label="Increase quantity"
                   >
                     <Plus size={14} />
                   </button>
