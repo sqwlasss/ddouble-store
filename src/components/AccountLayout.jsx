@@ -33,6 +33,11 @@ export default function AccountLayout() {
           <p className="mt-1 text-sm text-[#6B6B67]">
             {user?.email || customer?.email || "Welcome back"}
           </p>
+          {!import.meta.env.VITE_SHOPIFY_CUSTOMER_SYNC_ENDPOINT && (
+            <p className="mt-2 text-xs text-[#6B6B67]">
+              Account sync not configured — wishlist syncing is unavailable.
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col lg:flex-row gap-10">
