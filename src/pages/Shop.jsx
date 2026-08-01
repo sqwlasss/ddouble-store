@@ -204,7 +204,7 @@ export default function Shop() {
               <ChevronDown size={12} />
             </button>
             {sortOpen && (
-              <div className="absolute right-0 top-full mt-2 bg-white border border-[#E5E5E1] rounded-sm shadow-[0_8px_40px_rgba(0,0,0,0.03)] py-2 min-w-[160px] z-10">
+              <div className="absolute right-0 top-full mt-2 bg-white border border-[#E5E5E1] rounded-none shadow-[0_8px_40px_rgba(0,0,0,0.03)] py-2 min-w-[160px] z-10">
                 {SORT_OPTIONS.map((opt) => (
                   <button
                     key={opt.id}

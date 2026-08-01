@@ -112,7 +112,7 @@ export default function Navbar() {
                     </button>
                     {megaOpen && (
                       <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4">
-                        <div className="bg-white/95 backdrop-blur-xl border border-[#E5E5E1] rounded-sm p-6 min-w-[200px] shadow-[0_8px_40px_rgba(0,0,0,0.03)]">
+                        <div className="bg-white/95 backdrop-blur-xl border border-[#E5E5E1] rounded-none p-6 min-w-[200px] shadow-[0_8px_40px_rgba(0,0,0,0.03)]">
                           {link.children.map((child) => (
                             <Link
                               key={child.label}
@@ -236,9 +236,9 @@ export default function Navbar() {
                       key={product.handle}
                       to={`/product/${product.handle}`}
                       onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
-                      className="flex items-center gap-3 py-2 hover:bg-[#F1F0EC] -mx-2 px-2 rounded transition-colors"
+                      className="flex items-center gap-3 py-2 hover:bg-[#F1F0EC] -mx-2 px-2 transition-colors"
                     >
-                      <img src={product.image} alt={product.title} className="w-10 h-10 object-cover rounded-sm" />
+                      <img src={product.image} alt={product.title} className="w-10 h-10 object-cover" />
                       <div>
                         <p className="text-sm text-[#1A1A1A]">{product.title}</p>
                         <p className="text-xs text-[#6B6B67]"><Price amount={product.price} /></p>
