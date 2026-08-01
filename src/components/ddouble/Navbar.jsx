@@ -103,17 +103,17 @@ export default function Navbar() {
       >
         <nav className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">
           <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Mobile menu */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-1"
-              aria-label="Menu"
-            >
-              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
+            {/* Left: mobile menu + desktop nav */}
+            <div className="flex items-center gap-8 flex-1">
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="lg:hidden p-1"
+                aria-label="Menu"
+              >
+                {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
 
-            {/* Desktop nav */}
-            <div className="hidden lg:flex items-center gap-8">
+              <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) =>
                 link.children ? (
                   <div
@@ -153,18 +153,19 @@ export default function Navbar() {
                   </Link>
                 )
               )}
+              </div>
             </div>
 
-            {/* Logo */}
+            {/* Center: logo */}
             <Link
               to="/"
-              className="absolute left-[36%] md:left-[45%] -translate-x-1/2 text-xl md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
+              className="flex-1 text-center text-xl md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
             >
               DDOUBLE
             </Link>
 
-            {/* Right icons */}
-            <div className="flex items-center gap-4 md:gap-5">
+            {/* Right: icons */}
+            <div className="flex items-center gap-4 md:gap-5 flex-1 justify-end">
               <div className="hidden md:block">
                 <CurrencySelector />
               </div>
