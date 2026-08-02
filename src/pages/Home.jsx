@@ -29,12 +29,16 @@ const TESTIMONIALS = [
 ];
 
 function CollectionCard({ collection }) {
+  const { country } = useCurrency();
+  const { data } = useCollectionProducts(collection.handle, country);
+  const firstProduct = data?.products?.[0];
+
   return (
     <Link to={`/shop?category=${collection.handle}`} className="group block">
       <div className="aspect-square overflow-hidden bg-[#F1F0EC] relative">
-        {collection.image ? (
+        {firstProduct?.image || collection.image ? (
           <img
-            src={shopifyImage(collection.image, 600)}
+            src={shopifyImage(firstProduct?.image || collection.image, 600)}
             alt={collection.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
