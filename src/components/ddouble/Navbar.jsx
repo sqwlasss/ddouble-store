@@ -205,10 +205,10 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Center: logo */}
+            {/* Logo */}
             <Link
               to="/"
-              className="flex-1 text-center text-lg md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
+              className="absolute left-[36%] md:left-[45%] -translate-x-1/2 text-xl md:text-2xl font-semibold tracking-[0.08em] text-[#1A1A1A]"
             >
               DDOUBLE
             </Link>
