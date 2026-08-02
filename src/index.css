@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Inter variable font, self-hosted latin subset (weights 100-900; app uses 300-600) */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+}
+
 @layer base {
   :root {
     --background: 40 14% 97%;
@@ -63,6 +72,11 @@
     background-color: #D9D2C5;
     color: #1A1A1A;
   }
+
+  :focus-visible {
+    outline: 2px solid #1A1A1A;
+    outline-offset: 2px;
+  }
 }
 
 /* Custom scrollbar */
@@ -95,4 +109,14 @@
 
 .animate-heart-pop {
   animation: heart-pop 0.35s ease-out;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -1,25 +1,41 @@
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
-export default function FadeIn({ children, className = "", delay = 0, direction = "up" }) {
-  const directionMap = {
-    up: { y: 20, x: 0 },
-    down: { y: -20, x: 0 },
-    left: { x: 20, y: 0 },
-    right: { x: -20, y: 0 },
-    none: { x: 0, y: 0 },
-  };
+export default function FadeIn({ children, className = "", delay = 0 }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const [reduced] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 
-  const offset = directionMap[direction] || directionMap.up;
+  useEffect(() => {
+    if (reduced) return;
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { rootMargin: "-50px", threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [reduced]);
+
+  if (reduced) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+    <div
+      ref={ref}
       className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(20px)",
+        transition: `opacity 0.5s ease ${Math.min(delay, 0.4)}s, transform 0.5s ease ${Math.min(delay, 0.4)}s`,
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

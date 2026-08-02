@@ -1,12 +1,13 @@
 import { Heart, X, Loader2 } from "lucide-react";
 import { useAccount } from "@/lib/AccountContext";
-import { removeFromWishlist } from "@/lib/shopify/wishlist";
+import { removeProductFromWishlist } from "@/lib/shopify/wishlist";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { useAllProducts } from "@/hooks/useProducts";
 import Price from "@/components/ddouble/Price";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import { shopifyImage } from "@/lib/utils";
 
 export default function Wishlist() {
   const { wishlist } = useAccount();
@@ -25,8 +26,10 @@ export default function Wishlist() {
   const handleRemove = (product, e) => {
     e.preventDefault();
     e.stopPropagation();
-    const variantIds = product.variants.map((v) => v.id);
-    variantIds.forEach((id) => removeFromWishlist(id));
+    // One-way sync: favorites is the source of truth, so remove from both the
+    // customer wishlist (all variants) and favorites — removeFavorite mirrors
+    // the removal back to the wishlist too, so this stays idempotent.
+    removeProductFromWishlist(product);
     if (favoriteIds.has(product.id)) {
       removeFavorite(product.id);
     }
@@ -72,14 +75,14 @@ export default function Wishlist() {
           >
             <div className="relative overflow-hidden bg-[#F1F0EC]">
               <img
-                src={product.image}
+                src={shopifyImage(product.image, 600)}
                 alt={product.title}
                 className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 loading="lazy"
               />
               <button
                 onClick={(e) => handleRemove(product, e)}
-                className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
                 aria-label="Remove from wishlist"
               >
                 <X size={14} className="text-[#1A1A1A]" />

@@ -77,6 +77,29 @@ export function useAllProducts(country) {
   });
 }
 
+// Paginated variant of useAllProducts: fetches a single page (50 items)
+// starting after `after` and returns { products, pageInfo } so callers can
+// accumulate pages and drive a "load more" button. Kept separate from
+// useAllProducts so existing callers (Navbar search, ProductDetail related,
+// Favorites, Wishlist) keep receiving the plain array they expect.
+export function useAllProductsPage(country, after = null, { enabled = true } = {}) {
+  return useQuery({
+    queryKey: ["products", "all-posters", country, after],
+    queryFn: async () => {
+      const data = await shopifyFetch(ALL_PRODUCTS(country), {
+        first: 50,
+        after,
+      });
+      return {
+        products: data.products.edges.map(({ node }) => normalizeProduct(node)),
+        pageInfo: data.products.pageInfo,
+      };
+    },
+    staleTime: 60 * 1000,
+    enabled,
+  });
+}
+
 export function useProduct(handle, country) {
   return useQuery({
     queryKey: ["product", handle, country],

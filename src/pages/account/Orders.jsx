@@ -3,11 +3,15 @@ import { useAccount } from "@/lib/AccountContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Price from "@/components/ddouble/Price";
+import { shopifyImage } from "@/lib/utils";
+import { useCurrency } from "@/lib/CurrencyContext";
+import { useShopifyCart } from "@/hooks/useShopifyCart";
+import { toast } from "@/components/ui/use-toast";
 
 const STATUS_COLORS = {
   PAID: "text-green-700 bg-green-50",
   PENDING: "text-yellow-700 bg-yellow-50",
-  UNFULFILLED: "text-[#6B6B67] bg-[#F1F0EC]",
+  UNFULFILLED: "text-[#5A5A56] bg-[#F1F0EC]",
   FULFILLED: "text-green-700 bg-green-50",
   CANCELED: "text-red-700 bg-red-50",
   REFUNDED: "text-red-700 bg-red-50",
@@ -17,7 +21,7 @@ const STATUS_COLORS = {
 function statusBadge(status) {
   const color = STATUS_COLORS[status] || STATUS_COLORS.UNFULFILLED;
   return (
-    <span className={`inline-block px-2 py-0.5 text-[10px] uppercase tracking-[0.05em] ${color}`}>
+    <span className={`inline-block px-2 py-0.5 text-[11px] uppercase tracking-[0.05em] ${color}`}>
       {status ? status.replace(/_/g, " ") : "N/A"}
     </span>
   );
@@ -26,6 +30,22 @@ function statusBadge(status) {
 export default function Orders() {
   const { orders, loading } = useAccount();
   const navigate = useNavigate();
+  const { country } = useCurrency();
+  const { addItem, loading: cartLoading } = useShopifyCart(country);
+
+  const handleBuyAgain = async (order) => {
+    for (const item of order.lineItems) {
+      try {
+        await addItem(item.variantId, item.quantity);
+      } catch {
+        // Variants may be inactive; report per-item failures.
+        toast({
+          title: `Could not re-add ${item.title}`,
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -83,7 +103,7 @@ export default function Orders() {
                   <div key={i} className="flex items-center gap-3">
                     {item.image ? (
                       <img
-                        src={item.image}
+                        src={shopifyImage(item.image, 160)}
                         alt={item.title}
                         className="w-12 h-14 object-cover bg-[#F1F0EC]"
                       />
@@ -105,7 +125,7 @@ export default function Orders() {
               </div>
             )}
 
-            <div className="mt-4 pt-4 border-t border-[#E5E5E1]">
+            <div className="mt-4 pt-4 border-t border-[#E5E5E1] flex items-center justify-between">
               <a
                 href={order.statusUrl}
                 target="_blank"
@@ -115,6 +135,16 @@ export default function Orders() {
                 View order status
                 <ExternalLink size={12} />
               </a>
+              {order.lineItems.length > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={cartLoading}
+                  onClick={() => handleBuyAgain(order)}
+                >
+                  Buy again
+                </Button>
+              )}
             </div>
           </div>
         ))}

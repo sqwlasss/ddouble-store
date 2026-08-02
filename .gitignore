@@ -1,6 +1,7 @@
 #env
 .env
 .env.*
+!.env.local.example
 
 # Logs
 /logs
@@ -13,6 +14,8 @@ lerna-debug.log*
 
 node_modules
 dist
+dist/
+dist/**
 dist-ssr
 *.local
 

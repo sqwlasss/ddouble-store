@@ -9,6 +9,7 @@ import { AccountProvider } from '@/lib/AccountContext';
 import { FavoritesProvider } from '@/lib/FavoritesContext';
 import { CurrencyProvider } from '@/lib/CurrencyContext';
 import ScrollToTop from './components/ScrollToTop';
+import CookieConsent from './components/CookieConsent';
 
 const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
@@ -21,6 +22,10 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Shipping = lazy(() => import('./pages/Shipping'));
+const Returns = lazy(() => import('./pages/Returns'));
 
 // Account pages
 const AccountLayout = lazy(() => import('./components/AccountLayout'));
@@ -49,7 +54,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F9F9F7]">
+        <main id="main" className="min-h-screen flex items-center justify-center bg-[#F9F9F7]">
           <div className="text-center px-6">
             <h1 className="text-2xl font-light text-[#1A1A1A]">Something went wrong</h1>
             <p className="mt-4 text-sm text-[#6B6B67]">Please try refreshing the page.</p>
@@ -60,7 +65,7 @@ class ErrorBoundary extends React.Component {
               Refresh
             </button>
           </div>
-        </div>
+        </main>
       );
     }
     return this.props.children;
@@ -92,6 +97,10 @@ const AuthenticatedApp = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/returns" element={<Returns />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -113,21 +122,22 @@ const AuthenticatedApp = () => {
 function App() {
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <QueryClientProvider client={queryClientInstance}>
-          <CurrencyProvider>
-            <AccountProvider>
-              <FavoritesProvider>
-                <Router>
+      <Router>
+        <AuthProvider>
+          <QueryClientProvider client={queryClientInstance}>
+            <CurrencyProvider>
+              <AccountProvider>
+                <FavoritesProvider>
                   <ScrollToTop />
                   <AuthenticatedApp />
-                </Router>
-                <Toaster />
-              </FavoritesProvider>
-            </AccountProvider>
-          </CurrencyProvider>
-        </QueryClientProvider>
-      </AuthProvider>
+                  <Toaster />
+                  <CookieConsent />
+                </FavoritesProvider>
+              </AccountProvider>
+            </CurrencyProvider>
+          </QueryClientProvider>
+        </AuthProvider>
+      </Router>
     </ErrorBoundary>
   )
 }

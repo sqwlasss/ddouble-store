@@ -138,7 +138,7 @@ export default function AddressAutocomplete({
       {showSuggestions && (
         <ul
           ref={listRef}
-          className="absolute z-50 mt-1 w-full rounded-md border border-[#E5E5E1] bg-white shadow-lg max-h-60 overflow-y-auto py-1"
+          className="absolute z-50 mt-1 w-full rounded-none border border-[#E5E5E1] bg-white shadow-[0_8px_40px_rgba(0,0,0,0.03)] max-h-60 overflow-y-auto py-1"
         >
           {predictions.map((p, idx) => (
             <li
@@ -156,7 +156,7 @@ export default function AddressAutocomplete({
               <div className="min-w-0">
                 <div className="text-[#1A1A1A] truncate">{p.mainText}</div>
                 {p.secondaryText && (
-                  <div className="text-[#6B6B67] text-xs truncate">
+                  <div className="text-[#5A5A56] text-xs truncate">
                     {p.secondaryText}
                   </div>
                 )}

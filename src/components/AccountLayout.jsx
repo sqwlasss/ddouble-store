@@ -27,12 +27,17 @@ export default function AccountLayout() {
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
       <Navbar />
-      <main className="pt-28 md:pt-36 pb-24 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
+      <main id="main" className="pt-28 md:pt-36 pb-24 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         <div className="mb-10">
           <h1 className="text-2xl md:text-3xl font-light text-[#1A1A1A]">My Account</h1>
           <p className="mt-1 text-sm text-[#6B6B67]">
             {user?.email || customer?.email || "Welcome back"}
           </p>
+          {!import.meta.env.VITE_SHOPIFY_CUSTOMER_SYNC_ENDPOINT && (
+            <p className="mt-2 text-xs text-[#6B6B67]">
+              Account sync not configured — wishlist syncing is unavailable.
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col lg:flex-row gap-10">

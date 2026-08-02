@@ -252,7 +252,7 @@ export default function Addresses() {
                 className={`border p-5 relative ${isDefault ? "border-[#1A1A1A]" : "border-[#E5E5E1]"}`}
               >
                 {isDefault && (
-                  <span className="absolute top-3 right-3 text-[9px] uppercase tracking-[0.1em] bg-[#1A1A1A] text-white px-2 py-0.5">
+                  <span className="absolute top-3 right-3 text-xs uppercase tracking-[0.1em] bg-[#1A1A1A] text-white px-2 py-0.5">
                     Default
                   </span>
                 )}

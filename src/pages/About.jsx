@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import Seo from "@/components/Seo";
 import Navbar from "@/components/ddouble/Navbar";
 import Footer from "@/components/ddouble/Footer";
 import FadeIn from "@/components/ddouble/FadeIn";
@@ -8,13 +9,18 @@ import aboutImg from "../../assets/about-us.jpg";
 export default function About() {
   return (
     <div className="bg-[#F9F9F7] min-h-screen">
+      <Seo
+        title="About — DDouble | Museum-Grade Wall Art, Made in Copenhagen"
+        description="The story behind DDouble: fine-art prints on museum-grade paper, made in Copenhagen and designed to be lived with, not just looked at."
+        canonicalPath="/about"
+      />
       <Navbar />
 
-      <main>
+      <main id="main">
       {/* Hero */}
       <section className="pt-28 md:pt-36 pb-24 md:pb-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Our Story</span>
+          <span className="text-[11px] uppercase tracking-[0.2em] text-[#5A5A56]">Our Story</span>
           <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-light text-[#1A1A1A] leading-[1.1] max-w-3xl">
             Art should be lived with,<br />not just looked at.
           </h1>
@@ -65,7 +71,7 @@ export default function About() {
       {/* Values */}
       <section className="py-24 md:py-32 px-6 md:px-10 lg:px-16 max-w-[1440px] mx-auto border-t border-[#E5E5E1]">
         <FadeIn>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B67]">Values</span>
+          <span className="text-[11px] uppercase tracking-[0.2em] text-[#5A5A56]">Values</span>
           <h2 className="mt-2 text-2xl md:text-3xl font-light text-[#1A1A1A] mb-16">What we stand for</h2>
         </FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
@@ -94,7 +100,7 @@ export default function About() {
             </p>
             <Link
               to="/shop"
-              className="mt-8 inline-flex items-center gap-3 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] px-8 py-4 hover:bg-[#D9D2C5] hover:text-[#1A1A1A] transition-all duration-300"
+              className="mt-8 inline-flex items-center gap-3 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.15em] px-8 py-4 hover:bg-[#2A2A2A] transition-all duration-300"
             >
               Shop Now <ArrowRight size={14} />
             </Link>

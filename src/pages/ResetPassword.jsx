@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { resetPassword } from "@/lib/firebaseAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Lock, Loader2, AlertTriangle } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
 
 export default function ResetPassword() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const resetToken = searchParams.get("token");
 
@@ -26,7 +27,7 @@ export default function ResetPassword() {
     setLoading(true);
     try {
       await resetPassword({ resetToken, newPassword });
-      window.location.href = "/login";
+      navigate("/login");
     } catch (err) {
       setError(err.message || "Failed to reset password");
     } finally {
@@ -41,12 +42,12 @@ export default function ResetPassword() {
         title="Invalid reset link"
         subtitle="This password reset link is missing or invalid"
         footer={
-          <Link to="/forgot-password" className="text-primary font-medium hover:underline">
+          <Link to="/forgot-password" className="text-[#1A1A1A] font-medium hover:underline">
             Request a new link
           </Link>
         }
       >
-        <p className="text-sm text-foreground text-center">
+        <p className="text-sm text-[#1A1A1A] text-center">
           The link you used appears to be incomplete. Please request a new password reset email.
         </p>
       </AuthLayout>
@@ -60,7 +61,7 @@ export default function ResetPassword() {
       subtitle="Enter your new password below"
     >
       {error && (
-        <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+        <div className="mb-4 p-3 rounded-none border border-[#E5E5E1] bg-[#F1F0EC] text-[#1A1A1A] text-sm">
           {error}
         </div>
       )}
@@ -68,7 +69,7 @@ export default function ResetPassword() {
         <div className="space-y-2">
           <Label htmlFor="password">New Password</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B67]" aria-hidden="true" />
             <Input
               id="password"
               type="password"
@@ -85,7 +86,7 @@ export default function ResetPassword() {
         <div className="space-y-2">
           <Label htmlFor="confirm">Confirm Password</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B67]" aria-hidden="true" />
             <Input
               id="confirm"
               type="password"
