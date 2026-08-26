@@ -10,6 +10,7 @@ import FadeIn from "@/components/ddouble/FadeIn";
 import Breadcrumb from "@/components/ddouble/Breadcrumb";
 import { useCurrency } from "@/lib/CurrencyContext";
 import { trackEvent } from "@/lib/analytics";
+import { STORE_COUNTRY } from "@/config/shipping";
 
 import { useAllProductsPage, useCollections, useCollectionProducts } from "@/hooks/useProducts";
 import useEscapeClose from "@/hooks/useEscapeClose";
@@ -192,9 +193,9 @@ export default function Shop() {
   const [collectionCount, setCollectionCount] = useState(0);
   const [collectionLoading, setCollectionLoading] = useState(true);
   // Pagination for the "all" view: pages are accumulated from useAllProductsPage
-  // and keyed by country so a storefront switch resets cursor/pages without ever
+  // and keyed by STORE_COUNTRY so a storefront switch resets cursor/pages without ever
   // firing a stale-cursor query for the new country.
-  const [pagination, setPagination] = useState({ country, cursor: null, pages: [], hasMore: false });
+  const [pagination, setPagination] = useState({ country: STORE_COUNTRY, cursor: null, pages: [], hasMore: false });
 
   const updateParam = (key, value, mode = "replace") => {
     const params = new URLSearchParams(searchParams);
@@ -214,7 +215,7 @@ export default function Shop() {
 
   const { data: pageData, isPending, isFetching, error, refetch } = useAllProductsPage(
     country,
-    pagination.country === country ? pagination.cursor : null,
+    pagination.country === STORE_COUNTRY ? pagination.cursor : null,
     { enabled: category === "all" }
   );
   const pageInfo = pageData?.pageInfo;
@@ -223,9 +224,9 @@ export default function Shop() {
   // Derived state: when the storefront changes, treat pagination as reset so
   // the grid never shows the previous country's accumulated list.
   const current =
-    pagination.country === country
+    pagination.country === STORE_COUNTRY
       ? pagination
-      : { country, cursor: null, pages: [], hasMore: false };
+      : { country: STORE_COUNTRY, cursor: null, pages: [], hasMore: false };
   const pages = current.pages;
   const hasMore = current.hasMore;
   // Skeleton only while the first page is loading; "Load more" fetches keep
@@ -237,14 +238,14 @@ export default function Shop() {
   useEffect(() => {
     if (!pageData?.products) return;
     setPagination((prev) => {
-      if (prev.country !== country) {
-        return { country, cursor: null, pages: pageData.products, hasMore: pageData.pageInfo.hasNextPage };
+      if (prev.country !== STORE_COUNTRY) {
+        return { country: STORE_COUNTRY, cursor: null, pages: pageData.products, hasMore: pageData.pageInfo.hasNextPage };
       }
       const map = new Map(prev.pages.map((p) => [p.id, p]));
       for (const p of pageData.products) map.set(p.id, p);
       return { ...prev, pages: [...map.values()], hasMore: pageData.pageInfo.hasNextPage };
     });
-  }, [pageData, country]);
+  }, [pageData]);
 
   const loadMore = () => {
     if (pageInfo?.hasNextPage) {

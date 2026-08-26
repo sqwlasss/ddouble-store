@@ -5,6 +5,7 @@
 export const FREE_SHIPPING_THRESHOLD = 100;
 
 export const STORE_CURRENCY = "GBP";
+export const STORE_COUNTRY = "GB";
 
 export function shippingProgress(subtotal, threshold = FREE_SHIPPING_THRESHOLD) {
   const remaining = Math.max(0, threshold - subtotal);

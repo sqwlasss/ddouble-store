@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { shopifyFetch } from "@/lib/shopify/client";
 import { ALL_PRODUCTS, PRODUCT_BY_HANDLE, ALL_COLLECTIONS, COLLECTION_BY_HANDLE } from "@/lib/shopify/queries";
+import { STORE_COUNTRY } from "@/config/shipping";
 
 function normalizeProduct(node) {
   return {
@@ -54,14 +55,14 @@ function normalizeCollection(node) {
 
 export function useAllProducts(country) {
   return useQuery({
-    queryKey: ["products", "all-posters", country],
+    queryKey: ["products", "all-posters"],
     queryFn: async () => {
       const allProducts = [];
       let cursor = null;
       let hasNext = true;
 
       while (hasNext) {
-        const data = await shopifyFetch(ALL_PRODUCTS(country), {
+        const data = await shopifyFetch(ALL_PRODUCTS(STORE_COUNTRY), {
           first: 50,
           after: cursor,
         });
@@ -84,9 +85,9 @@ export function useAllProducts(country) {
 // Favorites, Wishlist) keep receiving the plain array they expect.
 export function useAllProductsPage(country, after = null, { enabled = true } = {}) {
   return useQuery({
-    queryKey: ["products", "all-posters", country, after],
+    queryKey: ["products", "all-posters", after],
     queryFn: async () => {
-      const data = await shopifyFetch(ALL_PRODUCTS(country), {
+      const data = await shopifyFetch(ALL_PRODUCTS(STORE_COUNTRY), {
         first: 50,
         after,
       });
@@ -102,9 +103,9 @@ export function useAllProductsPage(country, after = null, { enabled = true } = {
 
 export function useProduct(handle, country) {
   return useQuery({
-    queryKey: ["product", handle, country],
+    queryKey: ["product", handle],
     queryFn: async () => {
-      const data = await shopifyFetch(PRODUCT_BY_HANDLE(country), { handle });
+      const data = await shopifyFetch(PRODUCT_BY_HANDLE(STORE_COUNTRY), { handle });
       if (!data.productByHandle) return null;
       return normalizeProduct(data.productByHandle);
     },
@@ -126,9 +127,9 @@ export function useCollections() {
 
 export function useCollectionProducts(handle, country) {
   return useQuery({
-    queryKey: ["collection", handle, country],
+    queryKey: ["collection", handle],
     queryFn: async () => {
-      const data = await shopifyFetch(COLLECTION_BY_HANDLE(country), {
+      const data = await shopifyFetch(COLLECTION_BY_HANDLE(STORE_COUNTRY), {
         handle,
         first: 50,
       });
