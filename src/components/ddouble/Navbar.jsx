@@ -40,6 +40,7 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const mobileMenuRef = useRef(null);
   const searchPanelRef = useRef(null);
+  const searchToggleRef = useRef(null);
   const { country } = useCurrency();
   const { totalItems } = useShopifyCart(country);
   const { favoritesCount } = useFavorites();
@@ -132,6 +133,22 @@ export default function Navbar() {
   useEscapeClose(searchOpen, closeSearch);
   useEscapeClose(megaOpen, closeMegaMenu);
 
+  useEffect(() => {
+    if (!searchOpen) return;
+    const handleMouseDown = (e) => {
+      if (
+        searchPanelRef.current &&
+        !searchPanelRef.current.contains(e.target) &&
+        searchToggleRef.current &&
+        !searchToggleRef.current.contains(e.target)
+      ) {
+        closeSearch();
+      }
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [searchOpen]);
+
   return (
     <>
       <header
@@ -219,6 +236,7 @@ export default function Navbar() {
                 <CurrencySelector />
               </div>
               <button
+                ref={searchToggleRef}
                 onClick={toggleSearch}
                 className="min-w-11 min-h-11 flex items-center justify-center text-[#1A1A1A] hover:text-[#6B6B67] transition-colors"
                 aria-label="Search"
@@ -278,7 +296,7 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search for posters..."
-                  className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#6B6B67]"
+                  className="w-full bg-transparent text-sm text-[#1A1A1A] placeholder:text-[#6B6B67] outline-none"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   aria-label="Search"
