@@ -3,14 +3,7 @@ import { useState, useEffect, useRef } from "react";
 export default function FadeIn({ children, className = "", delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [reduced] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-
   useEffect(() => {
-    if (reduced) return;
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
@@ -19,11 +12,7 @@ export default function FadeIn({ children, className = "", delay = 0 }) {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [reduced]);
-
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
+  }, []);
 
   return (
     <div
